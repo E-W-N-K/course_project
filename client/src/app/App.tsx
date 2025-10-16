@@ -1,23 +1,26 @@
-import { Button } from '../shared/ui'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { HomePage } from '../pages/HomePage'
+import { UIPage } from '../pages/UIPage'
 import './App.css'
 
 function App() {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Food Delivery Platform</h1>
+    <BrowserRouter>
+      <nav style={{
+        padding: 'var(--spacing-lg)',
+        borderBottom: '1px solid var(--color-secondary-light)',
+        display: 'flex',
+        gap: 'var(--spacing-lg)'
+      }}>
+        <Link to="/">Home</Link>
+        <Link to="/ui">UI Components</Link>
+      </nav>
 
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-        <Button variant="solid" colorType="primary">Primary Solid</Button>
-        <Button variant="solid" colorType="secondary">Secondary Solid</Button>
-        <Button variant="solid" colorType="danger">Danger Solid</Button>
-
-        <Button variant="outline" colorType="primary">Primary Outline</Button>
-        <Button variant="outline" colorType="secondary">Secondary Outline</Button>
-        <Button variant="outline" colorType="danger">Danger Outline</Button>
-
-        <Button variant="solid" colorType="primary" disabled>Disabled</Button>
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ui" element={<UIPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
