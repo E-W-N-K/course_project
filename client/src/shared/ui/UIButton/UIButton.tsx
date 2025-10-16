@@ -1,12 +1,12 @@
-import { ButtonHTMLAttributes, FC } from 'react'
-import styles from './Button.module.css'
+import type { ButtonHTMLAttributes, FC } from 'react'
+import styles from './UIButton.module.css'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface UIButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'solid' | 'outline'
   colorType?: 'primary' | 'secondary' | 'danger'
 }
 
-export const Button: FC<ButtonProps> = ({
+export const UIButton: FC<UIButtonProps> = ({
   variant = 'solid',
   colorType = 'primary',
   className = '',
