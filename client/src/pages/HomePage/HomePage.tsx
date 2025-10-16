@@ -1,10 +1,10 @@
-import styles from './HomePage.module.css'
+import { UIContainer } from '../../shared/ui'
 
 export const HomePage = () => {
   return (
-    <div className={styles.container}>
+    <UIContainer>
       <h1>Food Delivery Platform</h1>
       <p>Welcome to our food delivery service</p>
-    </div>
+    </UIContainer>
   )
 }

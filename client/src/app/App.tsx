@@ -1,19 +1,18 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
 import { UIPage } from '../pages/UIPage'
+import { UILink, UIFlex } from '../shared/ui'
 import './App.css'
+import styles from './App.module.css'
 
 function App() {
   return (
     <BrowserRouter>
-      <nav style={{
-        padding: 'var(--spacing-lg)',
-        borderBottom: '1px solid var(--color-secondary-light)',
-        display: 'flex',
-        gap: 'var(--spacing-lg)'
-      }}>
-        <Link to="/">Home</Link>
-        <Link to="/ui">UI Components</Link>
+      <nav className={styles.nav}>
+        <UIFlex gap="lg">
+          <UILink to="/" variant="primary">Home</UILink>
+          <UILink to="/ui" variant="primary">UI Components</UILink>
+        </UIFlex>
       </nav>
 
       <Routes>

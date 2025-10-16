@@ -1,25 +1,23 @@
-import { Button } from '../../shared/ui'
-import styles from './UIPage.module.css'
+import { UIButton, UIContainer, UISection, UIFlex } from '../../shared/ui'
 
 export const UIPage = () => {
   return (
-    <div className={styles.container}>
+    <UIContainer>
       <h1>UI Components</h1>
 
-      <section className={styles.section}>
-        <h2>Buttons</h2>
-        <div className={styles.grid}>
-          <Button variant="solid" colorType="primary">Primary Solid</Button>
-          <Button variant="solid" colorType="secondary">Secondary Solid</Button>
-          <Button variant="solid" colorType="danger">Danger Solid</Button>
+      <UISection title="Buttons">
+        <UIFlex gap="lg" wrap>
+          <UIButton variant="solid" colorType="primary">Primary Solid</UIButton>
+          <UIButton variant="solid" colorType="secondary">Secondary Solid</UIButton>
+          <UIButton variant="solid" colorType="danger">Danger Solid</UIButton>
 
-          <Button variant="outline" colorType="primary">Primary Outline</Button>
-          <Button variant="outline" colorType="secondary">Secondary Outline</Button>
-          <Button variant="outline" colorType="danger">Danger Outline</Button>
+          <UIButton variant="outline" colorType="primary">Primary Outline</UIButton>
+          <UIButton variant="outline" colorType="secondary">Secondary Outline</UIButton>
+          <UIButton variant="outline" colorType="danger">Danger Outline</UIButton>
 
-          <Button variant="solid" colorType="primary" disabled>Disabled</Button>
-        </div>
-      </section>
-    </div>
+          <UIButton variant="solid" colorType="primary" disabled>Disabled</UIButton>
+        </UIFlex>
+      </UISection>
+    </UIContainer>
   )
 }
