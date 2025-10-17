@@ -28,7 +28,7 @@ export const UIPage = () => {
 			<UISection>
 				<UIContainer>
 					<h2>Inputs</h2>
-					<UIFlex direction="column" gap="xl">
+					<UIFlex direction="column" gap="2xl">
 						<UIInput
 							type="text"
 							label="Text Input"
@@ -49,17 +49,67 @@ export const UIPage = () => {
 
 						<UIInput
 							type="text"
-							label="Input with Error"
-							placeholder="This field has an error"
-							error="This field is required"
-						/>
-
-						<UIInput
-							type="text"
 							label="Disabled Input"
 							placeholder="Cannot edit this"
 							disabled
 							value="Disabled value"
+						/>
+					</UIFlex>
+				</UIContainer>
+			</UISection>
+
+			<UISection variant="secondary">
+				<UIContainer>
+					<h2>Input Validation</h2>
+					<UIFlex direction="column" gap="2xl">
+						<UIInput
+							type="text"
+							label="Required Field"
+							placeholder="This field is required"
+							validation={{ required: true }}
+						/>
+
+						<UIInput
+							type="email"
+							label="Email Validation"
+							placeholder="Enter a valid email"
+							validation={{ required: true, email: true }}
+						/>
+
+						<UIInput
+							type="password"
+							label="Password (min 8 characters)"
+							placeholder="Enter password"
+							validation={{ required: true, minLength: 8 }}
+						/>
+
+						<UIInput
+							type="text"
+							label="Username (3-20 characters)"
+							placeholder="Enter username"
+							validation={{ required: true, minLength: 3, maxLength: 20 }}
+						/>
+
+						<UIInput
+							type="text"
+							label="Phone Number (Pattern)"
+							placeholder="Enter phone (e.g., 123-456-7890)"
+							validation={{
+								required: true,
+								pattern: /^\d{3}-\d{3}-\d{4}$/
+							}}
+						/>
+
+						<UIInput
+							type="text"
+							label="Custom Validation"
+							placeholder="Enter 'valid' to pass"
+							validate={(value) => {
+								if (value !== 'valid') {
+									return 'You must enter "valid"'
+								}
+								return undefined
+							}}
 						/>
 					</UIFlex>
 				</UIContainer>

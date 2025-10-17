@@ -61,6 +61,9 @@
 .flex--gap-xl {
   gap: var(--spacing-xl);
 }
+.flex--gap-2xl {
+	gap: var(--spacing-2xl);
+}
 
 .flex--wrap {
   flex-wrap: wrap;
