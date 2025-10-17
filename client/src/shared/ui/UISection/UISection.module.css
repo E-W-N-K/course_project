@@ -2,6 +2,12 @@
   margin-top: var(--spacing-2xl);
 }
 
+.section--secondary {
+  background-color: var(--color-bg-secondary);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+}
+
 .section__title {
   margin-bottom: var(--spacing-lg);
   color: var(--color-text-primary);

@@ -4,13 +4,14 @@ import styles from './UISection.module.css'
 interface UISectionProps {
   children: ReactNode
   className?: string
-  title?: string
+  variant?: 'primary' | 'secondary'
 }
 
-export const UISection: FC<UISectionProps> = ({ children, className = '', title }) => {
+export const UISection: FC<UISectionProps> = ({ children, className = '', variant = 'primary' }) => {
+  const variantClass = variant === 'secondary' ? styles['section--secondary'] : ''
+
   return (
-    <section className={`${styles.section} ${className}`}>
-      {title && <h2 className={styles.section__title}>{title}</h2>}
+    <section className={`${styles.section} ${variantClass} ${className}`}>
       {children}
     </section>
   )
