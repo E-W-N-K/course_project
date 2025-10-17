@@ -1,4 +1,4 @@
-import { UIButton, UIContainer, UISection, UIFlex, UIMain } from '../../shared/ui'
+import { UIButton, UIContainer, UISection, UIFlex, UIMain, UIInput } from '../../shared/ui'
 
 export const UIPage = () => {
 	return (
@@ -21,6 +21,46 @@ export const UIPage = () => {
 						<UIButton variant="outline" colorType="danger">Danger Outline</UIButton>
 
 						<UIButton variant="solid" colorType="primary" disabled>Disabled</UIButton>
+					</UIFlex>
+				</UIContainer>
+			</UISection>
+
+			<UISection>
+				<UIContainer>
+					<h2>Inputs</h2>
+					<UIFlex direction="column" gap="xl">
+						<UIInput
+							type="text"
+							label="Text Input"
+							placeholder="Enter text"
+						/>
+
+						<UIInput
+							type="email"
+							label="Email Input"
+							placeholder="Enter your email"
+						/>
+
+						<UIInput
+							type="password"
+							label="Password Input"
+							placeholder="Enter password"
+						/>
+
+						<UIInput
+							type="text"
+							label="Input with Error"
+							placeholder="This field has an error"
+							error="This field is required"
+						/>
+
+						<UIInput
+							type="text"
+							label="Disabled Input"
+							placeholder="Cannot edit this"
+							disabled
+							value="Disabled value"
+						/>
 					</UIFlex>
 				</UIContainer>
 			</UISection>
