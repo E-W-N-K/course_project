@@ -7,7 +7,7 @@ interface UIFlexProps {
   direction?: 'row' | 'column'
   align?: 'start' | 'center' | 'end' | 'stretch'
   justify?: 'start' | 'center' | 'end' | 'between' | 'around'
-  gap?: 'sm' | 'md' | 'lg' | 'xl'
+  gap?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   wrap?: boolean
 }
 
