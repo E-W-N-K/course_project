@@ -1,4 +1,4 @@
-import { UIButton, UIContainer, UISection, UIFlex, UIMain, UIInput } from '../../shared/ui'
+import { UIButton, UIContainer, UISection, UIFlex, UIMain, UIInput, UIForm } from '../../shared/ui'
 
 export const UIPage = () => {
 	return (
@@ -112,6 +112,57 @@ export const UIPage = () => {
 							}}
 						/>
 					</UIFlex>
+				</UIContainer>
+			</UISection>
+
+			<UISection>
+				<UIContainer>
+					<h2>Form with Validation</h2>
+					<p style={{ marginBottom: 'var(--spacing-lg)', color: 'var(--color-text-secondary)' }}>
+						The submit button is disabled until all required fields are valid. Try filling out the form to enable it.
+					</p>
+					<UIForm
+						onSubmit={() => {
+							console.log('Form submitted')
+							alert('Form submitted successfully! Check console for details.')
+						}}
+						actions={(isValid) => (
+							<>
+								<UIButton variant="outline" colorType="secondary" type="button">
+									Cancel
+								</UIButton>
+								<UIButton
+									variant="solid"
+									colorType="primary"
+									type="submit"
+									disabled={!isValid}
+								>
+									Submit
+								</UIButton>
+							</>
+						)}
+					>
+						<UIInput
+							type="text"
+							label="Full Name"
+							placeholder="Enter your full name"
+							validation={{ required: true }}
+						/>
+
+						<UIInput
+							type="email"
+							label="Email Address"
+							placeholder="Enter your email"
+							validation={{ required: true, email: true }}
+						/>
+
+						<UIInput
+							type="password"
+							label="Password"
+							placeholder="Enter password"
+							validation={{ required: true, minLength: 8 }}
+						/>
+					</UIForm>
 				</UIContainer>
 			</UISection>
 		</UIMain>

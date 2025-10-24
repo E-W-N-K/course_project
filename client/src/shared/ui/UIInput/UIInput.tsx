@@ -1,6 +1,11 @@
-import type { InputHTMLAttributes, FC } from 'react'
-import { useState, useEffect } from 'react'
+import type { InputHTMLAttributes } from 'react'
+import { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import styles from './UIInput.module.css'
+
+export interface UIInputRef {
+  isValid: () => boolean
+  validate: () => void
+}
 
 interface ValidationRules {
   required?: boolean
@@ -63,7 +68,7 @@ const validateInput = (value: string, rules?: ValidationRules, customValidate?: 
   return undefined
 }
 
-export const UIInput: FC<UIInputProps> = ({
+const UIInputComponent = forwardRef<UIInputRef, UIInputProps>(({
   type = 'text',
   label,
   validation,
@@ -73,7 +78,7 @@ export const UIInput: FC<UIInputProps> = ({
   id,
   value: controlledValue,
   ...props
-}) => {
+}, ref) => {
   const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
   const [internalValue, setInternalValue] = useState(controlledValue?.toString() || '')
   const [internalError, setInternalError] = useState<string | undefined>(undefined)
@@ -107,6 +112,17 @@ export const UIInput: FC<UIInputProps> = ({
     handleValidation(value.toString())
   }
 
+  useImperativeHandle(ref, () => ({
+    isValid: () => {
+      const error = validateInput(value.toString(), validation, validate)
+      return !error
+    },
+    validate: () => {
+      setTouched(true)
+      handleValidation(value.toString())
+    }
+  }))
+
   return (
     <div className={`${styles.wrapper} ${className}`}>
       {label && (
@@ -129,4 +145,8 @@ export const UIInput: FC<UIInputProps> = ({
       )}
     </div>
   )
-}
+})
+
+UIInputComponent.displayName = 'UIInput'
+
+export const UIInput = UIInputComponent
