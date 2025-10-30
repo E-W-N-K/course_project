@@ -1,14 +1,16 @@
 import type { ButtonHTMLAttributes, FC } from 'react'
 import styles from './UIButton.module.css'
 
-interface UIButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface UIButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'solid' | 'outline'
   colorType?: 'primary' | 'secondary' | 'danger'
+  fullWidth?: boolean
 }
 
 export const UIButton: FC<UIButtonProps> = ({
   variant = 'solid',
   colorType = 'primary',
+  fullWidth = false,
   className = '',
   children,
   ...props
@@ -17,6 +19,7 @@ export const UIButton: FC<UIButtonProps> = ({
     styles.button,
     styles[variant],
     styles[colorType],
+    fullWidth && styles.fullWidth,
     className
   ].filter(Boolean).join(' ')
 

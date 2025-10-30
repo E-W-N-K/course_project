@@ -1,24 +1,53 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HomePage } from '../pages/HomePage'
 import { UIPage } from '../pages/UIPage'
-import { UILink, UIFlex } from '../shared/ui'
+import { LoginPage } from '../pages/LoginPage'
+import { RegisterPage } from '../pages/RegisterPage'
+import { Header } from '../widgets/Header'
+import { ProtectedRoute } from '../shared/ui/ProtectedRoute'
+import { useUserStore } from '../entities/User'
 import './App.css'
 import styles from './App.module.css'
 
 function App() {
+  const checkAuth = useUserStore((state) => state.checkAuth)
+
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
   return (
     <BrowserRouter>
-      <nav className={styles.nav}>
-        <UIFlex gap="lg">
-          <UILink to="/" variant="primary">Home</UILink>
-          <UILink to="/ui" variant="primary">UI Components</UILink>
-        </UIFlex>
-      </nav>
+      <Header />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/ui" element={<UIPage />} />
-      </Routes>
+      <main className={styles.main}>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/ui"
+            element={
+              <ProtectedRoute>
+                <UIPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Future admin routes can use: */}
+          {/* <Route path="/admin" element={<ProtectedRoute requireRole="admin"><AdminPage /></ProtectedRoute>} /> */}
+        </Routes>
+      </main>
     </BrowserRouter>
   )
 }
