@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/entities/User';
-import type { UserRole } from '@/entities/User';
 import { UIForm } from '@/shared/ui/UIForm/UIForm';
 import { UIInput } from '@/shared/ui/UIInput/UIInput';
 import { UIButton } from '@/shared/ui/UIButton/UIButton';
@@ -15,7 +14,6 @@ export const RegisterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<UserRole>('user');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,7 +21,7 @@ export const RegisterForm = () => {
     setError('');
 
     try {
-      await register({ name, email, password, role });
+      await register({ name, email, password, role: 'user' });
       navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
@@ -71,43 +69,6 @@ export const RegisterForm = () => {
           placeholder="Enter your password"
           minLength={6}
         />
-      </div>
-
-      <div className={styles['register-form__group']}>
-        <label className={styles['register-form__label']}>Account Type</label>
-        <div className={styles['register-form__radio-group']}>
-          <label className={styles['register-form__radio-label']}>
-            <input
-              type="radio"
-              name="role"
-              value="user"
-              checked={role === 'user'}
-              onChange={(e) => setRole(e.target.value as UserRole)}
-              disabled={isLoading}
-              className={styles['register-form__radio']}
-            />
-            <span className={styles['register-form__radio-text']}>User</span>
-            <span className={styles['register-form__radio-description']}>
-              Browse restaurants and place orders
-            </span>
-          </label>
-
-          <label className={styles['register-form__radio-label']}>
-            <input
-              type="radio"
-              name="role"
-              value="admin"
-              checked={role === 'admin'}
-              onChange={(e) => setRole(e.target.value as UserRole)}
-              disabled={isLoading}
-              className={styles['register-form__radio']}
-            />
-            <span className={styles['register-form__radio-text']}>Administrator</span>
-            <span className={styles['register-form__radio-description']}>
-              Manage menu, orders, and dishes
-            </span>
-          </label>
-        </div>
       </div>
 
       {error && <div className={styles['register-form__error']}>{error}</div>}

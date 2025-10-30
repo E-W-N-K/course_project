@@ -1,3 +1,4 @@
+export { UIBadge } from './UIBadge'
 export { UIButton } from './UIButton'
 export { UIContainer } from './UIContainer'
 export { UISection } from './UISection'
