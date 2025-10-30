@@ -14,6 +14,10 @@
   cursor: not-allowed;
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 /* Solid variants */
 .solid.primary {
   background-color: var(--color-primary);
