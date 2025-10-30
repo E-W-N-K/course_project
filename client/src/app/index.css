@@ -23,6 +23,9 @@
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f9fafb;
 
+  /* Colors - Border */
+  --color-border: #e5e7eb;
+
   /* Border Radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
@@ -44,7 +47,7 @@
   /* Typography - Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-base: 1rem;
+  --text-md: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
@@ -184,12 +187,12 @@ ol {
 }
 
 .heading.heading--base {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   margin-bottom: var(--spacing-sm);
 }
 
 .text {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-lg);

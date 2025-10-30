@@ -31,8 +31,8 @@ export const RegisterForm = () => {
   };
 
   return (
-    <UIForm onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
+    <UIForm onSubmit={handleSubmit} className={styles['register-form']}>
+      <div className={styles['register-form__group']}>
         <UIInput
           type="text"
           name="name"
@@ -46,7 +46,7 @@ export const RegisterForm = () => {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={styles['register-form__group']}>
         <UIInput
           type="email"
           name="email"
@@ -59,7 +59,7 @@ export const RegisterForm = () => {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={styles['register-form__group']}>
         <UIInput
           type="password"
           name="password"
@@ -73,10 +73,10 @@ export const RegisterForm = () => {
         />
       </div>
 
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Account Type</label>
-        <div className={styles.radioGroup}>
-          <label className={styles.radioLabel}>
+      <div className={styles['register-form__group']}>
+        <label className={styles['register-form__label']}>Account Type</label>
+        <div className={styles['register-form__radio-group']}>
+          <label className={styles['register-form__radio-label']}>
             <input
               type="radio"
               name="role"
@@ -84,15 +84,15 @@ export const RegisterForm = () => {
               checked={role === 'user'}
               onChange={(e) => setRole(e.target.value as UserRole)}
               disabled={isLoading}
-              className={styles.radio}
+              className={styles['register-form__radio']}
             />
-            <span className={styles.radioText}>User</span>
-            <span className={styles.radioDescription}>
+            <span className={styles['register-form__radio-text']}>User</span>
+            <span className={styles['register-form__radio-description']}>
               Browse restaurants and place orders
             </span>
           </label>
 
-          <label className={styles.radioLabel}>
+          <label className={styles['register-form__radio-label']}>
             <input
               type="radio"
               name="role"
@@ -100,17 +100,17 @@ export const RegisterForm = () => {
               checked={role === 'admin'}
               onChange={(e) => setRole(e.target.value as UserRole)}
               disabled={isLoading}
-              className={styles.radio}
+              className={styles['register-form__radio']}
             />
-            <span className={styles.radioText}>Administrator</span>
-            <span className={styles.radioDescription}>
+            <span className={styles['register-form__radio-text']}>Administrator</span>
+            <span className={styles['register-form__radio-description']}>
               Manage menu, orders, and dishes
             </span>
           </label>
         </div>
       </div>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {error && <div className={styles['register-form__error']}>{error}</div>}
 
       <UIButton
         type="submit"

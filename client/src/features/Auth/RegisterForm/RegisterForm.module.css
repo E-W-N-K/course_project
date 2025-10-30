@@ -1,27 +1,27 @@
-.form {
+.register-form {
   width: 100%;
   max-width: 400px;
 }
 
-.formGroup {
+.register-form__group {
   margin-bottom: var(--spacing-md);
 }
 
-.label {
+.register-form__label {
   display: block;
   margin-bottom: var(--spacing-xs);
   font-weight: var(--font-medium);
   font-size: var(--text-sm);
-  color: var(--color-text);
+  color: var(--color-text-primary);
 }
 
-.radioGroup {
+.register-form__radio-group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.radioLabel {
+.register-form__radio-label {
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-sm);
@@ -32,31 +32,31 @@
   transition: var(--transition-fast);
 }
 
-.radioLabel:hover {
+.register-form__radio-label:hover {
   border-color: var(--color-primary);
   background-color: var(--color-primary-light);
 }
 
-.radio {
+.register-form__radio {
   margin-top: 2px;
   cursor: pointer;
 }
 
-.radioText {
+.register-form__radio-text {
   flex: 1;
   font-weight: var(--font-medium);
   font-size: var(--text-sm);
-  color: var(--color-text);
+  color: var(--color-text-primary);
 }
 
-.radioDescription {
+.register-form__radio-description {
   display: block;
   font-size: var(--text-xs);
-  color: var(--color-text-light);
+  color: var(--color-text-secondary);
   margin-top: var(--spacing-xs);
 }
 
-.error {
+.register-form__error {
   padding: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   background-color: var(--color-danger-light);

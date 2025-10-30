@@ -10,15 +10,15 @@ export const RegisterPage = () => {
     <UIContainer>
       <UISection>
         <UIFlex direction="column" align="center" gap="lg">
-          <div className={styles.header}>
-            <h1 className={styles.title}>Create Account</h1>
-            <p className={styles.subtitle}>Join our food delivery platform</p>
+          <div className={styles['register-page__header']}>
+            <h1 className={styles['register-page__title']}>Create Account</h1>
+            <p className={styles['register-page__subtitle']}>Join our food delivery platform</p>
           </div>
 
           <RegisterForm />
 
-          <div className={styles.footer}>
-            <p className={styles.footerText}>
+          <div className={styles['register-page__footer']}>
+            <p className={styles['register-page__footer-text']}>
               Already have an account?{' '}
               <UILink to="/login" variant="primary">
                 Login here
