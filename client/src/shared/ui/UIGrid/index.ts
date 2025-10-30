@@ -1,1 +1,1 @@
-export { UIGrid } from './UIGrid'
+export { UIGrid } from "./UIGrid";

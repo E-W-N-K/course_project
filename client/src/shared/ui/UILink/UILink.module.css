@@ -1,29 +1,29 @@
 .link {
-  text-decoration: none;
-  transition: color var(--transition-base);
-  font-weight: var(--font-medium);
+	text-decoration: none;
+	transition: color var(--transition-base);
+	font-weight: var(--font-medium);
 }
 
 .link--default {
-  color: var(--color-text-primary);
+	color: var(--color-text-primary);
 }
 
 .link--default:hover {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .link--primary {
-  color: var(--color-primary);
+	color: var(--color-primary);
 }
 
 .link--primary:hover {
-  color: var(--color-primary-hover);
+	color: var(--color-primary-hover);
 }
 
 .link--secondary {
-  color: var(--color-secondary);
+	color: var(--color-secondary);
 }
 
 .link--secondary:hover {
-  color: var(--color-secondary-hover);
+	color: var(--color-secondary-hover);
 }
