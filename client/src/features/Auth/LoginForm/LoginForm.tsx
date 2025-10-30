@@ -28,8 +28,8 @@ export const LoginForm = () => {
   };
 
   return (
-    <UIForm onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
+    <UIForm onSubmit={handleSubmit} className={styles['login-form']}>
+      <div className={styles['login-form__group']}>
         <UIInput
           type="email"
           name="email"
@@ -42,7 +42,7 @@ export const LoginForm = () => {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={styles['login-form__group']}>
         <UIInput
           type="password"
           name="password"
@@ -56,7 +56,7 @@ export const LoginForm = () => {
         />
       </div>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {error && <div className={styles['login-form__error']}>{error}</div>}
 
       <UIButton
         type="submit"
@@ -68,11 +68,11 @@ export const LoginForm = () => {
         {isLoading ? 'Logging in...' : 'Login'}
       </UIButton>
 
-      <div className={styles.hint}>
-        <p className={styles.hintTitle}>Test accounts:</p>
-        <p className={styles.hintText}>Admin: admin@example.com</p>
-        <p className={styles.hintText}>User: user@example.com</p>
-        <p className={styles.hintText}>Password: any password</p>
+      <div className={styles['login-form__hint']}>
+        <p className={styles['login-form__hint-title']}>Test accounts:</p>
+        <p className={styles['login-form__hint-text']}>Admin: admin@example.com</p>
+        <p className={styles['login-form__hint-text']}>User: user@example.com</p>
+        <p className={styles['login-form__hint-text']}>Password: any password</p>
       </div>
     </UIForm>
   );

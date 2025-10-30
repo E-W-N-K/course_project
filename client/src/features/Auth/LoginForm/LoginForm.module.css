@@ -1,13 +1,13 @@
-.form {
+.login-form {
   width: 100%;
   max-width: 400px;
 }
 
-.formGroup {
+.login-form__group {
   margin-bottom: var(--spacing-md);
 }
 
-.error {
+.login-form__error {
   padding: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   background-color: var(--color-danger-light);
@@ -16,21 +16,21 @@
   font-size: var(--text-sm);
 }
 
-.hint {
+.login-form__hint {
   margin-top: var(--spacing-lg);
   padding: var(--spacing-md);
   background-color: var(--color-secondary-light);
   border-radius: var(--radius-sm);
 }
 
-.hintTitle {
+.login-form__hint-title {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
   color: var(--color-secondary);
   margin-bottom: var(--spacing-xs);
 }
 
-.hintText {
+.login-form__hint-text {
   font-size: var(--text-xs);
   color: var(--color-secondary);
   margin: 0;

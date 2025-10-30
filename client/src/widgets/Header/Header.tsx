@@ -14,7 +14,7 @@ export const Header = () => {
         <UIFlex justify="between" align="center">
           <nav>
             <UIFlex gap="lg" align="center">
-              <UILink to="/" variant="primary" className={styles.logo}>
+              <UILink to="/" variant="primary" className={styles['header__logo']}>
                 Food Delivery
               </UILink>
 
@@ -41,11 +41,11 @@ export const Header = () => {
           <UIFlex gap="md" align="center">
             {isAuthenticated && user ? (
               <>
-                <div className={styles.userInfo}>
-                  <span className={styles.userName}>{user.name}</span>
+                <div className={styles['header__user-info']}>
+                  <span className={styles['header__user-name']}>{user.name}</span>
                   <span
-                    className={`${styles.badge} ${
-                      user.role === 'admin' ? styles.badgeAdmin : styles.badgeUser
+                    className={`${styles['header__badge']} ${
+                      user.role === 'admin' ? styles['header__badge--admin'] : styles['header__badge--user']
                     }`}
                   >
                     {user.role}

@@ -1,28 +1,28 @@
-.header {
+.register-page__header {
   text-align: center;
   margin-bottom: var(--spacing-lg);
 }
 
-.title {
+.register-page__title {
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
-  color: var(--color-text);
+  color: var(--color-text-primary);
   margin: 0 0 var(--spacing-sm) 0;
 }
 
-.subtitle {
+.register-page__subtitle {
   font-size: var(--text-md);
-  color: var(--color-text-light);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
-.footer {
+.register-page__footer {
   margin-top: var(--spacing-md);
   text-align: center;
 }
 
-.footerText {
+.register-page__footer-text {
   font-size: var(--text-sm);
-  color: var(--color-text-light);
+  color: var(--color-text-secondary);
   margin: 0;
 }

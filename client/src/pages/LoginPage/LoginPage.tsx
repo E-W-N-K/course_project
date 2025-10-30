@@ -10,15 +10,15 @@ export const LoginPage = () => {
     <UIContainer>
       <UISection>
         <UIFlex direction="column" align="center" gap="lg">
-          <div className={styles.header}>
-            <h1 className={styles.title}>Welcome Back</h1>
-            <p className={styles.subtitle}>Sign in to your account</p>
+          <div className={styles['login-page__header']}>
+            <h1 className={styles['login-page__title']}>Welcome Back</h1>
+            <p className={styles['login-page__subtitle']}>Sign in to your account</p>
           </div>
 
           <LoginForm />
 
-          <div className={styles.footer}>
-            <p className={styles.footerText}>
+          <div className={styles['login-page__footer']}>
+            <p className={styles['login-page__footer-text']}>
               Don't have an account?{' '}
               <UILink to="/register" variant="primary">
                 Register here

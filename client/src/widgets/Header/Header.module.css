@@ -1,46 +1,43 @@
 .header {
   background-color: var(--color-bg-primary);
-  border-bottom: var(--);
-  padding: var(--spacing-sm) 0;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: var(--shadow-sm);
 }
 
-.logo {
+.header__logo {
   font-size: var(--text-lg);
   font-weight: var(--font-bold);
 }
 
-.userInfo {
+.header__user-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 }
 
-.userName {
+.header__user-name {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
-  color: var(--color-text);
+  color: var(--color-text-primary);
 }
 
-.badge {
+.header__badge {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-sm);
   font-size: var(--text-xs);
   font-weight: var(--font-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.badgeAdmin {
+.header__badge--admin {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
 }
 
-.badgeUser {
+.header__badge--user {
   background-color: var(--color-secondary-light);
   color: var(--color-secondary);
 }
