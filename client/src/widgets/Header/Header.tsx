@@ -1,10 +1,10 @@
-import { useUserStore } from '@/entities/User';
-import { LogoutButton } from '@/features/Auth/LogoutButton';
-import { UIBadge } from '@/shared/ui/UIBadge/UIBadge';
-import { UIFlex } from '@/shared/ui/UIFlex/UIFlex';
-import { UILink } from '@/shared/ui/UILink/UILink';
-import { UIContainer } from '@/shared/ui/UIContainer/UIContainer';
-import styles from './Header.module.css';
+import { useUserStore } from "@/entities/User";
+import { LogoutButton } from "@/features/Auth/LogoutButton";
+import { UIBadge } from "@/shared/ui/UIBadge/UIBadge";
+import { UIFlex } from "@/shared/ui/UIFlex/UIFlex";
+import { UILink } from "@/shared/ui/UILink/UILink";
+import { UIContainer } from "@/shared/ui/UIContainer/UIContainer";
+import styles from "./Header.module.css";
 
 export const Header = () => {
 	const { isAuthenticated, user } = useUserStore();
@@ -15,7 +15,11 @@ export const Header = () => {
 				<UIFlex justify="between" align="center">
 					<nav>
 						<UIFlex gap="lg" align="center">
-							<UILink to="/" variant="primary" className={styles['header__logo']}>
+							<UILink
+								to="/"
+								variant="primary"
+								className={styles["header__logo"]}
+							>
 								Food Delivery
 							</UILink>
 
@@ -25,7 +29,7 @@ export const Header = () => {
 										Restaurants
 									</UILink>
 
-									{user?.role === 'admin' && (
+									{user?.role === "admin" && (
 										<>
 											<UILink to="/admin" variant="secondary">
 												Admin Panel
@@ -43,15 +47,15 @@ export const Header = () => {
 					<UIFlex gap="md" align="center">
 						{isAuthenticated && user ? (
 							<>
-								<div className={styles['header__user-info']}>
-									<span className={styles['header__user-name']}>{user.name}</span>
-									{user.role === 'admin' && (
-										<UIBadge variant="primary">
-											{user.role}
-										</UIBadge>
+								<div className={styles["header__user-info"]}>
+									<span className={styles["header__user-name"]}>
+										{user.name}
+									</span>
+									{user.role === "admin" && (
+										<UIBadge variant="primary">{user.role}</UIBadge>
 									)}
 								</div>
-								<LogoutButton/>
+								<LogoutButton />
 							</>
 						) : (
 							<>

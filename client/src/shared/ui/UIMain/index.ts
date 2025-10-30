@@ -1,1 +1,1 @@
-export { UIMain } from './UIMain'
+export { UIMain } from "./UIMain";

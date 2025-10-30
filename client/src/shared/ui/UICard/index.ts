@@ -1,1 +1,1 @@
-export { UICard } from './UICard'
+export { UICard } from "./UICard";

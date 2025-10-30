@@ -1,1 +1,1 @@
-export { UIContainer } from './UIContainer'
+export { UIContainer } from "./UIContainer";

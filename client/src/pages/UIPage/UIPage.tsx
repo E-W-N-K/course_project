@@ -1,4 +1,14 @@
-import { UIButton, UIContainer, UISection, UIFlex, UIMain, UIInput, UIForm, UICard, UIGrid } from '../../shared/ui'
+import {
+	UIButton,
+	UIContainer,
+	UISection,
+	UIFlex,
+	UIMain,
+	UIInput,
+	UIForm,
+	UICard,
+	UIGrid,
+} from "../../shared/ui";
 
 export const UIPage = () => {
 	return (
@@ -20,13 +30,17 @@ export const UIPage = () => {
 						<h5 className="heading heading--lg">Heading 5</h5>
 						<h6 className="heading heading--base">Heading 6</h6>
 						<p className="text">
-							This is a paragraph with regular text. It uses relaxed line-height for better readability.
-							Paragraphs have automatic spacing below them for proper vertical rhythm.
+							This is a paragraph with regular text. It uses relaxed line-height
+							for better readability. Paragraphs have automatic spacing below
+							them for proper vertical rhythm.
 						</p>
 						<p className="text text--secondary">
-							This is a paragraph with secondary text color, perfect for descriptions and supporting text.
+							This is a paragraph with secondary text color, perfect for
+							descriptions and supporting text.
 						</p>
-						<small className="text text--sm">This is small text, often used for captions or fine print.</small>
+						<small className="text text--sm">
+							This is small text, often used for captions or fine print.
+						</small>
 					</UICard>
 				</UIContainer>
 			</UISection>
@@ -35,15 +49,29 @@ export const UIPage = () => {
 				<UIContainer>
 					<h2 className="heading heading--3xl">Buttons</h2>
 					<UIFlex gap="lg" wrap>
-						<UIButton variant="solid" colorType="primary">Primary Solid</UIButton>
-						<UIButton variant="solid" colorType="secondary">Secondary Solid</UIButton>
-						<UIButton variant="solid" colorType="danger">Danger Solid</UIButton>
+						<UIButton variant="solid" colorType="primary">
+							Primary Solid
+						</UIButton>
+						<UIButton variant="solid" colorType="secondary">
+							Secondary Solid
+						</UIButton>
+						<UIButton variant="solid" colorType="danger">
+							Danger Solid
+						</UIButton>
 
-						<UIButton variant="outline" colorType="primary">Primary Outline</UIButton>
-						<UIButton variant="outline" colorType="secondary">Secondary Outline</UIButton>
-						<UIButton variant="outline" colorType="danger">Danger Outline</UIButton>
+						<UIButton variant="outline" colorType="primary">
+							Primary Outline
+						</UIButton>
+						<UIButton variant="outline" colorType="secondary">
+							Secondary Outline
+						</UIButton>
+						<UIButton variant="outline" colorType="danger">
+							Danger Outline
+						</UIButton>
 
-						<UIButton variant="solid" colorType="primary" disabled>Disabled</UIButton>
+						<UIButton variant="solid" colorType="primary" disabled>
+							Disabled
+						</UIButton>
 					</UIFlex>
 				</UIContainer>
 			</UISection>
@@ -52,11 +80,7 @@ export const UIPage = () => {
 				<UIContainer>
 					<h2 className="heading heading--3xl">Inputs</h2>
 					<UIFlex direction="column" gap="2xl">
-						<UIInput
-							type="text"
-							label="Text Input"
-							placeholder="Enter text"
-						/>
+						<UIInput type="text" label="Text Input" placeholder="Enter text" />
 
 						<UIInput
 							type="email"
@@ -119,7 +143,7 @@ export const UIPage = () => {
 							placeholder="Enter phone (e.g., 123-456-7890)"
 							validation={{
 								required: true,
-								pattern: /^\d{3}-\d{3}-\d{4}$/
+								pattern: /^\d{3}-\d{3}-\d{4}$/,
 							}}
 						/>
 
@@ -128,10 +152,10 @@ export const UIPage = () => {
 							label="Custom Validation"
 							placeholder="Enter 'valid' to pass"
 							validate={(value) => {
-								if (value !== 'valid') {
-									return 'You must enter "valid"'
+								if (value !== "valid") {
+									return 'You must enter "valid"';
 								}
-								return undefined
+								return undefined;
 							}}
 						/>
 					</UIFlex>
@@ -142,17 +166,24 @@ export const UIPage = () => {
 				<UIContainer>
 					<h2 className="heading heading--3xl">Form with Validation</h2>
 					<p className="text">
-						The submit button is disabled until all required fields are valid. Try filling out the form to enable it.
+						The submit button is disabled until all required fields are valid.
+						Try filling out the form to enable it.
 					</p>
 					<UICard>
 						<UIForm
 							onSubmit={() => {
-								console.log('Form submitted')
-								alert('Form submitted successfully! Check console for details.')
+								console.log("Form submitted");
+								alert(
+									"Form submitted successfully! Check console for details.",
+								);
 							}}
 							actions={(isValid) => (
 								<>
-									<UIButton variant="outline" colorType="secondary" type="button">
+									<UIButton
+										variant="outline"
+										colorType="secondary"
+										type="button"
+									>
 										Cancel
 									</UIButton>
 									<UIButton
@@ -197,7 +228,11 @@ export const UIPage = () => {
 					<UIGrid columns={3} gap="lg">
 						<UICard
 							padding="lg"
-							header={<h3 className="heading heading--2xl">Large Padding (Default)</h3>}
+							header={
+								<h3 className="heading heading--2xl">
+									Large Padding (Default)
+								</h3>
+							}
 						>
 							<p className="text text--secondary">
 								This card uses large padding, which is the default.
@@ -205,7 +240,9 @@ export const UIPage = () => {
 						</UICard>
 
 						<UICard
-							header={<h3 className="heading heading--2xl">Interactive Card</h3>}
+							header={
+								<h3 className="heading heading--2xl">Interactive Card</h3>
+							}
 							footer={
 								<UIFlex gap="md">
 									<UIButton variant="outline" colorType="secondary">
@@ -223,14 +260,18 @@ export const UIPage = () => {
 						</UICard>
 
 						<UICard>
-							<p className="text">This card uses only the default children slot.</p>
+							<p className="text">
+								This card uses only the default children slot.
+							</p>
 						</UICard>
 
 						<UICard
 							padding="sm"
 							header={<h4 className="heading heading--xl">Small Padding</h4>}
 						>
-							<p className="text text--secondary">You can control heading levels!</p>
+							<p className="text text--secondary">
+								You can control heading levels!
+							</p>
 						</UICard>
 
 						<UICard
@@ -242,12 +283,18 @@ export const UIPage = () => {
 								</UIFlex>
 							}
 						>
-							<p className="text text--secondary">Headers and footers accept any ReactNode!</p>
+							<p className="text text--secondary">
+								Headers and footers accept any ReactNode!
+							</p>
 						</UICard>
 
 						<UICard
 							header={<h5 className="heading heading--lg">With Footer</h5>}
-							footer={<small className="text text--sm text--secondary">Updated 2 hours ago</small>}
+							footer={
+								<small className="text text--sm text--secondary">
+									Updated 2 hours ago
+								</small>
+							}
 						>
 							<p className="text">Both header and footer slots in action.</p>
 						</UICard>
@@ -255,5 +302,5 @@ export const UIPage = () => {
 				</UIContainer>
 			</UISection>
 		</UIMain>
-	)
-}
+	);
+};

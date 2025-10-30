@@ -1,28 +1,28 @@
 .register-page__header {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
+	text-align: center;
+	margin-bottom: var(--spacing-lg);
 }
 
 .register-page__title {
-  font-size: var(--text-3xl);
-  font-weight: var(--font-bold);
-  color: var(--color-text-primary);
-  margin: 0 0 var(--spacing-sm) 0;
+	font-size: var(--text-3xl);
+	font-weight: var(--font-bold);
+	color: var(--color-text-primary);
+	margin: 0 0 var(--spacing-sm) 0;
 }
 
 .register-page__subtitle {
-  font-size: var(--text-md);
-  color: var(--color-text-secondary);
-  margin: 0;
+	font-size: var(--text-md);
+	color: var(--color-text-secondary);
+	margin: 0;
 }
 
 .register-page__footer {
-  margin-top: var(--spacing-md);
-  text-align: center;
+	margin-top: var(--spacing-md);
+	text-align: center;
 }
 
 .register-page__footer-text {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  margin: 0;
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+	margin: 0;
 }

@@ -1,1 +1,1 @@
-export { UIFlex } from './UIFlex'
+export { UIFlex } from "./UIFlex";

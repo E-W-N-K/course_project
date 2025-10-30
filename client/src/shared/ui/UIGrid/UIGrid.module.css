@@ -1,26 +1,26 @@
 .grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-columns, 1), 1fr);
+	display: grid;
+	grid-template-columns: repeat(var(--grid-columns, 1), 1fr);
 }
 
 .grid--gap-sm {
-  gap: var(--spacing-sm);
+	gap: var(--spacing-sm);
 }
 
 .grid--gap-md {
-  gap: var(--spacing-md);
+	gap: var(--spacing-md);
 }
 
 .grid--gap-lg {
-  gap: var(--spacing-lg);
+	gap: var(--spacing-lg);
 }
 
 .grid--gap-xl {
-  gap: var(--spacing-xl);
+	gap: var(--spacing-xl);
 }
 
 @container (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+	.grid {
+		grid-template-columns: 1fr;
+	}
 }

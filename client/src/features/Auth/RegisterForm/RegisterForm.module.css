@@ -1,17 +1,17 @@
 .register-form {
-  width: 100%;
-  max-width: 400px;
+	width: 100%;
+	max-width: 400px;
 }
 
 .register-form__group {
-  margin-bottom: var(--spacing-md);
+	margin-bottom: var(--spacing-md);
 }
 
 .register-form__error {
-  padding: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
-  background-color: var(--color-danger-light);
-  color: var(--color-danger);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
+	padding: var(--spacing-sm);
+	margin-bottom: var(--spacing-md);
+	background-color: var(--color-danger-light);
+	color: var(--color-danger);
+	border-radius: var(--radius-sm);
+	font-size: var(--text-sm);
 }

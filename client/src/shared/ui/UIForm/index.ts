@@ -1,1 +1,1 @@
-export { UIForm } from './UIForm'
+export { UIForm } from "./UIForm";
