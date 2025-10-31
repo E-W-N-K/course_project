@@ -17,6 +17,6 @@ import java.util.List;
 public class CartDTO {
     private Long cartId;
     private Long userId;
-    private List<CartItem> cartItems;
+    private List<CartItemDTO> cartItemsDTO;
     private BigDecimal total;
 }
