@@ -4,8 +4,10 @@ import course_project.course_project.model.Order;
 import course_project.course_project.model.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
-    Order findByUserIdAndStatus(Long id, OrderStatus status);
+import java.util.List;
 
-    Order findByUserId(Long id);
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> findByUserIdAndStatus(Long id, OrderStatus status);
+
+    List<Order> findByUserId(Long id);
 }
