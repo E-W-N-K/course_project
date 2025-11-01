@@ -1,0 +1,27 @@
+.home-page {
+	padding-top: var(--spacing-2xl);
+	padding-bottom: var(--spacing-2xl);
+}
+
+.home-page__title {
+	font-size: var(--text-4xl);
+	font-weight: var(--font-bold);
+	color: var(--color-text-primary);
+	margin: 0 0 var(--spacing-md) 0;
+	line-height: var(--leading-tight);
+}
+
+.home-page__subtitle {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	margin: 0 0 var(--spacing-2xl) 0;
+	line-height: var(--leading-normal);
+}
+
+.home-page__loading {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: var(--spacing-2xl);
+	margin: 0;
+}
