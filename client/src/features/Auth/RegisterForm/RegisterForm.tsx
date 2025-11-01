@@ -4,6 +4,7 @@ import { useUserStore } from "@/entities/User";
 import { UIForm } from "@/shared/ui/UIForm/UIForm";
 import { UIInput } from "@/shared/ui/UIInput/UIInput";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
+import { UICard } from "@/shared/ui";
 import styles from "./RegisterForm.module.css";
 
 export const RegisterForm = () => {
@@ -29,10 +30,8 @@ export const RegisterForm = () => {
 	};
 
 	return (
-		<UIForm
-			onSubmit={handleSubmit}
-			className={styles["register-form"]}
-			actions={(isValid) => (
+		<UICard className={styles["register-form"]} padding="xl">
+			<UIForm onSubmit={handleSubmit} actions={(isValid) => (
 				<div className={styles["register-form__actions"]}>
 					{error && <div className={styles["register-form__error"]}>{error}</div>}
 
@@ -81,5 +80,6 @@ export const RegisterForm = () => {
 				placeholder="Enter your password"
 			/>
 		</UIForm>
+		</UICard>
 	);
 };

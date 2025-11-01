@@ -4,6 +4,7 @@ import { useUserStore } from "@/entities/User";
 import { UIForm } from "@/shared/ui/UIForm/UIForm";
 import { UIInput } from "@/shared/ui/UIInput/UIInput";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
+import { UICard } from "@/shared/ui";
 import styles from "./LoginForm.module.css";
 
 export const LoginForm = () => {
@@ -28,10 +29,8 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<UIForm
-			onSubmit={handleSubmit}
-			className={styles["login-form"]}
-			actions={(isValid) => (
+		<UICard className={styles["login-form"]} padding="xl">
+			<UIForm onSubmit={handleSubmit} actions={(isValid) => (
 				<div className={styles["login-form__actions"]}>
 					{error && <div className={styles["login-form__error"]}>{error}</div>}
 
@@ -82,5 +81,6 @@ export const LoginForm = () => {
 				validation={{ required: true, minLength: 6 }}
 			/>
 		</UIForm>
+		</UICard>
 	);
 };
