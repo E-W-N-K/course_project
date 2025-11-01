@@ -28,57 +28,59 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<UIForm onSubmit={handleSubmit} className={styles["login-form"]}>
-			<div className={styles["login-form__group"]}>
-				<UIInput
-					type="text"
-					name="name"
-					label="Username"
-					value={name}
-					onChange={(value) => setName(value)}
-					validation={{ required: true }}
-					disabled={isLoading}
-					placeholder="Enter your username"
-				/>
-			</div>
+		<UIForm
+			onSubmit={handleSubmit}
+			className={styles["login-form"]}
+			actions={(isValid) => (
+				<div className={styles["login-form__actions"]}>
+					{error && <div className={styles["login-form__error"]}>{error}</div>}
 
-			<div className={styles["login-form__group"]}>
-				<UIInput
-					type="password"
-					name="password"
-					label="Password"
-					value={password}
-					onChange={(value) => setPassword(value)}
-					disabled={isLoading}
-					placeholder="Enter your password"
-					validation={{ required: true, minLength: 6 }}
-				/>
-			</div>
+					<UIButton
+						type="submit"
+						variant="solid"
+						colorType="primary"
+						disabled={isLoading || !isValid}
+						fullWidth
+					>
+						{isLoading ? "Logging in..." : "Login"}
+					</UIButton>
 
-			{error && <div className={styles["login-form__error"]}>{error}</div>}
-
-			<UIButton
-				type="submit"
-				variant="solid"
-				colorType="primary"
+					<div className={styles["login-form__hint"]}>
+						<p className={styles["login-form__hint-title"]}>Test accounts:</p>
+						<p className={styles["login-form__hint-text"]}>
+							Admin: Admin User
+						</p>
+						<p className={styles["login-form__hint-text"]}>
+							User: Regular User
+						</p>
+						<p className={styles["login-form__hint-text"]}>
+							Password: any password
+						</p>
+					</div>
+				</div>
+			)}
+		>
+			<UIInput
+				type="text"
+				name="name"
+				label="Username"
+				value={name}
+				onChange={(value) => setName(value)}
+				validation={{ required: true }}
 				disabled={isLoading}
-				fullWidth
-			>
-				{isLoading ? "Logging in..." : "Login"}
-			</UIButton>
+				placeholder="Enter your username"
+			/>
 
-			<div className={styles["login-form__hint"]}>
-				<p className={styles["login-form__hint-title"]}>Test accounts:</p>
-				<p className={styles["login-form__hint-text"]}>
-					Admin: Admin User
-				</p>
-				<p className={styles["login-form__hint-text"]}>
-					User: Regular User
-				</p>
-				<p className={styles["login-form__hint-text"]}>
-					Password: any password
-				</p>
-			</div>
+			<UIInput
+				type="password"
+				name="password"
+				label="Password"
+				value={password}
+				onChange={(value) => setPassword(value)}
+				disabled={isLoading}
+				placeholder="Enter your password"
+				validation={{ required: true, minLength: 6 }}
+			/>
 		</UIForm>
 	);
 };
