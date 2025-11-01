@@ -21,7 +21,7 @@ export const RegisterForm = () => {
 		setError("");
 
 		try {
-			await register({ name, email, password, role: "user" });
+			await register({ name, email, password });
 			navigate("/");
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Registration failed");

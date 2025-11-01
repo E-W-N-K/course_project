@@ -1,6 +1,9 @@
 export type {
 	User,
 	UserRole,
+	UserWithPassword,
+	CustomerInfo,
+	UserWithCustomerInfo,
 	AuthState,
 	LoginCredentials,
 	RegisterData,

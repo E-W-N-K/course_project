@@ -21,3 +21,38 @@ export class ApiException extends Error {
 		this.code = code;
 	}
 }
+
+/**
+ * API Request/Response DTOs
+ * Based on backend request/response DTOs
+ */
+
+// Auth Request DTOs
+export interface LoginRequest {
+	name: string;
+	password: string;
+}
+
+export interface RegisterRequest {
+	name: string;
+	email: string;
+	password: string;
+}
+
+// Order Request DTOs
+export interface OrderItemRequest {
+	dishId: number;
+	quantity: number;
+}
+
+export interface CreateOrderRequest {
+	userId: number;
+	items: OrderItemRequest[];
+}
+
+// Auth Response DTOs
+export interface AuthResponse {
+	message: string;
+	name: string;
+	role: string;
+}

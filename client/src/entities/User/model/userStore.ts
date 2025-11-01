@@ -46,16 +46,12 @@ export const useUserStore = create<UserStore>((set) => ({
 	},
 
 	logout: async () => {
-		try {
-			await userApi.logout();
-			set({
-				user: null,
-				isAuthenticated: false,
-				isLoading: false,
-			});
-		} catch (error) {
-			throw error;
-		}
+		await userApi.logout();
+		set({
+			user: null,
+			isAuthenticated: false,
+			isLoading: false,
+		});
 	},
 
 	checkAuth: async () => {
@@ -75,7 +71,7 @@ export const useUserStore = create<UserStore>((set) => ({
 					isLoading: false,
 				});
 			}
-		} catch (error) {
+		} catch {
 			set({
 				user: null,
 				isAuthenticated: false,

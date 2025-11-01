@@ -10,7 +10,7 @@ export interface RequestConfig extends RequestInit {
  * Mock APIs bypass this client and use localStorage directly
  */
 class ApiClient {
-	private baseURL: string;
+	private readonly baseURL: string;
 
 	constructor(baseURL: string = "/api") {
 		this.baseURL = baseURL;
