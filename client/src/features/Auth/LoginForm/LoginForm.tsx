@@ -11,7 +11,7 @@ export const LoginForm = () => {
 	const login = useUserStore((state) => state.login);
 	const isLoading = useUserStore((state) => state.isLoading);
 
-	const [email, setEmail] = useState("");
+	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
@@ -20,7 +20,7 @@ export const LoginForm = () => {
 		setError("");
 
 		try {
-			await login({ email, password });
+			await login({ name, password });
 			navigate("/");
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Login failed");
@@ -31,14 +31,14 @@ export const LoginForm = () => {
 		<UIForm onSubmit={handleSubmit} className={styles["login-form"]}>
 			<div className={styles["login-form__group"]}>
 				<UIInput
-					type="email"
-					name="email"
-					label="Email"
-					value={email}
-					onChange={(value) => setEmail(value)}
-					required
+					type="text"
+					name="name"
+					label="Username"
+					value={name}
+					onChange={(value) => setName(value)}
+					validation={{ required: true }}
 					disabled={isLoading}
-					placeholder="Enter your email"
+					placeholder="Enter your username"
 				/>
 			</div>
 
@@ -49,10 +49,9 @@ export const LoginForm = () => {
 					label="Password"
 					value={password}
 					onChange={(value) => setPassword(value)}
-					required
 					disabled={isLoading}
 					placeholder="Enter your password"
-					minLength={6}
+					validation={{ required: true, minLength: 6 }}
 				/>
 			</div>
 
@@ -71,10 +70,10 @@ export const LoginForm = () => {
 			<div className={styles["login-form__hint"]}>
 				<p className={styles["login-form__hint-title"]}>Test accounts:</p>
 				<p className={styles["login-form__hint-text"]}>
-					Admin: admin@example.com
+					Admin: Admin User
 				</p>
 				<p className={styles["login-form__hint-text"]}>
-					User: user@example.com
+					User: Regular User
 				</p>
 				<p className={styles["login-form__hint-text"]}>
 					Password: any password

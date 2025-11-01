@@ -1,10 +1,46 @@
+/**
+ * User entity types
+ * Based on UserInfoDTO, UserDTO, UserWithCustomerInfoDTO, and CustomerInfoDTO from backend
+ */
+
 export type UserRole = "admin" | "user";
 
+/**
+ * Base user information (matches UserInfoDTO)
+ */
 export interface User {
-	id: string;
-	email: string;
+	id: number;
 	name: string;
-	role: UserRole;
+	email: string;
+	role: string;
+	active: boolean;
+}
+
+/**
+ * User with password (matches UserDTO - extends UserInfoDTO)
+ * Used for registration/authentication
+ */
+export interface UserWithPassword extends User {
+	password: string;
+}
+
+/**
+ * Customer contact information (matches CustomerInfoDTO)
+ */
+export interface CustomerInfo {
+	id: number;
+	address: string;
+	phone: string;
+	userId: number;
+}
+
+/**
+ * User with customer information (matches UserWithCustomerInfoDTO)
+ * Used for displaying user profile with delivery details
+ */
+export interface UserWithCustomerInfo extends User {
+	address: string;
+	phone: string;
 }
 
 export interface AuthState {
@@ -14,18 +50,18 @@ export interface AuthState {
 }
 
 export interface LoginCredentials {
-	email: string;
+	name: string;
 	password: string;
 }
 
 export interface RegisterData {
+	name: string;
 	email: string;
 	password: string;
-	name: string;
-	role?: UserRole;
 }
 
 export interface AuthResponse {
-	user: User;
-	message?: string;
+	message: string;
+	name: string;
+	role: string;
 }
