@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { RestaurantPage } from "../pages/RestaurantPage";
 import { OrdersPage } from "../pages/OrdersPage";
+import { CartPage } from "../pages/CartPage";
 import { UIPage } from "../pages/UIPage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
@@ -51,6 +52,15 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<OrdersPage />
+							</ProtectedRoute>
+						}
+					/>
+
+					<Route
+						path="/cart"
+						element={
+							<ProtectedRoute>
+								<CartPage />
 							</ProtectedRoute>
 						}
 					/>

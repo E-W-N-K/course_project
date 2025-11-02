@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useUserStore } from "@/entities/User";
+import { useCartStore } from "@/entities/Cart";
 import { LogoutButton } from "@/features/Auth/LogoutButton";
 import { UIBadge } from "@/shared/ui/UIBadge/UIBadge";
 import { UIFlex } from "@/shared/ui/UIFlex/UIFlex";
@@ -8,6 +10,15 @@ import styles from "./Header.module.css";
 
 export const Header = () => {
 	const { isAuthenticated, user } = useUserStore();
+	const { fetchCart, getItemCount } = useCartStore();
+	const cartItemCount = getItemCount();
+
+	// Fetch cart when user logs in
+	useEffect(() => {
+		if (user) {
+			fetchCart(user.id);
+		}
+	}, [user, fetchCart]);
 
 	return (
 		<header className={styles.header}>
@@ -32,6 +43,15 @@ export const Header = () => {
 									<UILink to="/orders" variant="secondary">
 										Orders
 									</UILink>
+
+									<div className={styles["header__cart"]}>
+										<UILink to="/cart" variant="secondary">
+											Cart
+										</UILink>
+										{cartItemCount > 0 && (
+											<UIBadge variant="primary">{cartItemCount}</UIBadge>
+										)}
+									</div>
 
 									{user?.role === "admin" && (
 										<>
