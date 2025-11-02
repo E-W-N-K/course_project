@@ -68,7 +68,7 @@ const getDefaultDishes = (): Dish[] => {
 			id: 6,
 			name: "Tiramisu",
 			description:
-				"Classic Italian dessert with espresso-soaked ladyfingers and mascarpone",
+				"Classic Italian dessert with espresso-soaked ladyfingers and mascarpone. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 			url: "https://lipsum.app/id/106/400x300",
 			price: 8.99,
 			weight: 180,

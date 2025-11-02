@@ -4,6 +4,8 @@
 	box-shadow: var(--shadow-lg);
 	transition: box-shadow var(--transition-base);
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 }
 
 .card--padding-sm {
@@ -27,6 +29,8 @@
 }
 
 .card__body {
+	display: flex;
+	flex-direction: column;
 	flex: 1;
 }
 
