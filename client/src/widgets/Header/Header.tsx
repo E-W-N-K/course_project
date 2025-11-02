@@ -29,6 +29,10 @@ export const Header = () => {
 										Homepage
 									</UILink>
 
+									<UILink to="/orders" variant="secondary">
+										Orders
+									</UILink>
+
 									{user?.role === "admin" && (
 										<>
 											<UILink to="/admin" variant="secondary">
