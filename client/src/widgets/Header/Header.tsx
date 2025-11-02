@@ -25,8 +25,8 @@ export const Header = () => {
 
 							{isAuthenticated && (
 								<>
-									<UILink to="/restaurants" variant="secondary">
-										Restaurants
+									<UILink to="/" variant="secondary">
+										Homepage
 									</UILink>
 
 									{user?.role === "admin" && (

@@ -1,0 +1,177 @@
+.restaurant-page {
+	min-height: 100vh;
+}
+
+/* Hero Banner - Full width */
+.restaurant-page__hero {
+	width: 100%;
+	height: 300px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: var(--spacing-2xl);
+}
+
+.restaurant-page__hero-image {
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+.restaurant-page__hero-image::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 0.1) 0%,
+		rgba(0, 0, 0, 0.3) 100%
+	);
+}
+
+/* Restaurant Info Section */
+.restaurant-page__info {
+	margin-bottom: var(--spacing-2xl);
+	padding-bottom: var(--spacing-2xl);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.restaurant-page__title {
+	font-size: var(--text-4xl);
+	font-weight: var(--font-bold);
+	color: var(--color-text-primary);
+	margin: 0 0 var(--spacing-md) 0;
+	line-height: var(--leading-tight);
+}
+
+.restaurant-page__description {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	line-height: var(--leading-relaxed);
+	margin: 0 0 var(--spacing-lg) 0;
+}
+
+.restaurant-page__details {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.restaurant-page__detail {
+	font-size: var(--text-md);
+	color: var(--color-text-secondary);
+	margin: 0;
+	line-height: var(--leading-normal);
+}
+
+.restaurant-page__detail strong {
+	color: var(--color-text-primary);
+	font-weight: var(--font-semibold);
+	margin-right: var(--spacing-xs);
+}
+
+/* Menu Section */
+.restaurant-page__menu {
+	margin-bottom: var(--spacing-2xl);
+}
+
+.restaurant-page__menu-title {
+	font-size: var(--text-3xl);
+	font-weight: var(--font-bold);
+	color: var(--color-text-primary);
+	margin: 0 0 var(--spacing-xl) 0;
+	line-height: var(--leading-tight);
+}
+
+.restaurant-page__dishes {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-lg);
+}
+
+.restaurant-page__no-dishes {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: var(--spacing-2xl);
+	margin: 0;
+}
+
+/* Loading State */
+.restaurant-page__loading {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: var(--spacing-2xl);
+	margin: 0;
+}
+
+/* Error State */
+.restaurant-page__error {
+	text-align: center;
+	padding: var(--spacing-2xl);
+}
+
+.restaurant-page__error h1 {
+	font-size: var(--text-3xl);
+	font-weight: var(--font-bold);
+	color: var(--color-danger);
+	margin: 0 0 var(--spacing-md) 0;
+}
+
+.restaurant-page__error p {
+	font-size: var(--text-lg);
+	color: var(--color-text-secondary);
+	margin: 0;
+}
+
+/* Tablet Responsive */
+@media (max-width: 1024px) {
+	.restaurant-page__hero {
+		height: 300px;
+	}
+
+	.restaurant-page__title {
+		font-size: var(--text-3xl);
+	}
+
+	.restaurant-page__menu-title {
+		font-size: var(--text-2xl);
+	}
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+	.restaurant-page__hero {
+		height: 200px;
+		margin-bottom: var(--spacing-xl);
+	}
+
+	.restaurant-page__info {
+		margin-bottom: var(--spacing-xl);
+		padding-bottom: var(--spacing-xl);
+	}
+
+	.restaurant-page__title {
+		font-size: var(--text-2xl);
+	}
+
+	.restaurant-page__description {
+		font-size: var(--text-md);
+	}
+
+	.restaurant-page__menu-title {
+		font-size: var(--text-xl);
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.restaurant-page__dishes {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-md);
+	}
+}

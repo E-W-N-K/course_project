@@ -1,0 +1,123 @@
+.dish-card {
+	transition: box-shadow var(--transition-base);
+}
+
+.dish-card:hover {
+	box-shadow: var(--shadow-lg);
+}
+
+.dish-card__wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-lg);
+	align-items: stretch;
+	flex: 1;
+}
+
+.dish-card__image-wrapper {
+	flex-shrink: 0;
+	width: 200px;
+	overflow: hidden;
+	margin: calc( -1 * var(--spacing-lg)) 0 calc( -1 * var(--spacing-lg)) calc( -1 * var(--spacing-lg));
+}
+
+.dish-card__image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.dish-card__content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	min-width: 0;
+}
+
+.dish-card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: var(--spacing-md);
+}
+
+.dish-card__name {
+	font-size: var(--text-xl);
+	font-weight: var(--font-bold);
+	color: var(--color-text-primary);
+	margin: 0;
+	line-height: var(--leading-tight);
+	flex: 1;
+}
+
+.dish-card__meta {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: var(--spacing-xs);
+	flex-shrink: 0;
+}
+
+.dish-card__price {
+	font-size: var(--text-2xl);
+	font-weight: var(--font-bold);
+	color: var(--color-primary);
+	line-height: 1;
+}
+
+.dish-card__weight {
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+	font-weight: var(--font-medium);
+}
+
+.dish-card__description {
+	font-size: var(--text-md);
+	color: var(--color-text-secondary);
+	line-height: var(--leading-relaxed);
+	margin: 0;
+	flex: 1;
+}
+
+.dish-card__footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: auto;
+}
+
+.dish-card__add-button {
+	min-width: 140px;
+}
+
+/* Responsive: Stack vertically on mobile */
+@media (max-width: 768px) {
+	.dish-card__wrapper {
+		flex-direction: column;
+	}
+
+	.dish-card__image-wrapper {
+		width: 100%;
+		height: 180px;
+	}
+
+	.dish-card__header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.dish-card__meta {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--spacing-md);
+	}
+
+	.dish-card__footer {
+		justify-content: stretch;
+	}
+
+	.dish-card__add-button {
+		width: 100%;
+	}
+}
