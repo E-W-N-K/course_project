@@ -22,3 +22,10 @@
 	font-weight: var(--font-medium);
 	color: var(--color-text-primary);
 }
+
+.header__cart {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	position: relative;
+}

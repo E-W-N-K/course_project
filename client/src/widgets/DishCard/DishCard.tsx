@@ -1,5 +1,6 @@
 import type { Dish } from "@/entities/Dish";
-import { UICard, UIButton } from "@/shared/ui";
+import { UICard } from "@/shared/ui";
+import { AddToCart } from "@/features/Cart/AddToCart";
 import styles from "./DishCard.module.css";
 
 interface DishCardProps {
@@ -36,14 +37,11 @@ export const DishCard = ({ dish }: DishCardProps) => {
 					)}
 
 					<div className={styles["dish-card__footer"]}>
-						<UIButton
+						<AddToCart
+							dishId={dish.id}
 							variant="solid"
 							colorType="primary"
-							disabled={true}
-							className={styles["dish-card__add-button"]}
-						>
-							Add to Cart
-						</UIButton>
+						/>
 					</div>
 				</div>
 			</div>
