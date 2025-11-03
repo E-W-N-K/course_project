@@ -9,3 +9,4 @@ export { UIMain } from "./UIMain";
 export { UIInput } from "./UIInput";
 export { UIForm } from "./UIForm";
 export { UICard } from "./UICard";
+export { UISearchInput } from "./UISearchInput";

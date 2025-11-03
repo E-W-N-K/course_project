@@ -55,9 +55,6 @@ export const Header = () => {
 
 									{user?.role === "admin" && (
 										<>
-											<UILink to="/admin" variant="secondary">
-												Admin Panel
-											</UILink>
 											<UILink to="/ui" variant="secondary">
 												UI Demo
 											</UILink>
