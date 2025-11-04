@@ -23,13 +23,32 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        http.cors().and()
+                .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .headers()
+                .frameOptions().disable()  // ← ДОБАВЬ ЭТУ СТРОКУ
+                .and()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")  // ← ВАЖНО: должно быть
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/cart/**").authenticated()
+                        .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/restaurants/**").permitAll()
+                        .anyRequest().authenticated()
+                );
 
-
-
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -12,5 +12,4 @@ public class UserInfoDTO {
     private String name;
     private String email;
     private String role;
-    private boolean active;
 }
