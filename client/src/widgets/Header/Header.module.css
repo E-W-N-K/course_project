@@ -1,0 +1,31 @@
+.header {
+	background-color: var(--color-bg-primary);
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	box-shadow: var(--shadow-sm);
+}
+
+.header__logo {
+	font-size: var(--text-lg);
+	font-weight: var(--font-bold);
+}
+
+.header__user-info {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}
+
+.header__user-name {
+	font-size: var(--text-sm);
+	font-weight: var(--font-medium);
+	color: var(--color-text-primary);
+}
+
+.header__cart {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	position: relative;
+}

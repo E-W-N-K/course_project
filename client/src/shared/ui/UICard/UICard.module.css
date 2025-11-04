@@ -1,0 +1,39 @@
+.card {
+	background-color: var(--color-bg-primary);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-lg);
+	transition: box-shadow var(--transition-base);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.card--padding-sm {
+	padding: var(--spacing-sm);
+}
+
+.card--padding-md {
+	padding: var(--spacing-md);
+}
+
+.card--padding-lg {
+	padding: var(--spacing-lg);
+}
+
+.card--padding-xl {
+	padding: var(--spacing-xl);
+}
+
+.card__header {
+	margin-bottom: var(--spacing-lg);
+}
+
+.card__body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.card__footer {
+	margin-top: var(--spacing-lg);
+}
