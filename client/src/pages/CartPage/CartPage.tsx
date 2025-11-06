@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
 import { useCartStore } from "@/entities/Cart";
-import { dishApi, type Dish } from "@/entities/Dish";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UICard } from "@/shared/ui/UICard";
 import { UIButton } from "@/shared/ui/UIButton";
@@ -11,65 +10,42 @@ import styles from "./CartPage.module.css";
 interface CartItemWithDish {
 	id: number;
 	dishId: number;
-	restaurantId: number;
 	quantity: number;
 	price: number;
 	itemTotal: number;
-	dish?: Dish;
 }
 
 export const CartPage = () => {
 	const navigate = useNavigate();
 	const { user } = useUserStore();
-	const { cart, isLoading, fetchCart, removeItem, clearCart, checkout } = useCartStore();
+	const { cart, isLoading, fetchCart, removeItem, checkout } = useCartStore();
 	const [cartItemsWithDishes, setCartItemsWithDishes] = useState<CartItemWithDish[]>([]);
-	const [isLoadingDishes, setIsLoadingDishes] = useState(false);
 	const [isCheckingOut, setIsCheckingOut] = useState(false);
 
 	// Fetch cart on mount
 	useEffect(() => {
 		if (user) {
-			fetchCart(user.id);
+			fetchCart();
 		}
 	}, [user, fetchCart]);
 
-	// Fetch dish details when cart items change
+	// Map cart items with empty dish placeholders (backend doesn't return dish details)
 	useEffect(() => {
-		const fetchDishDetails = async () => {
-			if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
-				setCartItemsWithDishes([]);
-				return;
-			}
+		if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
+			setCartItemsWithDishes([]);
+			return;
+		}
 
-			setIsLoadingDishes(true);
-			try {
-				// Fetch each dish individually using its restaurantId
-				const dishPromises = cart.cartItems.map((item) =>
-					dishApi.getDishById(item.restaurantId, item.dishId)
-				);
-				const dishes = await Promise.all(dishPromises);
-
-				const itemsWithDishes = cart.cartItems.map((item, index) => ({
-					...item,
-					dish: dishes[index] || undefined,
-				}));
-				setCartItemsWithDishes(itemsWithDishes);
-			} catch (error) {
-				console.error("Failed to fetch dish details:", error);
-			} finally {
-				setIsLoadingDishes(false);
-			}
-		};
-
-		fetchDishDetails();
+		// Backend only returns dishId, not full dish details
+		setCartItemsWithDishes(cart.cartItems);
 	}, [cart]);
 
-	const handleIncreaseQuantity = async (dishId: number, restaurantId: number) => {
+	const handleIncreaseQuantity = async (dishId: number) => {
 		if (!user) return;
 		try {
 			// Add one more of this dish
 			const { addToCart } = useCartStore.getState();
-			await addToCart(user.id, dishId, restaurantId, 1);
+			await addToCart(dishId, 1);
 		} catch (error) {
 			console.error("Failed to increase quantity:", error);
 		}
@@ -78,7 +54,7 @@ export const CartPage = () => {
 	const handleDecreaseQuantity = async (cartItemId: number) => {
 		if (!user) return;
 		try {
-			await removeItem(user.id, cartItemId, 1);
+			await removeItem(cartItemId, 1);
 		} catch (error) {
 			console.error("Failed to decrease quantity:", error);
 		}
@@ -87,28 +63,18 @@ export const CartPage = () => {
 	const handleRemoveItem = async (cartItemId: number, quantity: number) => {
 		if (!user) return;
 		try {
-			await removeItem(user.id, cartItemId, quantity);
+			await removeItem(cartItemId, quantity);
 		} catch (error) {
 			console.error("Failed to remove item:", error);
 		}
 	};
 
-	const handleClearCart = async () => {
-		if (!user) return;
-		if (!window.confirm("Are you sure you want to clear your cart?")) return;
-
-		try {
-			await clearCart(user.id);
-		} catch (error) {
-			console.error("Failed to clear cart:", error);
-		}
-	};
 
 	const handleCheckout = async () => {
 		if (!user) return;
 		setIsCheckingOut(true);
 		try {
-			await checkout(user.id);
+			await checkout();
 			// Navigate to orders page after successful checkout
 			navigate("/orders");
 		} catch (error) {
@@ -119,7 +85,7 @@ export const CartPage = () => {
 		}
 	};
 
-	if (isLoading || isLoadingDishes) {
+	if (isLoading) {
 		return (
 			<UIContainer className={styles["cart-page"]}>
 				<p className={styles["cart-page__loading"]}>Loading cart...</p>
@@ -133,15 +99,6 @@ export const CartPage = () => {
 		<UIContainer className={styles["cart-page"]}>
 			<div className={styles["cart-page__header"]}>
 				<h1 className={styles["cart-page__title"]}>Shopping Cart</h1>
-				{!isEmpty && (
-					<UIButton
-						variant="outline"
-						colorType="danger"
-						onClick={handleClearCart}
-					>
-						Clear Cart
-					</UIButton>
-				)}
 			</div>
 
 			{isEmpty ? (
@@ -167,29 +124,15 @@ export const CartPage = () => {
 							<UICard key={item.id} padding="md">
 								<div className={styles["cart-item"]}>
 									<div className={styles["cart-item__wrapper"]}>
-										{item.dish && (
-											<div className={styles["cart-item__image-wrapper"]}>
-												<img
-													src={item.dish.url}
-													alt={item.dish.name}
-													className={styles["cart-item__image"]}
-												/>
-											</div>
-										)}
 										<div className={styles["cart-item__content"]}>
 											<div className={styles["cart-item__header"]}>
 												<h3 className={styles["cart-item__name"]}>
-													{item.dish?.name || `Dish #${item.dishId}`}
+													Dish #{item.dishId}
 												</h3>
 												<span className={styles["cart-item__price"]}>
 													${item.price.toFixed(2)}
 												</span>
 											</div>
-											{item.dish?.description && (
-												<p className={styles["cart-item__description"]}>
-													{item.dish.description}
-												</p>
-											)}
 											<div className={styles["cart-item__footer"]}>
 												<div className={styles["cart-item__quantity-controls"]}>
 													<button
@@ -204,7 +147,7 @@ export const CartPage = () => {
 													</span>
 													<button
 														className={styles["cart-item__quantity-btn"]}
-														onClick={() => handleIncreaseQuantity(item.dishId, item.restaurantId)}
+														onClick={() => handleIncreaseQuantity(item.dishId)}
 														disabled={isLoading}
 													>
 														+

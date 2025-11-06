@@ -5,7 +5,6 @@ import { UIButton } from "@/shared/ui/UIButton";
 
 interface AddToCartProps {
 	dishId: number;
-	restaurantId: number;
 	quantity?: number;
 	variant?: "solid" | "outline";
 	colorType?: "primary" | "secondary" | "danger";
@@ -15,7 +14,6 @@ interface AddToCartProps {
 
 export const AddToCart = ({
 	dishId,
-	restaurantId,
 	quantity = 1,
 	variant = "solid",
 	colorType = "primary",
@@ -34,7 +32,7 @@ export const AddToCart = ({
 
 		setIsAdding(true);
 		try {
-			await addToCart(user.id, dishId, restaurantId, quantity);
+			await addToCart(dishId, quantity);
 		} catch (error) {
 			console.error("Failed to add to cart:", error);
 		} finally {

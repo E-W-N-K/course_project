@@ -20,9 +20,7 @@ export const OrdersPage = () => {
 
 			try {
 				setIsLoading(true);
-				const data = isAdmin
-					? await orderApi.getAllOrders()
-					: await orderApi.getUserOrders(user.id);
+				const data = await orderApi.getUserOrders();
 				setOrders(data);
 			} catch (error) {
 				console.error("Failed to fetch orders:", error);

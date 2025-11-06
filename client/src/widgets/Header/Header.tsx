@@ -16,7 +16,7 @@ export const Header = () => {
 	// Fetch cart when user logs in
 	useEffect(() => {
 		if (user) {
-			fetchCart(user.id);
+			fetchCart();
 		}
 	}, [user, fetchCart]);
 

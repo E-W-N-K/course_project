@@ -13,7 +13,7 @@ interface UserStore extends AuthState {
 export const useUserStore = create<UserStore>((set) => ({
 	user: null,
 	isAuthenticated: false,
-	isLoading: false,
+	isLoading: true, // Start as true so app waits for initial auth check
 
 	login: async (credentials: LoginCredentials) => {
 		set({ isLoading: true });
