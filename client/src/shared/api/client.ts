@@ -6,13 +6,12 @@ export interface RequestConfig extends RequestInit {
 
 /**
  * Base API client for making HTTP requests
- * Currently configured for future backend integration
- * Mock APIs bypass this client and use localStorage directly
+ * Configured to connect to backend at http://localhost:8080
  */
 class ApiClient {
 	private readonly baseURL: string;
 
-	constructor(baseURL: string = "/api") {
+	constructor(baseURL: string = "http://localhost:8080") {
 		this.baseURL = baseURL;
 	}
 
@@ -31,6 +30,7 @@ class ApiClient {
 			const response = await fetch(url, {
 				...config,
 				headers,
+				credentials: "include", // Include cookies for authentication
 			});
 
 			if (!response.ok) {

@@ -12,8 +12,8 @@ export const LoginForm = () => {
 	const login = useUserStore((state) => state.login);
 	const isLoading = useUserStore((state) => state.isLoading);
 
-	const [name, setName] = useState("");
-	const [password, setPassword] = useState("");
+	const [name, setName] = useState("john_user");
+	const [password, setPassword] = useState("admin");
 	const [error, setError] = useState("");
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -78,7 +78,7 @@ export const LoginForm = () => {
 				onChange={(value) => setPassword(value)}
 				disabled={isLoading}
 				placeholder="Enter your password"
-				validation={{ required: true, minLength: 6 }}
+				validation={{ required: true }}
 			/>
 		</UIForm>
 		</UICard>

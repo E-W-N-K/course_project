@@ -91,6 +91,7 @@ export const getCart = async (userId: number): Promise<Cart> => {
 export const addDishToCart = async (
 	userId: number,
 	dishId: number,
+	restaurantId: number,
 	quantity: number = 1,
 ): Promise<Cart> => {
 	await delay();
@@ -103,13 +104,10 @@ export const addDishToCart = async (
 	const cart = getUserCart(userId);
 
 	// Get dish details to get current price
-	const dish = await dishApi.getAllDishes().then((dishes) => {
-		const found = dishes.find((d) => d.id === dishId);
-		if (!found) {
-			throw new Error(`Dish with id ${dishId} not found`);
-		}
-		return found;
-	});
+	const dish = await dishApi.getDishById(restaurantId, dishId);
+	if (!dish) {
+		throw new Error(`Dish with id ${dishId} not found in restaurant ${restaurantId}`);
+	}
 
 	// Check if dish already in cart
 	const existingItemIndex = cart.cartItems.findIndex(
@@ -130,6 +128,7 @@ export const addDishToCart = async (
 		const newItem: CartItem = {
 			id: newId,
 			dishId: dish.id,
+			restaurantId,
 			quantity,
 			price: dish.price,
 			itemTotal: quantity * dish.price,

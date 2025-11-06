@@ -39,6 +39,7 @@ export const DishCard = ({ dish }: DishCardProps) => {
 					<div className={styles["dish-card__footer"]}>
 						<AddToCart
 							dishId={dish.id}
+							restaurantId={dish.restaurantId || 0}
 							variant="solid"
 							colorType="primary"
 						/>
