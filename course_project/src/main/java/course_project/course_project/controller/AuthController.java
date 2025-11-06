@@ -108,7 +108,7 @@ public class AuthController {
 
         response.addCookie(cookie);
 
-        return ResponseEntity.ok("Logout successful");
+        return ResponseEntity.ok(new AuthResponseDTO("Logout successful", "", ""));
     }
 
     //проверка текущего статуса аутентификации
