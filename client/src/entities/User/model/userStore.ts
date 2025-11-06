@@ -18,10 +18,12 @@ export const useUserStore = create<UserStore>((set) => ({
 	login: async (credentials: LoginCredentials) => {
 		set({ isLoading: true });
 		try {
-			const response = await userApi.login(credentials);
+			await userApi.login(credentials);
+			// Fetch full user info after successful login
+			const user = await userApi.getCurrentUser();
 			set({
-				user: response.user,
-				isAuthenticated: true,
+				user,
+				isAuthenticated: !!user,
 				isLoading: false,
 			});
 		} catch (error) {
@@ -33,10 +35,12 @@ export const useUserStore = create<UserStore>((set) => ({
 	register: async (data: RegisterData) => {
 		set({ isLoading: true });
 		try {
-			const response = await userApi.register(data);
+			await userApi.register(data);
+			// Fetch full user info after successful registration
+			const user = await userApi.getCurrentUser();
 			set({
-				user: response.user,
-				isAuthenticated: true,
+				user,
+				isAuthenticated: !!user,
 				isLoading: false,
 			});
 		} catch (error) {
@@ -57,20 +61,12 @@ export const useUserStore = create<UserStore>((set) => ({
 	checkAuth: async () => {
 		set({ isLoading: true });
 		try {
-			const response = await userApi.getCurrentUser();
-			if (response.user) {
-				set({
-					user: response.user,
-					isAuthenticated: true,
-					isLoading: false,
-				});
-			} else {
-				set({
-					user: null,
-					isAuthenticated: false,
-					isLoading: false,
-				});
-			}
+			const user = await userApi.getCurrentUser();
+			set({
+				user,
+				isAuthenticated: !!user,
+				isLoading: false,
+			});
 		} catch {
 			set({
 				user: null,

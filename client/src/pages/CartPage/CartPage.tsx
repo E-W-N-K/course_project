@@ -11,6 +11,7 @@ import styles from "./CartPage.module.css";
 interface CartItemWithDish {
 	id: number;
 	dishId: number;
+	restaurantId: number;
 	quantity: number;
 	price: number;
 	itemTotal: number;
@@ -42,10 +43,15 @@ export const CartPage = () => {
 
 			setIsLoadingDishes(true);
 			try {
-				const allDishes = await dishApi.getAllDishes();
-				const itemsWithDishes = cart.cartItems.map((item) => ({
+				// Fetch each dish individually using its restaurantId
+				const dishPromises = cart.cartItems.map((item) =>
+					dishApi.getDishById(item.restaurantId, item.dishId)
+				);
+				const dishes = await Promise.all(dishPromises);
+
+				const itemsWithDishes = cart.cartItems.map((item, index) => ({
 					...item,
-					dish: allDishes.find((d) => d.id === item.dishId),
+					dish: dishes[index] || undefined,
 				}));
 				setCartItemsWithDishes(itemsWithDishes);
 			} catch (error) {
@@ -58,12 +64,12 @@ export const CartPage = () => {
 		fetchDishDetails();
 	}, [cart]);
 
-	const handleIncreaseQuantity = async (dishId: number) => {
+	const handleIncreaseQuantity = async (dishId: number, restaurantId: number) => {
 		if (!user) return;
 		try {
 			// Add one more of this dish
 			const { addToCart } = useCartStore.getState();
-			await addToCart(user.id, dishId, 1);
+			await addToCart(user.id, dishId, restaurantId, 1);
 		} catch (error) {
 			console.error("Failed to increase quantity:", error);
 		}
@@ -198,7 +204,7 @@ export const CartPage = () => {
 													</span>
 													<button
 														className={styles["cart-item__quantity-btn"]}
-														onClick={() => handleIncreaseQuantity(item.dishId)}
+														onClick={() => handleIncreaseQuantity(item.dishId, item.restaurantId)}
 														disabled={isLoading}
 													>
 														+

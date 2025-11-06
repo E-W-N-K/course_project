@@ -9,7 +9,7 @@ interface CartStore {
 
 	// Actions
 	fetchCart: (userId: number) => Promise<void>;
-	addToCart: (userId: number, dishId: number, quantity?: number) => Promise<void>;
+	addToCart: (userId: number, dishId: number, restaurantId: number, quantity?: number) => Promise<void>;
 	removeItem: (userId: number, cartItemId: number, quantity?: number) => Promise<void>;
 	clearCart: (userId: number) => Promise<void>;
 	checkout: (userId: number) => Promise<Order>;
@@ -35,10 +35,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
 		}
 	},
 
-	addToCart: async (userId: number, dishId: number, quantity: number = 1) => {
+	addToCart: async (userId: number, dishId: number, restaurantId: number, quantity: number = 1) => {
 		set({ isLoading: true });
 		try {
-			const cart = await cartApi.addDishToCart(userId, dishId, quantity);
+			const cart = await cartApi.addDishToCart(userId, dishId, restaurantId, quantity);
 			set({ cart, isLoading: false });
 		} catch (error) {
 			console.error("Failed to add to cart:", error);

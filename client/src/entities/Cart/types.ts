@@ -6,6 +6,7 @@
 export interface CartItem {
 	id: number;
 	dishId: number;
+	restaurantId: number; // Added to support fetching dish details
 	quantity: number;
 	price: number;
 	itemTotal: number;
