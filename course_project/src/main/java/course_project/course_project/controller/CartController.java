@@ -131,7 +131,7 @@ public class CartController {
             });
         }
 
-        cartDTO.setCartItemsDTO(cartItemDTOs);
+        cartDTO.setCartItems(cartItemDTOs);
         return cartDTO;
     }
 
