@@ -19,7 +19,7 @@ import java.util.List;
 public class OrderService {
 
     @Autowired
-    private DishRepository dishRepository;  // Репозиторий для получения Dish из БД
+    private DishRepository dishRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -60,12 +60,12 @@ public class OrderService {
         }
     }
 
-    // Получить цену конкретного товара в заказе
+    //цена конкретного товара в заказе
     public BigDecimal getItemTotal(OrderItem item) {
         return item.getPriceAtOrder().multiply(new BigDecimal(item.getQuantity()));
     }
 
-    // Получить общую цену заказа
+    //общая цена заказа
     public BigDecimal getOrderTotal(Order order) {
         return order.getOrderItems().stream()
                 .map(this::getItemTotal)

@@ -11,13 +11,13 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     //поиск блюда на главной странице
     @Query( "SELECT d " +
             "FROM Dish d " +
-            "WHERE d.name LIKE %?1%")
+            "WHERE d.name ILIKE %?1%")
     List<Dish> search(String name);
 
     //поиск блюда по названию в выбранном ресторане
     @Query( "SELECT d " +
             "FROM Dish d " +
-            "WHERE d.name LIKE %?1% AND d.restaurant = ?2")
+            "WHERE d.name ILIKE %?1% AND d.restaurant = ?2")
     List<Dish> searchInRestaurant(String name, Long restaurantId);
 
 

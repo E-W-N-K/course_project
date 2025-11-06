@@ -11,6 +11,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     //поиск ресторана по названию
     @Query( "SELECT r " +
             "FROM Restaurant r " +
-            "WHERE r.name LIKE %?1%")
+            "WHERE r.name ILIKE %?1%")
     List<Restaurant> search(String name);
 }

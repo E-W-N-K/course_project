@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Секретный ключ для подписи JWT (в продакшене хранить в переменных окружения!)
+    // Секретный ключ для подписи JWT (лучше хранить в переменных окружения)
     private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(
             "MyVerySecureSecretKeyForJWT12345678901234567890".getBytes()
     );

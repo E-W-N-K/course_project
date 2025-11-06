@@ -25,25 +25,24 @@ public class CartService {
 
     //добавление блюда в корзину (или создание корзины)
     public void addDishToCart(Dish dish, int quantity, User user) {
-        // 1. Получаем или создаём корзину пользователя
+        //получаем или создаём корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
         if (cart == null) {
-            // Если корзины нет, создаём новую
             cart = new Cart();
             cart.setUser(user);
             cart = cartRepository.save(cart);
         }
 
-        // 2. Проверяем, есть ли уже это блюдо в корзине
+        //проверяем наличия блюда в корзине
         CartItem existingCartItem = cartItemRepository.findByCartIdAndDishId(cart.getId(), dish.getId());
 
         if (existingCartItem != null) {
-            // Если блюдо уже есть, увеличиваем количество
+            //увеличиваем количество если блюдо уже есть
             existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
             cartItemRepository.save(existingCartItem);
         } else {
-            // Если блюда нет, добавляем новый элемент
+            //добавляем новый элемент если блюда нет
             CartItem newCartItem = new CartItem();
             newCartItem.setCart(cart);
             newCartItem.setDish(dish);
@@ -60,11 +59,11 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("CartItem не найден"));
 
-        // Если количество меньше или равно запрошенному, удаляем весь элемент
+        //если количество меньше или равно запрошенному, удаляем весь элемент
         if (cartItem.getQuantity() <= quantity) {
             cartItemRepository.deleteById(cartItemId);
         } else {
-            // Иначе уменьшаем количество
+            //уменьшаем количество
             cartItem.setQuantity(cartItem.getQuantity() - quantity);
             cartItemRepository.save(cartItem);
         }
@@ -96,24 +95,24 @@ public class CartService {
 
     //преобразование в заказ
     public Order checkoutCart(User user) {
-        // 1. Получаем корзину пользователя
+        //получаем корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
         if (cart == null || cart.getCartItems().isEmpty()) {
             throw new IllegalArgumentException("Корзина пуста или не найдена");
         }
 
-        // 2. Создаём новый заказ
+        //создаём новый заказ
         Order order = new Order();
         order.setUser(user);
         order.setOrderTime(LocalDateTime.now());
         order.setStatus(OrderStatus.valueOf("PENDING")); // статус "в обработке"
         order.setTotal(cart.getTotal());
 
-        // 3. Сохраняем заказ в БД
+        //сохраняем заказ в БД
         order = orderRepository.save(order);
 
-        // 4. Переносим элементы из корзины в заказ
+        //переносим элементы из корзины в заказ
         for (CartItem cartItem : cart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -124,7 +123,7 @@ public class CartService {
             orderItemRepository.save(orderItem);
         }
 
-        // 5. Очищаем корзину
+        //очищаем корзину
         cartItemRepository.deleteAllByCartId(cart.getId());
 
         return order;
