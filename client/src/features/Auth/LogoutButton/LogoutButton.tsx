@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
+import { useCartStore } from "@/entities/Cart";
 import { UIButton, type UIButtonProps } from "@/shared/ui/UIButton/UIButton";
 
 interface LogoutButtonProps {
@@ -22,6 +23,8 @@ export const LogoutButton = ({
 		setIsLoading(true);
 		try {
 			await logout();
+			// Clear cart state on logout
+			useCartStore.setState({ cart: null, isLoading: false });
 			navigate("/login");
 		} catch (error) {
 			console.error("Logout failed:", error);
