@@ -78,7 +78,11 @@ public class CartService {
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
+            cart.setTotal(BigDecimal.ZERO);
             cart = cartRepository.save(cart);
+        } else {
+            // Calculate total to ensure it's up to date
+            calculateTotal(cart);
         }
 
         return cart;
@@ -131,12 +135,15 @@ public class CartService {
 
     //расчёт общей стоимости
     public void calculateTotal(Cart cart) {
-        if(!(cart.getCartItems()).isEmpty()) {
+        if(cart.getCartItems() != null && !(cart.getCartItems()).isEmpty()) {
             cart.setTotal(
                     cart.getCartItems().stream()
                             .map(orderItem -> orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())))
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
             );
+        } else {
+            cart.setTotal(BigDecimal.ZERO);
         }
+        cartRepository.save(cart);
     }
 }
