@@ -1,13 +1,23 @@
+import { useMemo } from "react";
 import type { Dish } from "@/entities/Dish";
+import { useCartStore } from "@/entities/Cart";
 import { UICard } from "@/shared/ui";
-import { AddToCart } from "@/features/Cart/AddToCart";
+import { AddToCart, DishCardControls } from "@/features/Cart";
 import styles from "./DishCard.module.css";
 
 interface DishCardProps {
 	dish: Dish;
+	showSubtotal?: boolean;
 }
 
-export const DishCard = ({ dish }: DishCardProps) => {
+export const DishCard = ({ dish, showSubtotal = false }: DishCardProps) => {
+	const { cart } = useCartStore();
+
+	// Find cart item for this dish
+	const cartItem = useMemo(() => {
+		return cart?.cartItems?.find((item) => item.dishId === dish.id);
+	}, [cart, dish.id]);
+
 	return (
 		<UICard className={styles["dish-card"]} padding="lg">
 			<div className={styles["dish-card__wrapper"]}>
@@ -37,11 +47,22 @@ export const DishCard = ({ dish }: DishCardProps) => {
 					)}
 
 					<div className={styles["dish-card__footer"]}>
-						<AddToCart
-							dishId={dish.id}
-							variant="solid"
-							colorType="primary"
-						/>
+						{cartItem ? (
+							<DishCardControls
+								dishId={dish.id}
+								cartItemId={cartItem.id}
+								currentQuantity={cartItem.quantity}
+								itemTotal={cartItem.itemTotal}
+								showRemove={true}
+								showSubtotal={showSubtotal}
+							/>
+						) : (
+							<AddToCart
+								dishId={dish.id}
+								variant="solid"
+								colorType="primary"
+							/>
+						)}
 					</div>
 				</div>
 			</div>

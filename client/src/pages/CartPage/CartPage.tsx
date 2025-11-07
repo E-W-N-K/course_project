@@ -2,24 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
 import { useCartStore } from "@/entities/Cart";
+import { DishCard } from "@/widgets/DishCard";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UICard } from "@/shared/ui/UICard";
 import { UIButton } from "@/shared/ui/UIButton";
 import styles from "./CartPage.module.css";
 
-interface CartItemWithDish {
-	id: number;
-	dishId: number;
-	quantity: number;
-	price: number;
-	itemTotal: number;
-}
-
 export const CartPage = () => {
 	const navigate = useNavigate();
 	const { user } = useUserStore();
-	const { cart, isLoading, fetchCart, removeItem, checkout } = useCartStore();
-	const [cartItemsWithDishes, setCartItemsWithDishes] = useState<CartItemWithDish[]>([]);
+	const { cart, isLoading, fetchCart, checkout } = useCartStore();
 	const [isCheckingOut, setIsCheckingOut] = useState(false);
 
 	// Fetch cart on mount
@@ -29,45 +21,6 @@ export const CartPage = () => {
 		}
 	}, [user, fetchCart]);
 
-	// Map cart items with empty dish placeholders (backend doesn't return dish details)
-	useEffect(() => {
-		if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
-			setCartItemsWithDishes([]);
-			return;
-		}
-
-		// Backend only returns dishId, not full dish details
-		setCartItemsWithDishes(cart.cartItems);
-	}, [cart]);
-
-	const handleIncreaseQuantity = async (dishId: number) => {
-		if (!user) return;
-		try {
-			// Add one more of this dish
-			const { addToCart } = useCartStore.getState();
-			await addToCart(dishId, 1);
-		} catch (error) {
-			console.error("Failed to increase quantity:", error);
-		}
-	};
-
-	const handleDecreaseQuantity = async (cartItemId: number) => {
-		if (!user) return;
-		try {
-			await removeItem(cartItemId, 1);
-		} catch (error) {
-			console.error("Failed to decrease quantity:", error);
-		}
-	};
-
-	const handleRemoveItem = async (cartItemId: number, quantity: number) => {
-		if (!user) return;
-		try {
-			await removeItem(cartItemId, quantity);
-		} catch (error) {
-			console.error("Failed to remove item:", error);
-		}
-	};
 
 
 	const handleCheckout = async () => {
@@ -120,57 +73,8 @@ export const CartPage = () => {
 			) : (
 				<div className={styles["cart-page__content"]}>
 					<div className={styles["cart-page__items"]}>
-						{cartItemsWithDishes.map((item) => (
-							<UICard key={item.id} padding="md">
-								<div className={styles["cart-item"]}>
-									<div className={styles["cart-item__wrapper"]}>
-										<div className={styles["cart-item__content"]}>
-											<div className={styles["cart-item__header"]}>
-												<h3 className={styles["cart-item__name"]}>
-													Dish #{item.dishId}
-												</h3>
-												<span className={styles["cart-item__price"]}>
-													${item.price.toFixed(2)}
-												</span>
-											</div>
-											<div className={styles["cart-item__footer"]}>
-												<div className={styles["cart-item__quantity-controls"]}>
-													<button
-														className={styles["cart-item__quantity-btn"]}
-														onClick={() => handleDecreaseQuantity(item.id)}
-														disabled={isLoading}
-													>
-														-
-													</button>
-													<span className={styles["cart-item__quantity"]}>
-														{item.quantity}
-													</span>
-													<button
-														className={styles["cart-item__quantity-btn"]}
-														onClick={() => handleIncreaseQuantity(item.dishId)}
-														disabled={isLoading}
-													>
-														+
-													</button>
-												</div>
-												<div className={styles["cart-item__actions"]}>
-													<span className={styles["cart-item__subtotal"]}>
-														${item.itemTotal.toFixed(2)}
-													</span>
-													<UIButton
-														variant="outline"
-														colorType="danger"
-														onClick={() => handleRemoveItem(item.id, item.quantity)}
-														disabled={isLoading}
-													>
-														Remove
-													</UIButton>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</UICard>
+						{cart.cartItems.map((item) => (
+							<DishCard key={item.id} dish={item.dish} showSubtotal={true} />
 						))}
 					</div>
 

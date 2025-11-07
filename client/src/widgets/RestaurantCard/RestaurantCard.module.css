@@ -21,10 +21,15 @@
 .restaurant-card__image {
 	max-width: unset;
 	width: calc(100% + 2 * var(--spacing-lg));
-	height: 200px;
+	min-height: 200px;
 	margin: calc( -1 * var(--spacing-lg)) calc( -1 * var(--spacing-lg)) var(--spacing-md) calc( -1 * var(--spacing-lg));
 	object-fit: cover;
-	display: block;
+	background-color: var(--color-bg-tetriary);
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
 }
 
 .restaurant-card__content {
