@@ -17,7 +17,7 @@ interface ValidationRules {
 
 interface UIInputProps
 	extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
-	type?: "text" | "email" | "password";
+	type?: "text" | "email" | "password" | "tel";
 	label?: string;
 	validation?: ValidationRules;
 	validate?: (value: string) => string | undefined;

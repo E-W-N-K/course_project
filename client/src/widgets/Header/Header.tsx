@@ -40,8 +40,8 @@ export const Header = () => {
 										Homepage
 									</UILink>
 
-									<UILink to="/orders" variant="secondary">
-										Orders
+									<UILink to="/profile" variant="secondary">
+										Profile
 									</UILink>
 
 									<div className={styles["header__cart"]}>

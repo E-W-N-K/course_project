@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { RestaurantPage } from "../pages/RestaurantPage";
-import { OrdersPage } from "../pages/OrdersPage";
+import { ProfilePage } from "../pages/ProfilePage";
 import { CartPage } from "../pages/CartPage";
 import { UIPage } from "../pages/UIPage";
 import { LoginPage } from "../pages/LoginPage";
@@ -48,10 +48,10 @@ function App() {
 					/>
 
 					<Route
-						path="/orders"
+						path="/profile"
 						element={
 							<ProtectedRoute>
-								<OrdersPage />
+								<ProfilePage />
 							</ProtectedRoute>
 						}
 					/>
