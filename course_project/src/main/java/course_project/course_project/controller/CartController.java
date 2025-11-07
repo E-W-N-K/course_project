@@ -2,6 +2,7 @@ package course_project.course_project.controller;
 
 import course_project.course_project.dto.CartDTO;
 import course_project.course_project.dto.CartItemDTO;
+import course_project.course_project.dto.DishDTO;
 import course_project.course_project.dto.OrderDTO;
 import course_project.course_project.dto.OrderItemDTO;
 import course_project.course_project.model.Cart;
@@ -120,9 +121,20 @@ public class CartController {
         List<CartItemDTO> cartItemDTOs = new ArrayList<>();
         if (cart.getCartItems() != null) {
             cart.getCartItems().forEach(cartItem -> {
+                Dish dish = cartItem.getDish();
+                DishDTO dishDTO = new DishDTO(
+                        dish.getId(),
+                        dish.getName(),
+                        dish.getDescription(),
+                        dish.getUrl(),
+                        dish.getPrice(),
+                        dish.getWeight()
+                );
+
                 CartItemDTO itemDTO = new CartItemDTO(
                         cartItem.getId(),
                         cartItem.getDish().getId(),
+                        dishDTO,
                         cartItem.getQuantity(),
                         cartItem.getPrice(),
                         cartItem.getPrice().multiply(new java.math.BigDecimal(cartItem.getQuantity()))
