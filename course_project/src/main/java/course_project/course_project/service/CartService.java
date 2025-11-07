@@ -2,6 +2,7 @@ package course_project.course_project.service;
 
 import course_project.course_project.model.*;
 import course_project.course_project.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class CartService {
     OrderItemRepository orderItemRepository;
 
     //добавление блюда в корзину (или создание корзины)
+    @Transactional
     public void addDishToCart(Dish dish, int quantity, User user) {
         //получаем или создаём корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
@@ -55,6 +57,7 @@ public class CartService {
     }
 
     //удаление блюда из корзины
+    @Transactional
     public void removeCartItem(Long cartItemId, int quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("CartItem не найден"));
@@ -89,6 +92,7 @@ public class CartService {
     }
 
     //очистка корзины
+    @Transactional
     public void removeAllCartItemsByUser(User user) {
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
@@ -98,6 +102,7 @@ public class CartService {
     }
 
     //преобразование в заказ
+    @Transactional
     public Order checkoutCart(User user) {
         //получаем корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
