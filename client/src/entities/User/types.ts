@@ -14,6 +14,8 @@ export interface User {
 	email: string;
 	role: string;
 	active: boolean;
+	phone?: string;
+	address?: string;
 }
 
 /**
@@ -58,6 +60,11 @@ export interface RegisterData {
 	name: string;
 	email: string;
 	password: string;
+}
+
+export interface UpdateProfileData {
+	phone: string;
+	address: string;
 }
 
 export interface AuthResponse {

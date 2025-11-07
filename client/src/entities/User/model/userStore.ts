@@ -1,5 +1,11 @@
 import { create } from "zustand";
-import type { User, AuthState, LoginCredentials, RegisterData } from "../types";
+import type {
+	User,
+	AuthState,
+	LoginCredentials,
+	RegisterData,
+	UpdateProfileData,
+} from "../types";
 import * as userApi from "../api/userApi";
 
 interface UserStore extends AuthState {
@@ -8,6 +14,7 @@ interface UserStore extends AuthState {
 	logout: () => Promise<void>;
 	checkAuth: () => Promise<void>;
 	setUser: (user: User | null) => void;
+	updateProfile: (data: UpdateProfileData) => Promise<void>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -81,5 +88,21 @@ export const useUserStore = create<UserStore>((set) => ({
 			user,
 			isAuthenticated: !!user,
 		});
+	},
+
+	updateProfile: async (data: UpdateProfileData) => {
+		set({ isLoading: true });
+		try {
+			await userApi.updateUserProfile(data);
+			// Fetch updated user info
+			const user = await userApi.getCurrentUser();
+			set({
+				user,
+				isLoading: false,
+			});
+		} catch (error) {
+			set({ isLoading: false });
+			throw error;
+		}
 	},
 }));

@@ -1,5 +1,11 @@
 import { apiClient } from "@/shared/api/client";
-import type { User, LoginCredentials, RegisterData, AuthResponse } from "../types";
+import type {
+	User,
+	LoginCredentials,
+	RegisterData,
+	AuthResponse,
+	UpdateProfileData,
+} from "../types";
 
 /**
  * API: Login user
@@ -42,4 +48,15 @@ export const getCurrentUser = async (): Promise<User | null> => {
 		// Not authenticated
 		return null;
 	}
+};
+
+/**
+ * API: Update user profile
+ * PUT /users/profile
+ * Updates phone and address for current user
+ */
+export const updateUserProfile = async (
+	data: UpdateProfileData,
+): Promise<void> => {
+	await apiClient.put<void>("/users/profile", data);
 };

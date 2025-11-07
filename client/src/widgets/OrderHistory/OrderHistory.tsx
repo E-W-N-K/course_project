@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/entities/User";
 import { orderApi, type Order } from "@/entities/Order";
-import { UIContainer } from "@/shared/ui/UIContainer";
 import { UICard } from "@/shared/ui/UICard";
 import { UIBadge } from "@/shared/ui/UIBadge";
 import { UIGrid } from "@/shared/ui/UIGrid";
-import styles from "./OrdersPage.module.css";
+import styles from "./OrderHistory.module.css";
 
-export const OrdersPage = () => {
-	const { user } = useUserStore();
+export const OrderHistory = () => {
+	const user = useUserStore((state) => state.user);
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
-
-	const isAdmin = user?.role === "admin";
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -30,7 +27,7 @@ export const OrdersPage = () => {
 		};
 
 		fetchOrders();
-	}, [user, isAdmin]);
+	}, [user]);
 
 	const formatDate = (dateString: string): string => {
 		const date = new Date(dateString);
@@ -60,28 +57,27 @@ export const OrdersPage = () => {
 
 	if (isLoading) {
 		return (
-			<UIContainer className={styles["orders-page"]}>
-				<p className={styles["orders-page__loading"]}>Loading orders...</p>
-			</UIContainer>
+			<div className={styles["order-history"]}>
+				<h2 className={styles["order-history__title"]}>Order History</h2>
+				<p className={styles["order-history__loading"]}>Loading orders...</p>
+			</div>
 		);
 	}
 
 	return (
-		<UIContainer className={styles["orders-page"]}>
-			<div className={styles["orders-page__header"]}>
-				<h1 className={styles["orders-page__title"]}>
-					{isAdmin ? "All Orders" : "My Orders"}
-				</h1>
-				<p className={styles["orders-page__subtitle"]}>
-					{isAdmin
-						? `Viewing all orders (${orders.length} total)`
-						: `You have ${orders.length} order${orders.length !== 1 ? "s" : ""}`}
+		<div className={styles["order-history"]}>
+			<div className={styles["order-history__header"]}>
+				<h2 className={styles["order-history__title"]}>Order History</h2>
+				<p className={styles["order-history__subtitle"]}>
+					You have {orders.length} order{orders.length !== 1 ? "s" : ""}
 				</p>
 			</div>
 
 			{orders.length === 0 ? (
 				<UICard padding="xl">
-					<p className={styles["orders-page__no-orders"]}>No orders found.</p>
+					<p className={styles["order-history__no-orders"]}>
+						No orders found. Start ordering to see your order history!
+					</p>
 				</UICard>
 			) : (
 				<UIGrid columns={2} gap="lg">
@@ -101,12 +97,6 @@ export const OrdersPage = () => {
 										{order.status}
 									</UIBadge>
 								</div>
-
-								{isAdmin && (
-									<div className={styles["order-card__customer"]}>
-										<strong>Customer ID:</strong> {order.userId}
-									</div>
-								)}
 
 								<div className={styles["order-card__items"]}>
 									<h4 className={styles["order-card__items-title"]}>Items:</h4>
@@ -140,6 +130,6 @@ export const OrdersPage = () => {
 					))}
 				</UIGrid>
 			)}
-		</UIContainer>
+		</div>
 	);
 };
