@@ -1,9 +1,6 @@
-.edit-profile-form {
-	max-width: 600px;
-}
-
 .edit-profile-form__header {
 	display: flex;
+	gap: var(--spacing-lg);
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: var(--spacing-lg);

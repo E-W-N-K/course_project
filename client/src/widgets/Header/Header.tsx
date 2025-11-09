@@ -53,10 +53,13 @@ export const Header = () => {
 										)}
 									</div>
 
-									{user?.role === "admin" && (
+									{user?.role === "ADMIN" && (
 										<>
-											<UILink to="/ui" variant="secondary">
-												UI Demo
+											<UILink to="/admin/orders" variant="secondary">
+												Manage Orders
+											</UILink>
+											<UILink to="/admin/users" variant="secondary">
+												Manage Users
 											</UILink>
 										</>
 									)}
@@ -72,7 +75,7 @@ export const Header = () => {
 									<span className={styles["header__user-name"]}>
 										{user.name}
 									</span>
-									{user.role === "admin" && (
+									{user.role === "ADMIN" && (
 										<UIBadge variant="primary">{user.role}</UIBadge>
 									)}
 								</div>

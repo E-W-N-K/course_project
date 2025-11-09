@@ -7,6 +7,8 @@ import { CartPage } from "../pages/CartPage";
 import { UIPage } from "../pages/UIPage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
+import { AdminOrdersPage } from "../pages/AdminOrdersPage";
+import { AdminUsersPage } from "../pages/AdminUsersPage";
 import { Header } from "../widgets/Header";
 import { ProtectedRoute } from "../shared/ui/ProtectedRoute";
 import { useUserStore } from "../entities/User";
@@ -74,8 +76,23 @@ function App() {
 						}
 					/>
 
-					{/* Future admin routes can use: */}
-					{/* <Route path="/admin" element={<ProtectedRoute requireRole="admin"><AdminPage /></ProtectedRoute>} /> */}
+					<Route
+						path="/admin/orders"
+						element={
+							<ProtectedRoute requireRole="ADMIN">
+								<AdminOrdersPage />
+							</ProtectedRoute>
+						}
+					/>
+
+					<Route
+						path="/admin/users"
+						element={
+							<ProtectedRoute requireRole="ADMIN">
+								<AdminUsersPage />
+							</ProtectedRoute>
+						}
+					/>
 				</Routes>
 			</main>
 		</BrowserRouter>

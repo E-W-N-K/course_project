@@ -30,8 +30,9 @@ export const useCartStore = create<CartStore>((set, get) => ({
 			set({ cart, isLoading: false });
 		} catch (error) {
 			console.error("Failed to fetch cart:", error);
-			set({ isLoading: false });
-			throw error;
+			// Don't throw error to prevent app crash on cart fetch failure
+			// This allows the app to work even if cart service has issues
+			set({ cart: null, isLoading: false });
 		}
 	},
 
