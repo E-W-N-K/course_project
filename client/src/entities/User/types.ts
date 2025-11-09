@@ -3,7 +3,7 @@
  * Based on UserInfoDTO, UserDTO, UserWithCustomerInfoDTO, and CustomerInfoDTO from backend
  */
 
-export type UserRole = "admin" | "user";
+export type UserRole = "ADMIN" | "USER";
 
 /**
  * Base user information (matches UserInfoDTO)

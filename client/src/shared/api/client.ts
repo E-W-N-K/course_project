@@ -44,7 +44,18 @@ class ApiClient {
 				);
 			}
 
-			return await response.json();
+			// Handle 204 No Content responses (e.g., DELETE operations)
+			if (response.status === 204) {
+				return undefined as T;
+			}
+
+			// Check if response has content before parsing JSON
+			const contentType = response.headers.get("content-type");
+			if (contentType && contentType.includes("application/json")) {
+				return await response.json();
+			}
+
+			return undefined as T;
 		} catch (error) {
 			if (error instanceof ApiException) {
 				throw error;
@@ -80,6 +91,18 @@ class ApiClient {
 			...config,
 			method: "PUT",
 			body: JSON.stringify(data),
+		});
+	}
+
+	async patch<T>(
+		endpoint: string,
+		data?: any,
+		config?: RequestConfig,
+	): Promise<T> {
+		return this.request<T>(endpoint, {
+			...config,
+			method: "PATCH",
+			body: data ? JSON.stringify(data) : undefined,
 		});
 	}
 
