@@ -12,8 +12,8 @@ export const LoginForm = () => {
 	const login = useUserStore((state) => state.login);
 	const isLoading = useUserStore((state) => state.isLoading);
 
-	const [name, setName] = useState("john_user");
-	const [password, setPassword] = useState("admin");
+	const [name, setName] = useState("");
+	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -47,13 +47,13 @@ export const LoginForm = () => {
 					<div className={styles["login-form__hint"]}>
 						<p className={styles["login-form__hint-title"]}>Test accounts:</p>
 						<p className={styles["login-form__hint-text"]}>
-							Admin: Admin User
+							Admin: admin
 						</p>
 						<p className={styles["login-form__hint-text"]}>
-							User: Regular User
+							Users: john_user, jane_user
 						</p>
 						<p className={styles["login-form__hint-text"]}>
-							Password: any password
+							Password: admin
 						</p>
 					</div>
 				</div>
