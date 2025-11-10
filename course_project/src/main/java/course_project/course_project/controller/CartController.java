@@ -5,10 +5,9 @@ import course_project.course_project.dto.CartItemDTO;
 import course_project.course_project.dto.DishDTO;
 import course_project.course_project.dto.OrderDTO;
 import course_project.course_project.dto.OrderItemDTO;
-import course_project.course_project.model.Cart;
-import course_project.course_project.model.Dish;
-import course_project.course_project.model.Order;
-import course_project.course_project.model.User;
+import course_project.course_project.model.*;
+import course_project.course_project.repository.CartItemRepository;
+import course_project.course_project.repository.CartRepository;
 import course_project.course_project.repository.DishRepository;
 import course_project.course_project.repository.UserRepository;
 import course_project.course_project.service.CartService;
@@ -35,6 +34,12 @@ public class CartController {
 
     @Autowired
     private DishRepository dishRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     // Получить корзину текущего пользователя
     @GetMapping
@@ -76,8 +81,18 @@ public class CartController {
         User user = getCurrentUser();
 
         try {
+            CartItem cartItem = cartItemRepository.findById(cartItemId)
+                    .orElseThrow(() -> new IllegalArgumentException("CartItem не найден"));
+
+            if (!cartItem.getCart().getUser().getId().equals(user.getId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+            Long cartId = cartItem.getCart().getId();
             cartService.removeCartItem(cartItemId, quantity);
-            Cart cart = cartService.getCartByUser(user);
+
+            Cart cart = cartRepository.findById(cartId)
+                    .orElseThrow(() -> new IllegalArgumentException("Cart не найден"));
 
             CartDTO cartDTO = convertToDTO(cart);
             return ResponseEntity.ok(cartDTO);

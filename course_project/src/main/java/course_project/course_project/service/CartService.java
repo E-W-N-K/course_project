@@ -1,7 +1,10 @@
 package course_project.course_project.service;
 
 import course_project.course_project.model.*;
-import course_project.course_project.repository.*;
+import course_project.course_project.repository.CartItemRepository;
+import course_project.course_project.repository.CartRepository;
+import course_project.course_project.repository.OrderItemRepository;
+import course_project.course_project.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +65,8 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("CartItem не найден"));
 
+        Long cartId = cartItem.getCart().getId();
+
         //если количество меньше или равно запрошенному, удаляем весь элемент
         if (cartItem.getQuantity() <= quantity) {
             cartItemRepository.deleteById(cartItemId);
@@ -71,7 +76,7 @@ public class CartService {
             cartItemRepository.save(cartItem);
         }
 
-        calculateTotal(cartItem.getCart());
+        calculateTotalByCartId(cartId);
     }
 
     //получение всей корзины пользователя
@@ -138,6 +143,11 @@ public class CartService {
         return order;
     }
 
+    private void calculateTotalByCartId(Long cartId) {
+        BigDecimal total = cartItemRepository.calculateCartTotal(cartId);
+        cartRepository.updateTotal(cartId, total);
+    }
+
     //расчёт общей стоимости
     public void calculateTotal(Cart cart) {
         if(cart.getCartItems() != null && !(cart.getCartItems()).isEmpty()) {
@@ -149,6 +159,6 @@ public class CartService {
         } else {
             cart.setTotal(BigDecimal.ZERO);
         }
-        cartRepository.save(cart);
+        cartRepository.updateTotal(cart.getId(), cart.getTotal());
     }
 }

@@ -437,3 +437,7 @@ INSERT INTO orders (user_id, order_time, update_time, status, total) VALUES (2, 
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+2025-11-10 16:36:21.011855+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CART" не найдена
+Table "CART" not found; SQL statement:
+UPDATE cart SET total = ? WHERE id = ? [42102-232]

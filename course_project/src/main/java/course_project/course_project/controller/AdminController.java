@@ -2,7 +2,10 @@ package course_project.course_project.controller;
 
 import course_project.course_project.dto.*;
 import course_project.course_project.model.*;
-import course_project.course_project.repository.*;
+import course_project.course_project.repository.DishRepository;
+import course_project.course_project.repository.OrderRepository;
+import course_project.course_project.repository.RestaurantRepository;
+import course_project.course_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
