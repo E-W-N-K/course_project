@@ -12,13 +12,14 @@ export const Header = () => {
 	const { isAuthenticated, user } = useUserStore();
 	const { fetchCart, getItemCount } = useCartStore();
 	const cartItemCount = getItemCount();
+	const isAdmin = user?.role === "ADMIN";
 
-	// Fetch cart when user logs in
+	// Fetch cart when user logs in (only for non-admin users)
 	useEffect(() => {
-		if (user) {
+		if (user && !isAdmin) {
 			fetchCart();
 		}
-	}, [user, fetchCart]);
+	}, [user, isAdmin, fetchCart]);
 
 	return (
 		<header className={styles.header}>
@@ -40,26 +41,33 @@ export const Header = () => {
 										Homepage
 									</UILink>
 
-									<UILink to="/profile" variant="secondary">
-										Profile
-									</UILink>
+									{!isAdmin && (
+										<>
+											<UILink to="/profile" variant="secondary">
+												Profile
+											</UILink>
 
-									<div className={styles["header__cart"]}>
-										<UILink to="/cart" variant="secondary">
-											Cart
-										</UILink>
-										{cartItemCount > 0 && (
-											<UIBadge variant="primary">{cartItemCount}</UIBadge>
-										)}
-									</div>
+											<div className={styles["header__cart"]}>
+												<UILink to="/cart" variant="secondary">
+													Cart
+												</UILink>
+												{cartItemCount > 0 && (
+													<UIBadge variant="primary">{cartItemCount}</UIBadge>
+												)}
+											</div>
+										</>
+									)}
 
-									{user?.role === "ADMIN" && (
+									{isAdmin && (
 										<>
 											<UILink to="/admin/orders" variant="secondary">
-												Manage Orders
+												Orders
 											</UILink>
 											<UILink to="/admin/users" variant="secondary">
-												Manage Users
+												Users
+											</UILink>
+											<UILink to="/ui" variant="secondary">
+												UI
 											</UILink>
 										</>
 									)}

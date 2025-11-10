@@ -31,7 +31,10 @@ export const DishCard = ({
 	const { cart } = useCartStore();
 	const user = useUserStore((state) => state.user);
 	const isAdmin = user?.role === "ADMIN";
-	const canEdit = isAdmin && restaurantId !== undefined;
+
+	// Use restaurantId from prop OR from dish object (search results)
+	const effectiveRestaurantId = restaurantId ?? dish.restaurantId;
+	const canEdit = isAdmin && effectiveRestaurantId !== undefined;
 
 	const editDishFormRef = useRef<EditDishFormRef>(null);
 	const deleteDishDialogRef = useRef<DeleteDishDialogRef>(null);
@@ -68,27 +71,7 @@ export const DishCard = ({
 
 				<div className={styles["dish-card__content"]}>
 					<div className={styles["dish-card__header"]}>
-						<div className={styles["dish-card__title-row"]}>
-							<h3 className={styles["dish-card__name"]}>{dish.name}</h3>
-							{canEdit && (
-								<div className={styles["dish-card__admin-actions"]}>
-									<UIButton
-										variant="outline"
-										colorType="primary"
-										onClick={handleEditClick}
-									>
-										Edit
-									</UIButton>
-									<UIButton
-										variant="outline"
-										colorType="danger"
-										onClick={handleDeleteClick}
-									>
-										Delete
-									</UIButton>
-								</div>
-							)}
-						</div>
+						<h3 className={styles["dish-card__name"]}>{dish.name}</h3>
 						<div className={styles["dish-card__meta"]}>
 							<span className={styles["dish-card__price"]}>
 								${dish.price.toFixed(2)}
@@ -103,39 +86,62 @@ export const DishCard = ({
 						</p>
 					)}
 
-					<div className={styles["dish-card__footer"]}>
-						{cartItem ? (
-							<DishCardControls
-								dishId={dish.id}
-								cartItemId={cartItem.id}
-								currentQuantity={cartItem.quantity}
-								itemTotal={cartItem.itemTotal}
-								showRemove={true}
-								showSubtotal={showSubtotal}
-							/>
-						) : (
-							<AddToCart
-								dishId={dish.id}
-								variant="solid"
-								colorType="primary"
-							/>
-						)}
-					</div>
+					{!isAdmin && (
+						<div className={styles["dish-card__footer"]}>
+							{cartItem ? (
+								<DishCardControls
+									dishId={dish.id}
+									cartItemId={cartItem.id}
+									currentQuantity={cartItem.quantity}
+									itemTotal={cartItem.itemTotal}
+									showRemove={true}
+									showSubtotal={showSubtotal}
+								/>
+							) : (
+								<AddToCart
+									dishId={dish.id}
+									variant="solid"
+									colorType="primary"
+								/>
+							)}
+						</div>
+					)}
+
+					{canEdit && (
+						<div className={styles["dish-card__footer"]}>
+							<div className={styles["dish-card__admin-footer"]}>
+								<UIButton
+									variant="outline"
+									colorType="primary"
+									onClick={handleEditClick}
+								>
+									Edit
+								</UIButton>
+								<UIButton
+									variant="outline"
+									colorType="danger"
+									onClick={handleDeleteClick}
+								>
+									Delete
+								</UIButton>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 
 			{/* Admin Dialogs */}
-			{canEdit && restaurantId && (
+			{canEdit && effectiveRestaurantId && (
 				<>
 					<EditDishForm
 						ref={editDishFormRef}
-						restaurantId={restaurantId}
+						restaurantId={effectiveRestaurantId}
 						dish={dish}
 						onSuccess={handleDishSuccess}
 					/>
 					<DeleteDishDialog
 						ref={deleteDishDialogRef}
-						restaurantId={restaurantId}
+						restaurantId={effectiveRestaurantId}
 						dish={dishToDelete}
 						onSuccess={handleDishSuccess}
 					/>

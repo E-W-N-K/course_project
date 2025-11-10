@@ -52,7 +52,7 @@ function App() {
 					<Route
 						path="/profile"
 						element={
-							<ProtectedRoute>
+							<ProtectedRoute requireRole="USER">
 								<ProfilePage />
 							</ProtectedRoute>
 						}
@@ -61,7 +61,7 @@ function App() {
 					<Route
 						path="/cart"
 						element={
-							<ProtectedRoute>
+							<ProtectedRoute requireRole="USER">
 								<CartPage />
 							</ProtectedRoute>
 						}
@@ -70,7 +70,7 @@ function App() {
 					<Route
 						path="/ui"
 						element={
-							<ProtectedRoute>
+							<ProtectedRoute requireRole="ADMIN">
 								<UIPage />
 							</ProtectedRoute>
 						}

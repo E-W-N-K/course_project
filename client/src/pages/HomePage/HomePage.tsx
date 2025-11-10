@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
@@ -158,13 +157,7 @@ export const HomePage = () => {
 							</h2>
 							<UIGrid columns={2} gap="xl">
 								{searchResults.dishes.map((dish) => (
-									<Link
-										key={dish.id}
-										to={`/restaurants/${dish.restaurantId}`}
-										style={{ textDecoration: "none", color: "inherit" }}
-									>
-										<DishCard dish={dish} />
-									</Link>
+									<DishCard key={dish.id} dish={dish} onUpdate={fetchData} />
 								))}
 							</UIGrid>
 						</div>

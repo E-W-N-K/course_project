@@ -49,28 +49,12 @@
 	gap: var(--spacing-md);
 }
 
-.dish-card__title-row {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-	flex: 1;
-	flex-wrap: wrap;
-}
-
 .dish-card__name {
 	font-size: var(--text-xl);
 	font-weight: var(--font-bold);
 	color: var(--color-text-primary);
 	margin: 0;
 	line-height: var(--leading-tight);
-	flex: 1;
-	min-width: 200px;
-}
-
-.dish-card__admin-actions {
-	display: flex;
-	gap: var(--spacing-sm);
-	flex-shrink: 0;
 }
 
 .dish-card__meta {
@@ -106,6 +90,13 @@
 	display: flex;
 	justify-content: flex-end;
 	margin-top: auto;
+}
+
+.dish-card__admin-footer {
+	display: flex;
+	gap: var(--spacing-sm);
+	width: 100%;
+	justify-content: flex-end;
 }
 
 .dish-card__add-button {
