@@ -21,10 +21,14 @@ class ApiClient {
 	): Promise<T> {
 		const url = `${config.baseURL || this.baseURL}${endpoint}`;
 
-		const headers: HeadersInit = {
-			"Content-Type": "application/json",
-			...config.headers,
-		};
+		// Don't set Content-Type for FormData - browser will set it with boundary
+		const isFormData = config.body instanceof FormData;
+		const headers: HeadersInit = isFormData
+			? { ...config.headers }
+			: {
+					"Content-Type": "application/json",
+					...config.headers,
+			  };
 
 		try {
 			const response = await fetch(url, {
@@ -78,7 +82,7 @@ class ApiClient {
 		return this.request<T>(endpoint, {
 			...config,
 			method: "POST",
-			body: JSON.stringify(data),
+			body: data instanceof FormData ? data : JSON.stringify(data),
 		});
 	}
 
@@ -90,7 +94,7 @@ class ApiClient {
 		return this.request<T>(endpoint, {
 			...config,
 			method: "PUT",
-			body: JSON.stringify(data),
+			body: data instanceof FormData ? data : JSON.stringify(data),
 		});
 	}
 

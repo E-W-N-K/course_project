@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
 import { dishApi } from "@/entities/Dish";
+import { useUserStore } from "@/entities/User";
 import { UIContainer, UIGrid, UISearchInput, UIButton, UICard } from "@/shared/ui";
 import { RestaurantCard } from "@/widgets/RestaurantCard";
 import { DishCard } from "@/widgets/DishCard";
+import {
+	EditRestaurantForm,
+	type EditRestaurantFormRef,
+} from "@/features/Admin/EditRestaurantForm";
 import { useDebounce } from "@/shared/lib/hooks";
 import styles from "./HomePage.module.css";
 
@@ -16,6 +21,9 @@ interface SearchResults {
 }
 
 export const HomePage = () => {
+	const user = useUserStore((state) => state.user);
+	const isAdmin = user?.role === "ADMIN";
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<SearchResults>({
 		restaurants: [],
@@ -24,36 +32,45 @@ export const HomePage = () => {
 	const [isSearching, setIsSearching] = useState(false);
 	const [isInitialLoading, setIsInitialLoading] = useState(true);
 
+	const addRestaurantFormRef = useRef<EditRestaurantFormRef>(null);
 	const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
 	// Fetch data based on search query
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (debouncedSearchQuery.trim() === "") {
-					// Empty search - show all restaurants
-					setIsSearching(true);
-					const restaurants = await restaurantApi.getAllRestaurants();
-					setSearchResults({ restaurants, dishes: [] });
-				} else {
-					// Search query - call both APIs in parallel
-					setIsSearching(true);
-					const [restaurants, dishes] = await Promise.all([
-						restaurantApi.searchRestaurants(debouncedSearchQuery),
-						dishApi.searchDishes(debouncedSearchQuery),
-					]);
-					setSearchResults({ restaurants, dishes });
-				}
-			} catch (error) {
-				console.error("Failed to fetch search results:", error);
-			} finally {
-				setIsSearching(false);
-				setIsInitialLoading(false);
+	const fetchData = async () => {
+		try {
+			if (debouncedSearchQuery.trim() === "") {
+				// Empty search - show all restaurants
+				setIsSearching(true);
+				const restaurants = await restaurantApi.getAllRestaurants();
+				setSearchResults({ restaurants, dishes: [] });
+			} else {
+				// Search query - call both APIs in parallel
+				setIsSearching(true);
+				const [restaurants, dishes] = await Promise.all([
+					restaurantApi.searchRestaurants(debouncedSearchQuery),
+					dishApi.searchDishes(debouncedSearchQuery),
+				]);
+				setSearchResults({ restaurants, dishes });
 			}
-		};
+		} catch (error) {
+			console.error("Failed to fetch search results:", error);
+		} finally {
+			setIsSearching(false);
+			setIsInitialLoading(false);
+		}
+	};
 
+	useEffect(() => {
 		fetchData();
 	}, [debouncedSearchQuery]);
+
+	const handleAddRestaurant = () => {
+		addRestaurantFormRef.current?.open();
+	};
+
+	const handleRestaurantSuccess = () => {
+		fetchData();
+	};
 
 	const hasResults =
 		searchResults.restaurants.length > 0 || searchResults.dishes.length > 0;
@@ -61,10 +78,23 @@ export const HomePage = () => {
 
 	return (
 		<UIContainer className={styles["home-page"]}>
-			<h1 className={styles["home-page__title"]}>Food Delivery Platform</h1>
-			<p className={styles["home-page__subtitle"]}>
-				Discover amazing restaurants in your area
-			</p>
+			<div className={styles["home-page__header"]}>
+				<div className={styles["home-page__header-text"]}>
+					<h1 className={styles["home-page__title"]}>Food Delivery Platform</h1>
+					<p className={styles["home-page__subtitle"]}>
+						Discover amazing restaurants in your area
+					</p>
+				</div>
+				{isAdmin && (
+					<UIButton
+						variant="solid"
+						colorType="primary"
+						onClick={handleAddRestaurant}
+					>
+						Add Restaurant
+					</UIButton>
+				)}
+			</div>
 
 			{/* Search Input */}
 			<div className={styles["home-page__search"]}>
@@ -140,6 +170,14 @@ export const HomePage = () => {
 						</div>
 					)}
 				</div>
+			)}
+
+			{/* Admin Dialogs */}
+			{isAdmin && (
+				<EditRestaurantForm
+					ref={addRestaurantFormRef}
+					onSuccess={handleRestaurantSuccess}
+				/>
 			)}
 		</UIContainer>
 	);

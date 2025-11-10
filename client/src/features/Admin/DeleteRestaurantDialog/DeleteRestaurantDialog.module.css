@@ -1,0 +1,28 @@
+.delete-restaurant-dialog__error {
+	font-size: var(--text-sm);
+	color: var(--color-danger);
+	background-color: var(--color-danger-light);
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-radius: var(--radius-md);
+	margin-bottom: var(--spacing-md);
+}
+
+.delete-restaurant-dialog__content {
+	margin-bottom: var(--spacing-lg);
+}
+
+.delete-restaurant-dialog__text {
+	font-size: var(--text-md);
+	color: var(--color-text-primary);
+	margin: 0 0 var(--spacing-md) 0;
+	line-height: var(--leading-normal);
+}
+
+.delete-restaurant-dialog__info {
+	font-size: var(--text-sm);
+	color: var(--color-text-secondary);
+	background-color: var(--color-background-secondary);
+	padding: var(--spacing-md);
+	border-radius: var(--radius-md);
+	line-height: var(--leading-relaxed);
+}

@@ -1,58 +1,90 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
 import { dishApi } from "@/entities/Dish";
+import { useUserStore } from "@/entities/User";
 import { UIContainer } from "@/shared/ui";
+import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { DishCard } from "@/widgets/DishCard";
+import {
+	EditRestaurantForm,
+	type EditRestaurantFormRef,
+} from "@/features/Admin/EditRestaurantForm";
+import {
+	EditDishForm,
+	type EditDishFormRef,
+} from "@/features/Admin/EditDishForm";
 import styles from "./RestaurantPage.module.css";
 
 export const RestaurantPage = () => {
 	const { id } = useParams<{ id: string }>();
+	const user = useUserStore((state) => state.user);
+	const isAdmin = user?.role === "ADMIN";
+
 	const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 	const [dishes, setDishes] = useState<Dish[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string>("");
 
-	useEffect(() => {
-		const fetchData = async () => {
-			if (!id) {
-				setError("Restaurant ID is missing");
+	const editRestaurantFormRef = useRef<EditRestaurantFormRef>(null);
+	const addDishFormRef = useRef<EditDishFormRef>(null);
+
+	const fetchData = async () => {
+		if (!id) {
+			setError("Restaurant ID is missing");
+			setIsLoading(false);
+			return;
+		}
+
+		try {
+			setIsLoading(true);
+			setError("");
+
+			const restaurantId = Number(id);
+
+			// Fetch restaurant and dishes in parallel
+			const [restaurantData, dishesData] = await Promise.all([
+				restaurantApi.getRestaurantById(restaurantId),
+				dishApi.getDishesByRestaurant(restaurantId),
+			]);
+
+			if (!restaurantData) {
+				setError("Restaurant not found");
 				setIsLoading(false);
 				return;
 			}
 
-			try {
-				setIsLoading(true);
-				setError("");
+			setRestaurant(restaurantData);
+			setDishes(dishesData);
+		} catch (err) {
+			console.error("Failed to fetch restaurant data:", err);
+			setError("Failed to load restaurant. Please try again.");
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-				const restaurantId = Number(id);
-
-				// Fetch restaurant and dishes in parallel
-				const [restaurantData, dishesData] = await Promise.all([
-					restaurantApi.getRestaurantById(restaurantId),
-					dishApi.getDishesByRestaurant(restaurantId),
-				]);
-
-				if (!restaurantData) {
-					setError("Restaurant not found");
-					setIsLoading(false);
-					return;
-				}
-
-				setRestaurant(restaurantData);
-				setDishes(dishesData);
-			} catch (err) {
-				console.error("Failed to fetch restaurant data:", err);
-				setError("Failed to load restaurant. Please try again.");
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
+	useEffect(() => {
 		fetchData();
 	}, [id]);
+
+	const handleEditRestaurant = () => {
+		editRestaurantFormRef.current?.open();
+	};
+
+	const handleAddDish = () => {
+		addDishFormRef.current?.open();
+	};
+
+	const handleRestaurantEditSuccess = () => {
+		fetchData();
+	};
+
+	const handleDishSuccess = () => {
+		fetchData();
+	};
 
 	if (isLoading) {
 		return (
@@ -90,7 +122,18 @@ export const RestaurantPage = () => {
 			{/* Restaurant info and menu */}
 			<UIContainer>
 				<div className={styles["restaurant-page__info"]}>
-					<h1 className={styles["restaurant-page__title"]}>{restaurant.name}</h1>
+					<div className={styles["restaurant-page__header"]}>
+						<h1 className={styles["restaurant-page__title"]}>{restaurant.name}</h1>
+						{isAdmin && (
+							<UIButton
+								variant="outline"
+								colorType="primary"
+								onClick={handleEditRestaurant}
+							>
+								Edit Restaurant
+							</UIButton>
+						)}
+					</div>
 					<p className={styles["restaurant-page__description"]}>
 						{restaurant.description}
 					</p>
@@ -105,7 +148,18 @@ export const RestaurantPage = () => {
 				</div>
 
 				<div className={styles["restaurant-page__menu"]}>
-					<h2 className={styles["restaurant-page__menu-title"]}>Menu</h2>
+					<div className={styles["restaurant-page__menu-header"]}>
+						<h2 className={styles["restaurant-page__menu-title"]}>Menu</h2>
+						{isAdmin && (
+							<UIButton
+								variant="solid"
+								colorType="primary"
+								onClick={handleAddDish}
+							>
+								Add Dish
+							</UIButton>
+						)}
+					</div>
 
 					{dishes.length === 0 ? (
 						<p className={styles["restaurant-page__no-dishes"]}>
@@ -114,12 +168,33 @@ export const RestaurantPage = () => {
 					) : (
 						<div className={styles["restaurant-page__dishes"]}>
 							{dishes.map((dish) => (
-								<DishCard key={dish.id} dish={dish} />
+								<DishCard
+									key={dish.id}
+									dish={dish}
+									restaurantId={restaurant.id}
+									onUpdate={fetchData}
+								/>
 							))}
 						</div>
 					)}
 				</div>
 			</UIContainer>
+
+			{/* Admin Dialogs */}
+			{isAdmin && restaurant && (
+				<>
+					<EditRestaurantForm
+						ref={editRestaurantFormRef}
+						restaurant={restaurant}
+						onSuccess={handleRestaurantEditSuccess}
+					/>
+					<EditDishForm
+						ref={addDishFormRef}
+						restaurantId={restaurant.id}
+						onSuccess={handleDishSuccess}
+					/>
+				</>
+			)}
 		</div>
 	);
 };
