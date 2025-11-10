@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserStore } from "@/entities/User";
+import {
+	getDeliveryInfo,
+	updateDeliveryInfo,
+} from "@/entities/User/api/userApi";
 import { UICard } from "@/shared/ui";
 import { UIForm } from "@/shared/ui/UIForm/UIForm";
 import { UIInput } from "@/shared/ui/UIInput/UIInput";
@@ -8,15 +12,33 @@ import styles from "./EditProfileForm.module.css";
 
 export const EditProfileForm = () => {
 	const user = useUserStore((state) => state.user);
-	const updateProfile = useUserStore((state) => state.updateProfile);
-	const isLoading = useUserStore((state) => state.isLoading);
 
-	const [email, setEmail] = useState(user?.email || "");
-	const [phone, setPhone] = useState(user?.phone || "");
-	const [address, setAddress] = useState(user?.address || "");
+	const [phone, setPhone] = useState("");
+	const [address, setAddress] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
+	const [isFetchingDeliveryInfo, setIsFetchingDeliveryInfo] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+
+	// Fetch delivery info on mount
+	useEffect(() => {
+		const fetchDeliveryInfo = async () => {
+			try {
+				const deliveryInfo = await getDeliveryInfo();
+				setPhone(deliveryInfo.phone || "");
+				setAddress(deliveryInfo.address || "");
+			} catch (err) {
+				setError("Failed to load delivery information");
+			} finally {
+				setIsFetchingDeliveryInfo(false);
+			}
+		};
+
+		if (user) {
+			fetchDeliveryInfo();
+		}
+	}, [user]);
 
 	if (!user) {
 		return null;
@@ -26,21 +48,29 @@ export const EditProfileForm = () => {
 		e.preventDefault();
 		setError("");
 		setSuccess("");
+		setIsLoading(true);
 
 		try {
-			await updateProfile({ email, phone, address });
+			await updateDeliveryInfo({ phone, address });
 			setSuccess("Profile updated successfully!");
 			setIsEditing(false);
 			setTimeout(() => setSuccess(""), 3000);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Update failed");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
-	const handleCancel = () => {
-		setEmail(user.email || "");
-		setPhone(user.phone || "");
-		setAddress(user.address || "");
+	const handleCancel = async () => {
+		// Refetch delivery info to reset form
+		try {
+			const deliveryInfo = await getDeliveryInfo();
+			setPhone(deliveryInfo.phone || "");
+			setAddress(deliveryInfo.address || "");
+		} catch (err) {
+			setError("Failed to reset form");
+		}
 		setIsEditing(false);
 		setError("");
 		setSuccess("");
@@ -51,6 +81,19 @@ export const EditProfileForm = () => {
 		setError("");
 		setSuccess("");
 	};
+
+	if (isFetchingDeliveryInfo) {
+		return (
+			<UICard className={styles["edit-profile-form"]} padding="xl">
+				<div className={styles["edit-profile-form__header"]}>
+					<h2 className={styles["edit-profile-form__title"]}>
+						Contact Information
+					</h2>
+				</div>
+				<p>Loading delivery information...</p>
+			</UICard>
+		);
+	}
 
 	return (
 		<UICard className={styles["edit-profile-form"]} padding="xl">
@@ -99,23 +142,12 @@ export const EditProfileForm = () => {
 				}
 			>
 				<UIInput
-					type="email"
-					name="email"
-					label="Email"
-					value={email}
-					onChange={(value) => setEmail(value)}
-					validation={{ required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }}
-					disabled={isLoading || !isEditing}
-					placeholder="Enter your email address"
-				/>
-
-				<UIInput
 					type="tel"
 					name="phone"
 					label="Phone Number"
 					value={phone}
 					onChange={(value) => setPhone(value)}
-					validation={{ required: true, minLength: 10 }}
+					validation={{ required: true, minLength: 10, maxLength: 20 }}
 					disabled={isLoading || !isEditing}
 					placeholder="Enter your phone number"
 				/>
@@ -126,7 +158,7 @@ export const EditProfileForm = () => {
 					label="Address"
 					value={address}
 					onChange={(value) => setAddress(value)}
-					validation={{ required: true, minLength: 10 }}
+					validation={{ required: true, minLength: 10, maxLength: 100 }}
 					disabled={isLoading || !isEditing}
 					placeholder="Enter your delivery address"
 				/>
