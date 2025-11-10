@@ -59,7 +59,7 @@ export const getDeliveryInfo = async (): Promise<{
 	phone: string;
 	address: string;
 }> => {
-	return apiClient.get<{ phone: string; address: string }>("/delivery-info");
+	return apiClient.get<{ phone: string; address: string }>("/user/delivery-info");
 };
 
 /**
@@ -72,7 +72,7 @@ export const updateDeliveryInfo = async (data: {
 	address: string;
 }): Promise<{ phone: string; address: string }> => {
 	return apiClient.put<{ phone: string; address: string }>(
-		"/delivery-info",
+		"/user/delivery-info",
 		data,
 	);
 };

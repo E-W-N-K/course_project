@@ -41,11 +41,19 @@
 	border-bottom: 1px solid var(--color-border);
 }
 
+.restaurant-page__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--spacing-lg);
+	margin-bottom: var(--spacing-md);
+}
+
 .restaurant-page__title {
 	font-size: var(--text-4xl);
 	font-weight: var(--font-bold);
 	color: var(--color-text-primary);
-	margin: 0 0 var(--spacing-md) 0;
+	margin: 0;
 	line-height: var(--leading-tight);
 }
 
@@ -80,11 +88,19 @@
 	margin-bottom: var(--spacing-2xl);
 }
 
+.restaurant-page__menu-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--spacing-lg);
+	margin-bottom: var(--spacing-xl);
+}
+
 .restaurant-page__menu-title {
 	font-size: var(--text-3xl);
 	font-weight: var(--font-bold);
 	color: var(--color-text-primary);
-	margin: 0 0 var(--spacing-xl) 0;
+	margin: 0;
 	line-height: var(--leading-tight);
 }
 
