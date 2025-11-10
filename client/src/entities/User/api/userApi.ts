@@ -51,6 +51,33 @@ export const getCurrentUser = async (): Promise<User | null> => {
 };
 
 /**
+ * API: Get user delivery info
+ * GET /delivery-info
+ * Returns phone and address for current user
+ */
+export const getDeliveryInfo = async (): Promise<{
+	phone: string;
+	address: string;
+}> => {
+	return apiClient.get<{ phone: string; address: string }>("/delivery-info");
+};
+
+/**
+ * API: Update user delivery info
+ * PUT /delivery-info
+ * Updates phone and address for current user
+ */
+export const updateDeliveryInfo = async (data: {
+	phone: string;
+	address: string;
+}): Promise<{ phone: string; address: string }> => {
+	return apiClient.put<{ phone: string; address: string }>(
+		"/delivery-info",
+		data,
+	);
+};
+
+/**
  * API: Update user profile
  * PATCH /user/profile
  * Updates name, email, phone and address for current user
