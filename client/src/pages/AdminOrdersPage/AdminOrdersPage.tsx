@@ -41,7 +41,11 @@ export const AdminOrdersPage = () => {
 			const data = await adminApi.getAllOrders(
 				filter === "ALL" ? undefined : filter,
 			);
-			setOrders(data);
+			// Sort orders from newest to oldest
+			const sortedOrders = data.sort((a, b) => {
+				return new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+			});
+			setOrders(sortedOrders);
 		} catch (error) {
 			console.error("Failed to fetch orders:", error);
 			showMessage("error", "Failed to load orders");

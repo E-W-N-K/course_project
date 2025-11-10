@@ -107,6 +107,16 @@
 	margin-bottom: var(--spacing-md);
 }
 
+.cart-summary__warning {
+	font-size: var(--text-sm);
+	color: var(--color-danger);
+	background-color: var(--color-danger-light);
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-radius: var(--radius-md);
+	margin: 0 0 var(--spacing-md) 0;
+	line-height: var(--leading-normal);
+}
+
 /* Tablet Responsive */
 @media (max-width: 1024px) {
 	.cart-page__content {

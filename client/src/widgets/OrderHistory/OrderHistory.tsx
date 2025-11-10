@@ -18,7 +18,11 @@ export const OrderHistory = () => {
 			try {
 				setIsLoading(true);
 				const data = await orderApi.getUserOrders();
-				setOrders(data);
+				// Sort orders from newest to oldest
+				const sortedOrders = data.sort((a, b) => {
+					return new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+				});
+				setOrders(sortedOrders);
 			} catch (error) {
 				console.error("Failed to fetch orders:", error);
 			} finally {

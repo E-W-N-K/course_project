@@ -93,9 +93,7 @@ export const useUserStore = create<UserStore>((set) => ({
 	updateProfile: async (data: UpdateProfileData) => {
 		set({ isLoading: true });
 		try {
-			await userApi.updateUserProfile(data);
-			// Fetch updated user info
-			const user = await userApi.getCurrentUser();
+			const user = await userApi.updateUserProfile(data);
 			set({
 				user,
 				isLoading: false,

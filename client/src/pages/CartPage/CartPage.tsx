@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
 import { useCartStore } from "@/entities/Cart";
 import { DishCard } from "@/widgets/DishCard";
+import { EditProfileForm } from "@/features/Profile/EditProfileForm";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UICard } from "@/shared/ui/UICard";
 import { UIButton } from "@/shared/ui/UIButton";
@@ -28,8 +29,8 @@ export const CartPage = () => {
 		setIsCheckingOut(true);
 		try {
 			await checkout();
-			// Navigate to orders page after successful checkout
-			navigate("/orders");
+			// Navigate to profile page after successful checkout
+			navigate("/profile");
 		} catch (error) {
 			console.error("Failed to checkout:", error);
 			alert("Checkout failed. Please try again.");
@@ -47,6 +48,10 @@ export const CartPage = () => {
 	}
 
 	const isEmpty = !cart || !cart.cartItems || cart.cartItems.length === 0;
+
+	// Check if user has all required information for checkout
+	const isProfileComplete = user?.email && user?.phone && user?.address;
+	const canCheckout = !isCheckingOut && !isLoading && isProfileComplete;
 
 	return (
 		<UIContainer className={styles["cart-page"]}>
@@ -73,6 +78,7 @@ export const CartPage = () => {
 			) : (
 				<div className={styles["cart-page__content"]}>
 					<div className={styles["cart-page__items"]}>
+						<EditProfileForm />
 						{cart.cartItems.map((item) => (
 							<DishCard key={item.id} dish={item.dish} showSubtotal={true} />
 						))}
@@ -99,12 +105,17 @@ export const CartPage = () => {
 									<span>Total:</span>
 									<span>${cart.total.toFixed(2)}</span>
 								</div>
+								{!isProfileComplete && (
+									<p className={styles["cart-summary__warning"]}>
+										Please fill in your email, phone, and address above to checkout
+									</p>
+								)}
 								<UIButton
 									variant="solid"
 									colorType="primary"
 									fullWidth
 									onClick={handleCheckout}
-									disabled={isCheckingOut || isLoading}
+									disabled={!canCheckout}
 								>
 									{isCheckingOut ? "Processing..." : "Checkout"}
 								</UIButton>

@@ -11,6 +11,7 @@ export const EditProfileForm = () => {
 	const updateProfile = useUserStore((state) => state.updateProfile);
 	const isLoading = useUserStore((state) => state.isLoading);
 
+	const [email, setEmail] = useState(user?.email || "");
 	const [phone, setPhone] = useState(user?.phone || "");
 	const [address, setAddress] = useState(user?.address || "");
 	const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +28,7 @@ export const EditProfileForm = () => {
 		setSuccess("");
 
 		try {
-			await updateProfile({ phone, address });
+			await updateProfile({ email, phone, address });
 			setSuccess("Profile updated successfully!");
 			setIsEditing(false);
 			setTimeout(() => setSuccess(""), 3000);
@@ -37,6 +38,7 @@ export const EditProfileForm = () => {
 	};
 
 	const handleCancel = () => {
+		setEmail(user.email || "");
 		setPhone(user.phone || "");
 		setAddress(user.address || "");
 		setIsEditing(false);
@@ -96,6 +98,17 @@ export const EditProfileForm = () => {
 					) : null
 				}
 			>
+				<UIInput
+					type="email"
+					name="email"
+					label="Email"
+					value={email}
+					onChange={(value) => setEmail(value)}
+					validation={{ required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }}
+					disabled={isLoading || !isEditing}
+					placeholder="Enter your email address"
+				/>
+
 				<UIInput
 					type="tel"
 					name="phone"

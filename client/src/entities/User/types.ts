@@ -63,8 +63,10 @@ export interface RegisterData {
 }
 
 export interface UpdateProfileData {
-	phone: string;
-	address: string;
+	name?: string;
+	email?: string;
+	phone?: string;
+	address?: string;
 }
 
 export interface AuthResponse {

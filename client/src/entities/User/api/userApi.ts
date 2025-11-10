@@ -52,11 +52,11 @@ export const getCurrentUser = async (): Promise<User | null> => {
 
 /**
  * API: Update user profile
- * PUT /users/profile
- * Updates phone and address for current user
+ * PATCH /user/profile
+ * Updates name, email, phone and address for current user
  */
 export const updateUserProfile = async (
 	data: UpdateProfileData,
-): Promise<void> => {
-	await apiClient.put<void>("/users/profile", data);
+): Promise<User> => {
+	return apiClient.patch<User>("/user/profile", data);
 };
