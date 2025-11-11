@@ -1,22 +1,34 @@
 package course_project.course_project.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    // Секретный ключ для подписи JWT (лучше хранить в переменных окружения)
-    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(
-            "MyVerySecureSecretKeyForJWT12345678901234567890".getBytes()
-    );
+    // Получаем секретный ключ из переменных окружения
+    @Value("${app.jwt.secret}")
+    private String jwtSecretString;
 
-    // Время жизни access token (15 минут)
-    private final long ACCESS_TOKEN_VALIDITY = 15 * 60 * 1000; // 15 минут
+    // Получаем время жизни токена из переменных окружения
+    @Value("${app.jwt.expiration}")
+    private long accessTokenValidity;
+
+    // Кэшируем SecretKey (чтобы не создавать каждый раз)
+    private SecretKey secretKey;
+
+    // Инициализируем SecretKey при первом доступе
+    private SecretKey getSecretKey() {
+        if (secretKey == null) {
+            secretKey = Keys.hmacShaKeyFor(jwtSecretString.getBytes());
+        }
+        return secretKey;
+    }
 
     // Генерация JWT токена
     public String generateToken(String username, String role) {
@@ -24,8 +36,8 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY))
-                .signWith(SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidity))
+                .signWith(getSecretKey())
                 .compact();
     }
 
@@ -52,10 +64,9 @@ public class JwtUtil {
     // Извлечение claims из токена
     private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(getSecretKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 }
