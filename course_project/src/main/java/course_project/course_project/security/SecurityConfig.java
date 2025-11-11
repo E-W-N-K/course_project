@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .headers()
-                .frameOptions().disable()  // ← ДОБАВЬ ЭТУ СТРОКУ
+                .frameOptions().disable()
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
