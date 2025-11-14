@@ -10,7 +10,11 @@ import { UIInput } from "@/shared/ui/UIInput/UIInput";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import styles from "./EditProfileForm.module.css";
 
-export const EditProfileForm = () => {
+interface EditProfileFormProps {
+	onSave?: () => void;
+}
+
+export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 	const user = useUserStore((state) => state.user);
 
 	const [phone, setPhone] = useState("");
@@ -55,6 +59,8 @@ export const EditProfileForm = () => {
 			setSuccess("Profile updated successfully!");
 			setIsEditing(false);
 			setTimeout(() => setSuccess(""), 3000);
+			// Call onSave callback if provided
+			onSave?.();
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Update failed");
 		} finally {

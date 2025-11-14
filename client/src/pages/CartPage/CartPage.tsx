@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
+import { getDeliveryInfo } from "@/entities/User/api/userApi";
 import { useCartStore } from "@/entities/Cart";
 import { DishCard } from "@/widgets/DishCard";
 import { EditProfileForm } from "@/features/Profile/EditProfileForm";
@@ -14,13 +15,24 @@ export const CartPage = () => {
 	const { user } = useUserStore();
 	const { cart, isLoading, fetchCart, checkout } = useCartStore();
 	const [isCheckingOut, setIsCheckingOut] = useState(false);
+	const [deliveryInfo, setDeliveryInfo] = useState<{ phone: string; address: string } | null>(null);
 
-	// Fetch cart on mount
+	// Fetch cart and delivery info on mount
 	useEffect(() => {
 		if (user) {
 			fetchCart();
+			loadDeliveryInfo();
 		}
 	}, [user, fetchCart]);
+
+	const loadDeliveryInfo = async () => {
+		try {
+			const info = await getDeliveryInfo();
+			setDeliveryInfo(info);
+		} catch (error) {
+			console.error("Failed to load delivery info:", error);
+		}
+	};
 
 
 
@@ -50,7 +62,7 @@ export const CartPage = () => {
 	const isEmpty = !cart || !cart.cartItems || cart.cartItems.length === 0;
 
 	// Check if user has all required information for checkout
-	const isProfileComplete = user?.email && user?.phone && user?.address;
+	const isProfileComplete = deliveryInfo?.phone && deliveryInfo?.address;
 	const canCheckout = !isCheckingOut && !isLoading && isProfileComplete;
 
 	return (
@@ -78,7 +90,7 @@ export const CartPage = () => {
 			) : (
 				<div className={styles["cart-page__content"]}>
 					<div className={styles["cart-page__items"]}>
-						<EditProfileForm />
+						<EditProfileForm onSave={loadDeliveryInfo} />
 						{cart.cartItems.map((item) => (
 							<DishCard key={item.id} dish={item.dish} showSubtotal={true} />
 						))}
@@ -107,7 +119,7 @@ export const CartPage = () => {
 								</div>
 								{!isProfileComplete && (
 									<p className={styles["cart-summary__warning"]}>
-										Please fill in your email, phone, and address above to checkout
+										Please fill in your phone and address above to checkout
 									</p>
 								)}
 								<UIButton
