@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
@@ -41,7 +41,7 @@ export const HomePage = () => {
 	const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
 	// Fetch data based on search query
-	const fetchData = async () => {
+	const fetchData = useCallback(async () => {
 		try {
 			if (debouncedSearchQuery.trim() === "") {
 				// Empty search - show all restaurants
@@ -63,11 +63,11 @@ export const HomePage = () => {
 			setIsSearching(false);
 			setIsInitialLoading(false);
 		}
-	};
+	}, [debouncedSearchQuery]);
 
 	useEffect(() => {
 		fetchData();
-	}, [debouncedSearchQuery]);
+	}, [fetchData]);
 
 	const handleAddRestaurant = () => {
 		addRestaurantFormRef.current?.open();

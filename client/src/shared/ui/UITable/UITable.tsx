@@ -13,7 +13,7 @@ interface UITableProps<T> {
 	className?: string;
 }
 
-export const UITable = <T extends Record<string, any>>({
+export const UITable = <T extends object>({
 	columns,
 	data,
 	className = "",
@@ -47,7 +47,7 @@ export const UITable = <T extends Record<string, any>>({
 									<td key={column.key} className={styles.td}>
 										{column.render
 											? column.render(item)
-											: (item[column.key] as ReactNode)}
+											: ((item as Record<string, unknown>)[column.key] as ReactNode)}
 									</td>
 								))}
 							</tr>

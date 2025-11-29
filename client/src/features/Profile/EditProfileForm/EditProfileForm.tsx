@@ -32,7 +32,7 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 				const deliveryInfo = await getDeliveryInfo();
 				setPhone(deliveryInfo.phone || "");
 				setAddress(deliveryInfo.address || "");
-			} catch (err) {
+			} catch {
 				setError("Failed to load delivery information");
 			} finally {
 				setIsFetchingDeliveryInfo(false);
@@ -74,7 +74,7 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 			const deliveryInfo = await getDeliveryInfo();
 			setPhone(deliveryInfo.phone || "");
 			setAddress(deliveryInfo.address || "");
-		} catch (err) {
+		} catch {
 			setError("Failed to reset form");
 		}
 		setIsEditing(false);
