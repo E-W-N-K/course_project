@@ -1,7 +1,5 @@
 package course_project.course_project.dto;
 
-import course_project.course_project.model.CartItem;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -25,3 +25,18 @@ dist-ssr
 
 .claude
 CLAUDE.md
+
+.env
+.env.local
+.env.*.local
+.env.prod
+.env.dev
+
+test_db.*
+*.db
+*.h2.db
+
+compose.yaml
+docker-compose.override.yml
+
+package-lock.json
