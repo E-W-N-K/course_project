@@ -1,9 +1,17 @@
+:root {
+	--app-header-height: 5rem;
+}
+
 .header {
 	background-color: var(--color-bg-primary);
 	position: sticky;
 	top: 0;
 	z-index: 100;
+	display: flex;
+	align-items: center;
 	box-shadow: var(--shadow-sm);
+	min-height: var(--app-header-height);
+	padding-block: var(--shadow-md);
 }
 
 .header__logo {

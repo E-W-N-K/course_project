@@ -31,55 +31,59 @@ export const RegisterForm = () => {
 
 	return (
 		<UICard className={styles["register-form"]} padding="xl">
-			<UIForm onSubmit={handleSubmit} actions={(isValid) => (
-				<div className={styles["register-form__actions"]}>
-					{error && <div className={styles["register-form__error"]}>{error}</div>}
+			<UIForm
+				onSubmit={handleSubmit}
+				actions={(isValid) => (
+					<div className={styles["register-form__actions"]}>
+						{error && (
+							<div className={styles["register-form__error"]}>{error}</div>
+						)}
 
-					<UIButton
-						type="submit"
-						variant="solid"
-						colorType="primary"
-						disabled={isLoading || !isValid}
-						fullWidth
-					>
-						{isLoading ? "Creating account..." : "Register"}
-					</UIButton>
-				</div>
-			)}
-		>
-			<UIInput
-				type="text"
-				name="name"
-				label="Full Name"
-				value={name}
-				onChange={(value) => setName(value)}
-				validation={{ required: true, minLength: 2 }}
-				disabled={isLoading}
-				placeholder="Enter your full name"
-			/>
+						<UIButton
+							type="submit"
+							variant="solid"
+							colorType="primary"
+							disabled={isLoading || !isValid}
+							fullWidth
+						>
+							{isLoading ? "Creating account..." : "Register"}
+						</UIButton>
+					</div>
+				)}
+			>
+				<UIInput
+					type="text"
+					name="name"
+					label="Full Name"
+					value={name}
+					onChange={(value) => setName(value)}
+					validation={{ required: true, minLength: 2 }}
+					disabled={isLoading}
+					placeholder="Enter your full name"
+				/>
 
-			<UIInput
-				type="email"
-				name="email"
-				label="Email"
-				value={email}
-				onChange={(value) => setEmail(value)}
-				validation={{ required: true, email: true }}
-				disabled={isLoading}
-				placeholder="Enter your email"
-			/>
+				<UIInput
+					type="email"
+					name="email"
+					label="Email"
+					value={email}
+					onChange={(value) => setEmail(value)}
+					validation={{ required: true, email: true }}
+					disabled={isLoading}
+					placeholder="Enter your email"
+				/>
 
-			<UIInput
-				type="password"
-				name="password"
-				label="Password"
-				value={password}
-				onChange={(value) => setPassword(value)}
-				validation={{ required: true, minLength: 6 }}
-				disabled={isLoading}
-				placeholder="Enter your password"
-			/>
-		</UIForm>
+				<UIInput
+					type="password"
+					name="password"
+					label="Password"
+					value={password}
+					onChange={(value) => setPassword(value)}
+					validation={{ required: true, minLength: 6 }}
+					disabled={isLoading}
+					placeholder="Enter your password"
+				/>
+			</UIForm>
 		</UICard>
 	);
 };

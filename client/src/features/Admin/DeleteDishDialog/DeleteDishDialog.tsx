@@ -64,12 +64,15 @@ export const DeleteDishDialog = forwardRef<
 			size="md"
 			onClose={handleCancel}
 		>
-			{error && <div className={styles["delete-dish-dialog__error"]}>{error}</div>}
+			{error && (
+				<div className={styles["delete-dish-dialog__error"]}>{error}</div>
+			)}
 
 			{dish && (
 				<div className={styles["delete-dish-dialog__content"]}>
 					<p className={styles["delete-dish-dialog__text"]}>
-						Are you sure you want to delete this dish? This action cannot be undone.
+						Are you sure you want to delete this dish? This action cannot be
+						undone.
 					</p>
 					<div className={styles["delete-dish-dialog__info"]}>
 						<strong>Name:</strong> {dish.name}

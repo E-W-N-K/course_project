@@ -76,7 +76,9 @@ export const DishCard = ({
 							<span className={styles["dish-card__price"]}>
 								${dish.price.toFixed(2)}
 							</span>
-							<span className={styles["dish-card__weight"]}>{dish.weight}g</span>
+							<span className={styles["dish-card__weight"]}>
+								{dish.weight}g
+							</span>
 						</div>
 					</div>
 

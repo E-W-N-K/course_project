@@ -5,7 +5,7 @@ import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
 import { dishApi } from "@/entities/Dish";
 import { useUserStore } from "@/entities/User";
-import { UIContainer } from "@/shared/ui";
+import { UIContainer, UISection } from "@/shared/ui";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { DishCard } from "@/widgets/DishCard";
 import {
@@ -88,22 +88,26 @@ export const RestaurantPage = () => {
 
 	if (isLoading) {
 		return (
-			<UIContainer>
-				<p className={styles["restaurant-page__loading"]}>
-					Loading restaurant...
-				</p>
-			</UIContainer>
+			<UISection>
+				<UIContainer>
+					<p className={styles["restaurant-page__loading"]}>
+						Loading restaurant...
+					</p>
+				</UIContainer>
+			</UISection>
 		);
 	}
 
 	if (error || !restaurant) {
 		return (
-			<UIContainer>
-				<div className={styles["restaurant-page__error"]}>
-					<h1>Error</h1>
-					<p>{error || "Restaurant not found"}</p>
-				</div>
-			</UIContainer>
+			<UISection>
+				<UIContainer>
+					<div className={styles["restaurant-page__error"]}>
+						<h1>Error</h1>
+						<p>{error || "Restaurant not found"}</p>
+					</div>
+				</UIContainer>
+			</UISection>
 		);
 	}
 
@@ -120,65 +124,69 @@ export const RestaurantPage = () => {
 			</div>
 
 			{/* Restaurant info and menu */}
-			<UIContainer>
-				<div className={styles["restaurant-page__info"]}>
-					<div className={styles["restaurant-page__header"]}>
-						<h1 className={styles["restaurant-page__title"]}>{restaurant.name}</h1>
-						{isAdmin && (
-							<UIButton
-								variant="outline"
-								colorType="primary"
-								onClick={handleEditRestaurant}
-							>
-								Edit Restaurant
-							</UIButton>
-						)}
-					</div>
-					<p className={styles["restaurant-page__description"]}>
-						{restaurant.description}
-					</p>
-					<div className={styles["restaurant-page__details"]}>
-						<p className={styles["restaurant-page__detail"]}>
-							<strong>Address:</strong> {restaurant.address}
-						</p>
-						<p className={styles["restaurant-page__detail"]}>
-							<strong>Phone:</strong> {restaurant.phone}
-						</p>
-					</div>
-				</div>
-
-				<div className={styles["restaurant-page__menu"]}>
-					<div className={styles["restaurant-page__menu-header"]}>
-						<h2 className={styles["restaurant-page__menu-title"]}>Menu</h2>
-						{isAdmin && (
-							<UIButton
-								variant="solid"
-								colorType="primary"
-								onClick={handleAddDish}
-							>
-								Add Dish
-							</UIButton>
-						)}
-					</div>
-
-					{dishes.length === 0 ? (
-						<p className={styles["restaurant-page__no-dishes"]}>
-							No menu items available at this time.
-						</p>
-					) : (
-						<div className="grid grid--lg">
-							{dishes.map((dish) => (
-								<DishCard
-									key={dish.id}
-									dish={dish}
-									restaurantId={restaurant.id}
-									onUpdate={fetchData}
-								/>
-							))}
+			<UISection>
+				<UIContainer>
+					<div className={styles["restaurant-page__info"]}>
+						<div className={styles["restaurant-page__header"]}>
+							<h1 className={styles["restaurant-page__title"]}>
+								{restaurant.name}
+							</h1>
+							{isAdmin && (
+								<UIButton
+									variant="outline"
+									colorType="primary"
+									onClick={handleEditRestaurant}
+								>
+									Edit Restaurant
+								</UIButton>
+							)}
 						</div>
-					)}
-				</div>
-			</UIContainer>
+						<p className={styles["restaurant-page__description"]}>
+							{restaurant.description}
+						</p>
+						<div className={styles["restaurant-page__details"]}>
+							<p className={styles["restaurant-page__detail"]}>
+								<strong>Address:</strong> {restaurant.address}
+							</p>
+							<p className={styles["restaurant-page__detail"]}>
+								<strong>Phone:</strong> {restaurant.phone}
+							</p>
+						</div>
+					</div>
+
+					<div className={styles["restaurant-page__menu"]}>
+						<div className={styles["restaurant-page__menu-header"]}>
+							<h2 className={styles["restaurant-page__menu-title"]}>Menu</h2>
+							{isAdmin && (
+								<UIButton
+									variant="solid"
+									colorType="primary"
+									onClick={handleAddDish}
+								>
+									Add Dish
+								</UIButton>
+							)}
+						</div>
+
+						{dishes.length === 0 ? (
+							<p className={styles["restaurant-page__no-dishes"]}>
+								No menu items available at this time.
+							</p>
+						) : (
+							<div className="grid grid--lg">
+								{dishes.map((dish) => (
+									<DishCard
+										key={dish.id}
+										dish={dish}
+										restaurantId={restaurant.id}
+										onUpdate={fetchData}
+									/>
+								))}
+							</div>
+						)}
+					</div>
+				</UIContainer>
+			</UISection>
 
 			{/* Admin Dialogs */}
 			{isAdmin && restaurant && (

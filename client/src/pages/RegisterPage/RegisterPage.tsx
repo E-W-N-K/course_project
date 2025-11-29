@@ -7,8 +7,8 @@ import styles from "./RegisterPage.module.css";
 
 export const RegisterPage = () => {
 	return (
-		<UIContainer>
-			<UISection>
+		<UISection>
+			<UIContainer>
 				<UIFlex direction="column" align="center" gap="lg">
 					<div className={styles["register-page__header"]}>
 						<h1 className={styles["register-page__title"]}>Create Account</h1>
@@ -28,7 +28,7 @@ export const RegisterPage = () => {
 						</p>
 					</div>
 				</UIFlex>
-			</UISection>
-		</UIContainer>
+			</UIContainer>
+		</UISection>
 	);
 };

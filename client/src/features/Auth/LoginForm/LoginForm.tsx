@@ -30,57 +30,57 @@ export const LoginForm = () => {
 
 	return (
 		<UICard className={styles["login-form"]} padding="xl">
-			<UIForm onSubmit={handleSubmit} actions={(isValid) => (
-				<div className={styles["login-form__actions"]}>
-					{error && <div className={styles["login-form__error"]}>{error}</div>}
+			<UIForm
+				onSubmit={handleSubmit}
+				actions={(isValid) => (
+					<div className={styles["login-form__actions"]}>
+						{error && (
+							<div className={styles["login-form__error"]}>{error}</div>
+						)}
 
-					<UIButton
-						type="submit"
-						variant="solid"
-						colorType="primary"
-						disabled={isLoading || !isValid}
-						fullWidth
-					>
-						{isLoading ? "Logging in..." : "Login"}
-					</UIButton>
+						<UIButton
+							type="submit"
+							variant="solid"
+							colorType="primary"
+							disabled={isLoading || !isValid}
+							fullWidth
+						>
+							{isLoading ? "Logging in..." : "Login"}
+						</UIButton>
 
-					<div className={styles["login-form__hint"]}>
-						<p className={styles["login-form__hint-title"]}>Test accounts:</p>
-						<p className={styles["login-form__hint-text"]}>
-							Admin: admin
-						</p>
-						<p className={styles["login-form__hint-text"]}>
-							Users: john_user, jane_user
-						</p>
-						<p className={styles["login-form__hint-text"]}>
-							Password: admin
-						</p>
+						<div className={styles["login-form__hint"]}>
+							<p className={styles["login-form__hint-title"]}>Test accounts:</p>
+							<p className={styles["login-form__hint-text"]}>Admin: admin</p>
+							<p className={styles["login-form__hint-text"]}>
+								Users: john_user, jane_user
+							</p>
+							<p className={styles["login-form__hint-text"]}>Password: admin</p>
+						</div>
 					</div>
-				</div>
-			)}
-		>
-			<UIInput
-				type="text"
-				name="name"
-				label="Username"
-				value={name}
-				onChange={(value) => setName(value)}
-				validation={{ required: true }}
-				disabled={isLoading}
-				placeholder="Enter your username"
-			/>
+				)}
+			>
+				<UIInput
+					type="text"
+					name="name"
+					label="Username"
+					value={name}
+					onChange={(value) => setName(value)}
+					validation={{ required: true }}
+					disabled={isLoading}
+					placeholder="Enter your username"
+				/>
 
-			<UIInput
-				type="password"
-				name="password"
-				label="Password"
-				value={password}
-				onChange={(value) => setPassword(value)}
-				disabled={isLoading}
-				placeholder="Enter your password"
-				validation={{ required: true }}
-			/>
-		</UIForm>
+				<UIInput
+					type="password"
+					name="password"
+					label="Password"
+					value={password}
+					onChange={(value) => setPassword(value)}
+					disabled={isLoading}
+					placeholder="Enter your password"
+					validation={{ required: true }}
+				/>
+			</UIForm>
 		</UICard>
 	);
 };

@@ -9,6 +9,7 @@ import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { UIBadge } from "@/shared/ui/UIBadge";
 import { UIFlex } from "@/shared/ui/UIFlex";
 import styles from "./AdminOrdersPage.module.css";
+import { UISection } from "@/shared/ui";
 
 const STATUS_OPTIONS = [
 	{ value: "PENDING", label: "Pending" },
@@ -43,7 +44,9 @@ export const AdminOrdersPage = () => {
 			);
 			// Sort orders from newest to oldest
 			const sortedOrders = data.sort((a, b) => {
-				return new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+				return (
+					new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime()
+				);
 			});
 			setOrders(sortedOrders);
 		} catch (error) {
@@ -128,7 +131,11 @@ export const AdminOrdersPage = () => {
 		{
 			key: "status",
 			header: "Status",
-			render: (order) => <UIBadge variant={getStatusVariant(order.status)}>{order.status}</UIBadge>,
+			render: (order) => (
+				<UIBadge variant={getStatusVariant(order.status)}>
+					{order.status}
+				</UIBadge>
+			),
 		},
 		{
 			key: "total",
@@ -167,28 +174,28 @@ export const AdminOrdersPage = () => {
 	];
 
 	return (
-		<UIContainer className={styles["admin-orders-page"]}>
-			<div className={styles["admin-orders-page__header"]}>
-				<h1 className={styles["admin-orders-page__title"]}>
-					Manage Orders
-				</h1>
-				<p className={styles["admin-orders-page__subtitle"]}>
-					View and update order statuses
-				</p>
-			</div>
-
-			{message && (
-				<div
-					className={`${styles["admin-orders-page__message"]} ${styles[`admin-orders-page__message--${message.type}`]}`}
-				>
-					{message.text}
+		<UISection>
+			<UIContainer className={styles["admin-orders-page"]}>
+				<div className={styles["admin-orders-page__header"]}>
+					<h1 className={styles["admin-orders-page__title"]}>Manage Orders</h1>
+					<p className={styles["admin-orders-page__subtitle"]}>
+						View and update order statuses
+					</p>
 				</div>
-			)}
 
-			<div className={styles["admin-orders-page__filters"]}>
-				<UIFlex gap="md">
-					{(["ALL", "PENDING", "COMPLETED", "CANCELLED"] as FilterStatus[]).map(
-						(status) => (
+				{message && (
+					<div
+						className={`${styles["admin-orders-page__message"]} ${styles[`admin-orders-page__message--${message.type}`]}`}
+					>
+						{message.text}
+					</div>
+				)}
+
+				<div className={styles["admin-orders-page__filters"]}>
+					<UIFlex gap="md">
+						{(
+							["ALL", "PENDING", "COMPLETED", "CANCELLED"] as FilterStatus[]
+						).map((status) => (
 							<UIButton
 								key={status}
 								variant={filter === status ? "solid" : "outline"}
@@ -197,16 +204,18 @@ export const AdminOrdersPage = () => {
 							>
 								{status}
 							</UIButton>
-						),
-					)}
-				</UIFlex>
-			</div>
+						))}
+					</UIFlex>
+				</div>
 
-			{isLoading ? (
-				<p className={styles["admin-orders-page__loading"]}>Loading orders...</p>
-			) : (
-				<UITable columns={columns} data={orders} />
-			)}
-		</UIContainer>
+				{isLoading ? (
+					<p className={styles["admin-orders-page__loading"]}>
+						Loading orders...
+					</p>
+				) : (
+					<UITable columns={columns} data={orders} />
+				)}
+			</UIContainer>
+		</UISection>
 	);
 };

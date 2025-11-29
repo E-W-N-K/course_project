@@ -220,7 +220,10 @@ ol {
 	--min-col-width: var(--grid-min-column-width-md);
 
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(var(--min-col-width), 100%), 1fr));
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(min(var(--min-col-width), 100%), 1fr)
+	);
 	gap: var(--spacing-xl);
 }
 

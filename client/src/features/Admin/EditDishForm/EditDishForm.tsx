@@ -106,7 +106,9 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 				size="lg"
 				onClose={handleCancel}
 			>
-				{error && <div className={styles["edit-dish-form__error"]}>{error}</div>}
+				{error && (
+					<div className={styles["edit-dish-form__error"]}>{error}</div>
+				)}
 				{success && (
 					<div className={styles["edit-dish-form__success"]}>{success}</div>
 				)}

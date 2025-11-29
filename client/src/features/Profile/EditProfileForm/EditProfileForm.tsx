@@ -104,19 +104,19 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 	return (
 		<UICard className={styles["edit-profile-form"]} padding="xl">
 			<div className={styles["edit-profile-form__header"]}>
-				<h2 className={styles["edit-profile-form__title"]}>Contact Information</h2>
+				<h2 className={styles["edit-profile-form__title"]}>
+					Contact Information
+				</h2>
 				{!isEditing && (
-					<UIButton
-						variant="outline"
-						colorType="primary"
-						onClick={handleEdit}
-					>
+					<UIButton variant="outline" colorType="primary" onClick={handleEdit}>
 						Edit
 					</UIButton>
 				)}
 			</div>
 
-			{error && <div className={styles["edit-profile-form__error"]}>{error}</div>}
+			{error && (
+				<div className={styles["edit-profile-form__error"]}>{error}</div>
+			)}
 			{success && (
 				<div className={styles["edit-profile-form__success"]}>{success}</div>
 			)}

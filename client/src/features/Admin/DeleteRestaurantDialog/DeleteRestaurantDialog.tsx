@@ -46,7 +46,9 @@ export const DeleteRestaurantDialog = forwardRef<
 			dialogRef.current?.close();
 			onSuccess?.();
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Failed to delete restaurant");
+			setError(
+				err instanceof Error ? err.message : "Failed to delete restaurant",
+			);
 		} finally {
 			setIsLoading(false);
 		}
@@ -70,7 +72,8 @@ export const DeleteRestaurantDialog = forwardRef<
 			{restaurant && (
 				<div className={styles["delete-restaurant-dialog__content"]}>
 					<p className={styles["delete-restaurant-dialog__text"]}>
-						Are you sure you want to delete this restaurant? This action cannot be undone and will also delete all associated dishes.
+						Are you sure you want to delete this restaurant? This action cannot
+						be undone and will also delete all associated dishes.
 					</p>
 					<div className={styles["delete-restaurant-dialog__info"]}>
 						<strong>Name:</strong> {restaurant.name}

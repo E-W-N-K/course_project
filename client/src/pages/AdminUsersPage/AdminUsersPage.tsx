@@ -7,7 +7,7 @@ import { UITable } from "@/shared/ui/UITable";
 import type { UITableColumn } from "@/shared/ui/UITable";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { UIBadge } from "@/shared/ui/UIBadge";
-import { UIDialog, UIFlex } from "@/shared/ui";
+import { UIDialog, UIFlex, UISection } from "@/shared/ui";
 import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import styles from "./AdminUsersPage.module.css";
 
@@ -54,7 +54,10 @@ export const AdminUsersPage = () => {
 
 		try {
 			await adminApi.deleteUser(userToDelete.id);
-			showMessage("success", `User "${userToDelete.name}" deleted successfully`);
+			showMessage(
+				"success",
+				`User "${userToDelete.name}" deleted successfully`,
+			);
 			deleteDialogRef.current?.close();
 			setUserToDelete(null);
 			await fetchUsers();
@@ -98,7 +101,9 @@ export const AdminUsersPage = () => {
 			key: "actions",
 			header: "Actions",
 			render: (user) => {
-				const isCurrentUser = Boolean(currentUser && user.name === currentUser.name);
+				const isCurrentUser = Boolean(
+					currentUser && user.name === currentUser.name,
+				);
 
 				return (
 					<UIButton
@@ -116,52 +121,64 @@ export const AdminUsersPage = () => {
 	];
 
 	return (
-		<UIContainer className={styles["admin-users-page"]}>
-			<div className={styles["admin-users-page__header"]}>
-				<h1 className={styles["admin-users-page__title"]}>Manage Users</h1>
-				<p className={styles["admin-users-page__subtitle"]}>
-					View and delete user accounts
-				</p>
-			</div>
-
-			{message && (
-				<div
-					className={`${styles["admin-users-page__message"]} ${styles[`admin-users-page__message--${message.type}`]}`}
-				>
-					{message.text}
-				</div>
-			)}
-
-			{isLoading ? (
-				<p className={styles["admin-users-page__loading"]}>Loading users...</p>
-			) : (
-				<UITable columns={columns} data={users} />
-			)}
-
-			<UIDialog
-				ref={deleteDialogRef}
-				title="Delete User"
-				size="md"
-				onClose={handleCancelDelete}
-				footer={
-					<UIFlex>
-						<UIButton variant="outline" colorType="secondary" onClick={handleCancelDelete}>
-							Cancel
-						</UIButton>
-						<UIButton variant="solid" colorType="danger" onClick={handleConfirmDelete}>
-							Delete User
-						</UIButton>
-					</UIFlex>
-				}
-			>
-				{userToDelete && (
-					<p className={"text"}>
-						Are you sure you want to delete this user? <br/>
-						<strong>Name:</strong> {userToDelete.name} <br/>
-						<strong>Email:</strong> {userToDelete.email}
+		<UISection>
+			<UIContainer className={styles["admin-users-page"]}>
+				<div className={styles["admin-users-page__header"]}>
+					<h1 className={styles["admin-users-page__title"]}>Manage Users</h1>
+					<p className={styles["admin-users-page__subtitle"]}>
+						View and delete user accounts
 					</p>
+				</div>
+
+				{message && (
+					<div
+						className={`${styles["admin-users-page__message"]} ${styles[`admin-users-page__message--${message.type}`]}`}
+					>
+						{message.text}
+					</div>
 				)}
-			</UIDialog>
-		</UIContainer>
+
+				{isLoading ? (
+					<p className={styles["admin-users-page__loading"]}>
+						Loading users...
+					</p>
+				) : (
+					<UITable columns={columns} data={users} />
+				)}
+
+				<UIDialog
+					ref={deleteDialogRef}
+					title="Delete User"
+					size="md"
+					onClose={handleCancelDelete}
+					footer={
+						<UIFlex>
+							<UIButton
+								variant="outline"
+								colorType="secondary"
+								onClick={handleCancelDelete}
+							>
+								Cancel
+							</UIButton>
+							<UIButton
+								variant="solid"
+								colorType="danger"
+								onClick={handleConfirmDelete}
+							>
+								Delete User
+							</UIButton>
+						</UIFlex>
+					}
+				>
+					{userToDelete && (
+						<p className={"text"}>
+							Are you sure you want to delete this user? <br />
+							<strong>Name:</strong> {userToDelete.name} <br />
+							<strong>Email:</strong> {userToDelete.email}
+						</p>
+					)}
+				</UIDialog>
+			</UIContainer>
+		</UISection>
 	);
 };

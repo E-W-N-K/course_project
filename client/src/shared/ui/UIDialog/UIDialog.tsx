@@ -24,16 +24,8 @@ export interface UIDialogRef {
 
 export const UIDialog = forwardRef<UIDialogRef, UIDialogProps>(
 	(
-		{
-			title,
-			children,
-			footer,
-			size = "md",
-			onClose,
-			className = "",
-			...props
-		},
-		ref
+		{ title, children, footer, size = "md", onClose, className = "", ...props },
+		ref,
 	) => {
 		const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -56,7 +48,9 @@ export const UIDialog = forwardRef<UIDialogRef, UIDialogProps>(
 
 		const header = title ? (
 			<div className={styles["dialog__header"]}>
-				<h2 className={`heading heading--xl ${styles["dialog__title"]}` }>{title}</h2>
+				<h2 className={`heading heading--xl ${styles["dialog__title"]}`}>
+					{title}
+				</h2>
 				<button
 					type="button"
 					className={styles["dialog__close"]}
@@ -80,7 +74,7 @@ export const UIDialog = forwardRef<UIDialogRef, UIDialogProps>(
 				</UICard>
 			</dialog>
 		);
-	}
+	},
 );
 
 UIDialog.displayName = "UIDialog";

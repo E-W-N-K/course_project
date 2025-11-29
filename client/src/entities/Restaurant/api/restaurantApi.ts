@@ -24,11 +24,15 @@ export const getRestaurantById = async (
  * API: Search restaurants by name
  * GET /restaurants/searchRestaurant?name={name}
  */
-export const searchRestaurants = async (name: string): Promise<Restaurant[]> => {
+export const searchRestaurants = async (
+	name: string,
+): Promise<Restaurant[]> => {
 	if (!name.trim()) {
 		return getAllRestaurants();
 	}
-	return apiClient.get<Restaurant[]>(`/restaurants/searchRestaurant?name=${encodeURIComponent(name)}`);
+	return apiClient.get<Restaurant[]>(
+		`/restaurants/searchRestaurant?name=${encodeURIComponent(name)}`,
+	);
 };
 
 /**

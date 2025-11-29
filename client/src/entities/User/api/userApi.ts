@@ -59,7 +59,9 @@ export const getDeliveryInfo = async (): Promise<{
 	phone: string;
 	address: string;
 }> => {
-	return apiClient.get<{ phone: string; address: string }>("/user/delivery-info");
+	return apiClient.get<{ phone: string; address: string }>(
+		"/user/delivery-info",
+	);
 };
 
 /**

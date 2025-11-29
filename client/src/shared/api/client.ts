@@ -28,7 +28,7 @@ class ApiClient {
 			: {
 					"Content-Type": "application/json",
 					...config.headers,
-			  };
+				};
 
 		try {
 			const response = await fetch(url, {

@@ -25,7 +25,9 @@ export const getOrderById = async (orderId: number): Promise<Order> => {
  * GET /orders/status/{status}
  * Filter user's orders by status (PENDING, COMPLETED, CANCELLED)
  */
-export const getOrdersByStatus = async (status: OrderStatus): Promise<Order[]> => {
+export const getOrdersByStatus = async (
+	status: OrderStatus,
+): Promise<Order[]> => {
 	return apiClient.get<Order[]>(`/orders/status/${status}`);
 };
 

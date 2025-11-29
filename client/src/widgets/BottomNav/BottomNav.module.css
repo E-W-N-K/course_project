@@ -9,7 +9,8 @@
 	border-top: 1px solid var(--color-border);
 	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 	display: none;
-	padding: var(--spacing-md) 0 calc(var(--spacing-md) + env(safe-area-inset-bottom));
+	padding: var(--spacing-md) 0
+		calc(var(--spacing-md) + env(safe-area-inset-bottom));
 }
 
 /* Show on mobile only */
