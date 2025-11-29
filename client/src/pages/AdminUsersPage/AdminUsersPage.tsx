@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { adminApi } from "@/entities/Admin";
 import { useUserStore } from "@/entities/User";
 import type { User } from "@/entities/User";
@@ -22,11 +22,7 @@ export const AdminUsersPage = () => {
 	} | null>(null);
 	const deleteDialogRef = useRef<UIDialogRef>(null);
 
-	useEffect(() => {
-		fetchUsers();
-	}, []);
-
-	const fetchUsers = async () => {
+	const fetchUsers = useCallback(async () => {
 		setIsLoading(true);
 		try {
 			const data = await adminApi.getAllUsers();
@@ -37,7 +33,11 @@ export const AdminUsersPage = () => {
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, []);
+
+	useEffect(() => {
+		fetchUsers();
+	}, [fetchUsers]);
 
 	const handleDeleteClick = (user: User) => {
 		setUserToDelete(user);

@@ -44,7 +44,7 @@ export const logout = async (): Promise<void> => {
 export const getCurrentUser = async (): Promise<User | null> => {
 	try {
 		return await apiClient.get<User>("/auth/me");
-	} catch (error) {
+	} catch {
 		// Not authenticated
 		return null;
 	}

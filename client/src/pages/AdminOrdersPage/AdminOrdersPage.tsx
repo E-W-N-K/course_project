@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { adminApi } from "@/entities/Admin";
 import type { Order, OrderStatus } from "@/entities/Order";
 import { UIContainer } from "@/shared/ui/UIContainer";
@@ -32,11 +32,7 @@ export const AdminOrdersPage = () => {
 		Record<number, OrderStatus>
 	>({});
 
-	useEffect(() => {
-		fetchOrders();
-	}, [filter]);
-
-	const fetchOrders = async () => {
+	const fetchOrders = useCallback(async () => {
 		setIsLoading(true);
 		try {
 			const data = await adminApi.getAllOrders(
@@ -55,7 +51,11 @@ export const AdminOrdersPage = () => {
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, [filter]);
+
+	useEffect(() => {
+		fetchOrders();
+	}, [fetchOrders]);
 
 	const handleStatusChange = (orderId: number, newStatus: string) => {
 		setStatusChanges((prev) => ({

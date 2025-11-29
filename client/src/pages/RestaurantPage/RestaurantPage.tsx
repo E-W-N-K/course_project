@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
@@ -31,7 +31,7 @@ export const RestaurantPage = () => {
 	const editRestaurantFormRef = useRef<EditRestaurantFormRef>(null);
 	const addDishFormRef = useRef<EditDishFormRef>(null);
 
-	const fetchData = async () => {
+	const fetchData = useCallback(async () => {
 		if (!id) {
 			setError("Restaurant ID is missing");
 			setIsLoading(false);
@@ -64,11 +64,11 @@ export const RestaurantPage = () => {
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, [id]);
 
 	useEffect(() => {
 		fetchData();
-	}, [id]);
+	}, [fetchData]);
 
 	const handleEditRestaurant = () => {
 		editRestaurantFormRef.current?.open();

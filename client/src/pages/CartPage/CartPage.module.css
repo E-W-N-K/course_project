@@ -63,7 +63,7 @@
 
 .cart-page__sidebar {
 	position: sticky;
-	top: var(--spacing-xl);
+	top: calc(var(--app-header-height) + var(--spacing-xl));
 }
 
 /* Cart Summary */

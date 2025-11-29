@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useCartStore } from "@/entities/Cart";
-import { UIButton } from "@/shared/ui";
 import styles from "./DishCardControls.module.css";
 
 interface DishCardControlsProps {
