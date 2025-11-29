@@ -11,7 +11,7 @@
 	align-items: center;
 	box-shadow: var(--shadow-sm);
 	min-height: var(--app-header-height);
-	padding-block: var(--shadow-md);
+	padding-block: var(--spacing-md);
 }
 
 .header__logo {
@@ -40,6 +40,9 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+	:root {
+		--app-header-height: 4.25rem;
+	}
 	.header__logo {
 		font-size: var(--text-xl);
 	}
