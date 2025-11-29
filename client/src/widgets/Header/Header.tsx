@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useUserStore } from "@/entities/User";
 import { useCartStore } from "@/entities/Cart";
 import { LogoutButton } from "@/features/Auth/LogoutButton";
+import { NavLinks } from "@/widgets/NavLinks";
 import { UIBadge } from "@/shared/ui/UIBadge/UIBadge";
 import { UIFlex } from "@/shared/ui/UIFlex/UIFlex";
 import { UILink } from "@/shared/ui/UILink/UILink";
@@ -10,8 +11,7 @@ import styles from "./Header.module.css";
 
 export const Header = () => {
 	const { isAuthenticated, user } = useUserStore();
-	const { fetchCart, getItemCount } = useCartStore();
-	const cartItemCount = getItemCount();
+	const { fetchCart } = useCartStore();
 	const isAdmin = user?.role === "ADMIN";
 
 	// Fetch cart when user logs in (only for non-admin users)
@@ -32,46 +32,13 @@ export const Header = () => {
 								variant="primary"
 								className={styles["header__logo"]}
 							>
-								Food Delivery
+								FD
 							</UILink>
 
 							{isAuthenticated && (
-								<>
-									<UILink to="/" variant="secondary">
-										Homepage
-									</UILink>
-
-									{!isAdmin && (
-										<>
-											<UILink to="/profile" variant="secondary">
-												Profile
-											</UILink>
-
-											<div className={styles["header__cart"]}>
-												<UILink to="/cart" variant="secondary">
-													Cart
-												</UILink>
-												{cartItemCount > 0 && (
-													<UIBadge variant="primary">{cartItemCount}</UIBadge>
-												)}
-											</div>
-										</>
-									)}
-
-									{isAdmin && (
-										<>
-											<UILink to="/admin/orders" variant="secondary">
-												Orders
-											</UILink>
-											<UILink to="/admin/users" variant="secondary">
-												Users
-											</UILink>
-											<UILink to="/ui" variant="secondary">
-												UI
-											</UILink>
-										</>
-									)}
-								</>
+								<div className={styles["header__nav"]}>
+									<NavLinks variant="header" />
+								</div>
 							)}
 						</UIFlex>
 					</nav>

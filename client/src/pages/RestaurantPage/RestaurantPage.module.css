@@ -104,12 +104,6 @@
 	line-height: var(--leading-tight);
 }
 
-.restaurant-page__dishes {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: var(--spacing-lg);
-}
-
 .restaurant-page__no-dishes {
 	font-size: var(--text-lg);
 	color: var(--color-text-secondary);
@@ -173,6 +167,11 @@
 		padding-bottom: var(--spacing-xl);
 	}
 
+	.restaurant-page__header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	.restaurant-page__title {
 		font-size: var(--text-2xl);
 	}
@@ -181,13 +180,13 @@
 		font-size: var(--text-md);
 	}
 
+	.restaurant-page__menu-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	.restaurant-page__menu-title {
 		font-size: var(--text-xl);
 		margin-bottom: var(--spacing-lg);
-	}
-
-	.restaurant-page__dishes {
-		grid-template-columns: 1fr;
-		gap: var(--spacing-md);
 	}
 }

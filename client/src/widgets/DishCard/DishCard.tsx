@@ -94,7 +94,6 @@ export const DishCard = ({
 									cartItemId={cartItem.id}
 									currentQuantity={cartItem.quantity}
 									itemTotal={cartItem.itemTotal}
-									showRemove={true}
 									showSubtotal={showSubtotal}
 								/>
 							) : (

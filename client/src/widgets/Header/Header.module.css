@@ -7,7 +7,7 @@
 }
 
 .header__logo {
-	font-size: var(--text-lg);
+	font-size: var(--text-2xl);
 	font-weight: var(--font-bold);
 }
 
@@ -28,4 +28,23 @@
 	align-items: center;
 	gap: var(--spacing-xs);
 	position: relative;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+	.header__logo {
+		font-size: var(--text-xl);
+	}
+
+	.header__nav {
+		display: none;
+	}
+
+	.header__user-name {
+		display: none;
+	}
+
+	.header__user-info {
+		gap: var(--spacing-xs);
+	}
 }

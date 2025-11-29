@@ -160,6 +160,10 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+	.order-history {
+		gap: var(--spacing-lg);
+	}
+
 	.order-history__title {
 		font-size: var(--text-xl);
 	}
@@ -173,6 +177,10 @@
 		align-items: flex-start;
 	}
 
+	.order-card__id {
+		font-size: var(--text-md);
+	}
+
 	.order-card__item {
 		flex-wrap: wrap;
 	}
@@ -180,5 +188,13 @@
 	.order-card__item-name {
 		flex-basis: 100%;
 		margin-bottom: var(--spacing-xs);
+	}
+
+	.order-card__total-label {
+		font-size: var(--text-md);
+	}
+
+	.order-card__total-amount {
+		font-size: var(--text-lg);
 	}
 }

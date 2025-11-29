@@ -4,7 +4,7 @@ import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
 import { dishApi } from "@/entities/Dish";
 import { useUserStore } from "@/entities/User";
-import { UIContainer, UIGrid, UISearchInput, UIButton, UICard } from "@/shared/ui";
+import { UIContainer, UISearchInput, UIButton, UICard } from "@/shared/ui";
 import { RestaurantCard } from "@/widgets/RestaurantCard";
 import { DishCard } from "@/widgets/DishCard";
 import {
@@ -141,11 +141,11 @@ export const HomePage = () => {
 									? `Restaurants (${searchResults.restaurants.length})`
 									: "Restaurants"}
 							</h2>
-							<UIGrid columns={3} gap="xl">
+							<div className="grid">
 								{searchResults.restaurants.map((restaurant) => (
 									<RestaurantCard key={restaurant.id} restaurant={restaurant} />
 								))}
-							</UIGrid>
+							</div>
 						</div>
 					)}
 
@@ -155,11 +155,11 @@ export const HomePage = () => {
 							<h2 className={styles["home-page__section-title"]}>
 								Dishes ({searchResults.dishes.length})
 							</h2>
-							<UIGrid columns={2} gap="xl">
+							<div className="grid grid--lg">
 								{searchResults.dishes.map((dish) => (
 									<DishCard key={dish.id} dish={dish} onUpdate={fetchData} />
 								))}
-							</UIGrid>
+							</div>
 						</div>
 					)}
 				</div>

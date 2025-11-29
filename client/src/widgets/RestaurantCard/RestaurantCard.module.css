@@ -5,6 +5,8 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	container-type: inline-size;
+	container-name: restaurant-card;
 }
 
 .restaurant-card:hover {
@@ -52,4 +54,19 @@
 	color: var(--color-text-secondary);
 	margin: 0;
 	line-height: var(--leading-normal);
+}
+
+/* Container queries for responsive card sizing */
+@container restaurant-card (max-width: 400px) {
+	.restaurant-card__image {
+		min-height: 150px;
+	}
+
+	.restaurant-card__name {
+		font-size: var(--text-lg);
+	}
+
+	.restaurant-card__address {
+		font-size: var(--text-xs);
+	}
 }

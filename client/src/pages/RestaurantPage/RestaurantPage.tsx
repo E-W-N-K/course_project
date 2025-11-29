@@ -166,7 +166,7 @@ export const RestaurantPage = () => {
 							No menu items available at this time.
 						</p>
 					) : (
-						<div className={styles["restaurant-page__dishes"]}>
+						<div className="grid grid--lg">
 							{dishes.map((dish) => (
 								<DishCard
 									key={dish.id}
