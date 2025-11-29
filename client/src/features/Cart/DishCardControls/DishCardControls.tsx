@@ -8,7 +8,6 @@ interface DishCardControlsProps {
 	cartItemId: number;
 	currentQuantity: number;
 	itemTotal: number;
-	showRemove?: boolean;
 	showSubtotal?: boolean;
 	onUpdate?: () => void;
 }
@@ -18,7 +17,6 @@ export const DishCardControls = ({
 	cartItemId,
 	currentQuantity,
 	itemTotal,
-	showRemove = true,
 	showSubtotal = true,
 	onUpdate,
 }: DishCardControlsProps) => {
@@ -49,18 +47,6 @@ export const DishCardControls = ({
 		}
 	};
 
-	const handleRemove = async () => {
-		setIsUpdating(true);
-		try {
-			await removeItem(cartItemId, currentQuantity);
-			onUpdate?.();
-		} catch (error) {
-			console.error("Failed to remove item:", error);
-		} finally {
-			setIsUpdating(false);
-		}
-	};
-
 	return (
 		<div className={styles["dish-card-controls"]}>
 			<div className={styles["dish-card-controls__quantity"]}>
@@ -85,23 +71,11 @@ export const DishCardControls = ({
 				</button>
 			</div>
 
-			{(showSubtotal || showRemove) && (
+			{showSubtotal && (
 				<div className={styles["dish-card-controls__actions"]}>
-					{showSubtotal && (
-						<span className={styles["dish-card-controls__subtotal"]}>
-							${itemTotal.toFixed(2)}
-						</span>
-					)}
-					{showRemove && (
-						<UIButton
-							variant="outline"
-							colorType="danger"
-							onClick={handleRemove}
-							disabled={isUpdating}
-						>
-							{isUpdating ? "Removing..." : "Remove"}
-						</UIButton>
-					)}
+					<span className={styles["dish-card-controls__subtotal"]}>
+						${itemTotal.toFixed(2)}
+					</span>
 				</div>
 			)}
 		</div>

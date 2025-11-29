@@ -22,3 +22,10 @@
 	border-radius: var(--radius-sm);
 	font-size: var(--text-sm);
 }
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+	.register-form__group {
+		margin-bottom: var(--spacing-sm);
+	}
+}

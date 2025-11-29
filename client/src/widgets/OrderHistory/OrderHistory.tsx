@@ -3,7 +3,6 @@ import { useUserStore } from "@/entities/User";
 import { orderApi, type Order } from "@/entities/Order";
 import { UICard } from "@/shared/ui/UICard";
 import { UIBadge } from "@/shared/ui/UIBadge";
-import { UIGrid } from "@/shared/ui/UIGrid";
 import styles from "./OrderHistory.module.css";
 
 export const OrderHistory = () => {
@@ -84,7 +83,7 @@ export const OrderHistory = () => {
 					</p>
 				</UICard>
 			) : (
-				<UIGrid columns={2} gap="lg">
+				<div className="grid grid--gap-lg">
 					{orders.map((order) => (
 						<UICard key={order.orderId} padding="lg">
 							<div className={styles["order-card"]}>
@@ -132,7 +131,7 @@ export const OrderHistory = () => {
 							</div>
 						</UICard>
 					))}
-				</UIGrid>
+				</div>
 			)}
 		</div>
 	);

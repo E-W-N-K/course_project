@@ -7,14 +7,6 @@
 	gap: var(--spacing-sm);
 }
 
-.grid--gap-md {
-	gap: var(--spacing-md);
-}
-
-.grid--gap-lg {
-	gap: var(--spacing-lg);
-}
-
 .grid--gap-xl {
 	gap: var(--spacing-xl);
 }

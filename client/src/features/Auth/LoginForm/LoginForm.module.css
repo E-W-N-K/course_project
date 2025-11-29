@@ -43,3 +43,10 @@
 	margin: 0;
 	line-height: 1.5;
 }
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+	.login-form__hint {
+		padding: var(--spacing-sm);
+	}
+}

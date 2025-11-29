@@ -6,6 +6,8 @@
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	container-type: inline-size;
+	container-name: card;
 }
 
 .card--padding-sm {
@@ -36,4 +38,23 @@
 
 .card__footer {
 	margin-top: var(--spacing-lg);
+}
+
+/* Container queries for responsive padding */
+@container card (max-width: 500px) {
+	.card--padding-xl {
+		padding: var(--spacing-lg);
+	}
+
+	.card--padding-lg {
+		padding: var(--spacing-md);
+	}
+
+	.card__header {
+		margin-bottom: var(--spacing-md);
+	}
+
+	.card__footer {
+		margin-top: var(--spacing-md);
+	}
 }

@@ -1,5 +1,7 @@
 .dish-card {
 	transition: box-shadow var(--transition-base);
+	container-type: inline-size;
+	container-name: dish-card;
 }
 
 .dish-card:hover {
@@ -88,7 +90,7 @@
 
 .dish-card__footer {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	margin-top: auto;
 }
 
@@ -103,20 +105,34 @@
 	min-width: 140px;
 }
 
-/* Responsive: Stack vertically on mobile */
-@media (max-width: 768px) {
+/* Container queries: Stack vertically in narrow containers */
+@container dish-card (max-width: 450px) {
 	.dish-card__wrapper {
 		flex-direction: column;
+		align-items: stretch;
 	}
 
 	.dish-card__image-wrapper {
-		width: 100%;
+		width: unset;
 		height: 180px;
+		margin: calc( -1 * var(--spacing-lg)) calc( -1 * var(--spacing-lg)) 0;
 	}
 
 	.dish-card__header {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+
+	.dish-card__name {
+		font-size: var(--text-lg);
+	}
+
+	.dish-card__price {
+		font-size: var(--text-xl);
+	}
+
+	.dish-card__description {
+		font-size: var(--text-sm);
 	}
 
 	.dish-card__meta {
@@ -127,9 +143,5 @@
 
 	.dish-card__footer {
 		justify-content: stretch;
-	}
-
-	.dish-card__add-button {
-		width: 100%;
 	}
 }

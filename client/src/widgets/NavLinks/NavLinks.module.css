@@ -1,0 +1,13 @@
+/* Cart with badge */
+.nav-links__cart {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	position: relative;
+}
+
+/* Bottom nav variant - centered full width container */
+.nav-links--bottom {
+	width: 100%;
+	justify-content: center;
+}

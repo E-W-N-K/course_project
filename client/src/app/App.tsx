@@ -10,6 +10,7 @@ import { RegisterPage } from "../pages/RegisterPage";
 import { AdminOrdersPage } from "../pages/AdminOrdersPage";
 import { AdminUsersPage } from "../pages/AdminUsersPage";
 import { Header } from "../widgets/Header";
+import { BottomNav } from "../widgets/BottomNav";
 import { ProtectedRoute } from "../shared/ui/ProtectedRoute";
 import { useUserStore } from "../entities/User";
 import "./App.css";
@@ -95,6 +96,8 @@ function App() {
 					/>
 				</Routes>
 			</main>
+
+			<BottomNav />
 		</BrowserRouter>
 	);
 }

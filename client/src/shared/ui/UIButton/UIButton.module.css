@@ -1,6 +1,6 @@
 .button {
 	padding: var(--spacing-md) var(--spacing-xl);
-	font-size: 1rem;
+	font-size: var(--text-md);
 	font-weight: 500;
 	border-radius: var(--radius-md);
 	border: 2px solid transparent;
@@ -82,4 +82,13 @@
 
 .outline.danger:hover:not(:disabled) {
 	background-color: var(--color-danger-light);
+}
+
+/* Mobile Responsive - Ensure good touch targets */
+@media (max-width: 640px) {
+	.button {
+		font-size: var(--text-sm);
+		padding: var(--spacing-sm) var(--spacing-lg);
+		min-height: 44px;
+	}
 }

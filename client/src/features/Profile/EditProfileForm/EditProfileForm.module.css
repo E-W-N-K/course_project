@@ -1,3 +1,7 @@
+
+.edit-profile-form {
+	max-width: 46rem;
+}
 .edit-profile-form__header {
 	display: flex;
 	gap: var(--spacing-lg);
@@ -37,4 +41,16 @@
 	display: flex;
 	gap: var(--spacing-md);
 	justify-content: flex-end;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+	.edit-profile-form__header {
+		gap: var(--spacing-md);
+	}
+
+	.edit-profile-form__title {
+		font-size: var(--text-lg);
+	}
+
 }

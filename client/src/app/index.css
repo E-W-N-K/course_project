@@ -85,6 +85,10 @@
 	--container-max-width: 1200px;
 	--container-padding: var(--spacing-2xl);
 
+	/* Grid */
+	--grid-min-column-width-md: 18rem;
+	--grid-min-column-width-lg: 25rem;
+
 	/* Typography */
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: var(--leading-normal);
@@ -209,4 +213,24 @@ ol {
 .text.text--sm {
 	font-size: var(--text-sm);
 	color: var(--color-text-secondary);
+}
+
+/* Utility Classes - Grid */
+.grid {
+	--min-col-width: var(--grid-min-column-width-md);
+
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(var(--min-col-width), 100%), 1fr));
+	gap: var(--spacing-xl);
+}
+
+.grid--lg {
+	--min-col-width: var(--grid-min-column-width-lg);
+}
+
+/* Mobile - Add bottom padding for bottom navigation */
+@media (max-width: 768px) {
+	body {
+		padding-bottom: calc(64px + env(safe-area-inset-bottom));
+	}
 }
