@@ -8,7 +8,9 @@ import type { Dish } from "../types";
 export const getAllDishes = async (): Promise<Dish[]> => {
 	// This would require fetching from all restaurants
 	// For now, this is a placeholder - backend doesn't have a dedicated endpoint
-	throw new Error("getAllDishes not supported by backend - use getDishesByRestaurant instead");
+	throw new Error(
+		"getAllDishes not supported by backend - use getDishesByRestaurant instead",
+	);
 };
 
 /**
@@ -30,7 +32,9 @@ export const getDishById = async (
 	dishId: number,
 ): Promise<Dish | null> => {
 	try {
-		return await apiClient.get<Dish>(`/restaurants/${restaurantId}/dishes/${dishId}`);
+		return await apiClient.get<Dish>(
+			`/restaurants/${restaurantId}/dishes/${dishId}`,
+		);
 	} catch {
 		return null;
 	}
@@ -44,7 +48,9 @@ export const searchDishes = async (dishName: string): Promise<Dish[]> => {
 	if (!dishName.trim()) {
 		return [];
 	}
-	return apiClient.get<Dish[]>(`/restaurants/searchDish?dishName=${encodeURIComponent(dishName)}`);
+	return apiClient.get<Dish[]>(
+		`/restaurants/searchDish?dishName=${encodeURIComponent(dishName)}`,
+	);
 };
 
 /**
@@ -59,7 +65,7 @@ export const searchDishesInRestaurant = async (
 		return getDishesByRestaurant(restaurantId);
 	}
 	return apiClient.get<Dish[]>(
-		`/restaurants/${restaurantId}/dishes/searchDish?dishName=${encodeURIComponent(dishName)}`
+		`/restaurants/${restaurantId}/dishes/searchDish?dishName=${encodeURIComponent(dishName)}`,
 	);
 };
 
@@ -83,7 +89,10 @@ export const createDish = async (
 	if (imageFile) {
 		formData.append("image", imageFile);
 	}
-	return apiClient.post<Dish>(`/admin/restaurants/${restaurantId}/dishes`, formData);
+	return apiClient.post<Dish>(
+		`/admin/restaurants/${restaurantId}/dishes`,
+		formData,
+	);
 };
 
 /**

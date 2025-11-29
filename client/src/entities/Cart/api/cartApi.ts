@@ -32,7 +32,9 @@ export const removeFromCart = async (
 	cartItemId: number,
 	quantity: number = 1,
 ): Promise<Cart> => {
-	return apiClient.delete<Cart>(`/cart/remove/${cartItemId}?quantity=${quantity}`);
+	return apiClient.delete<Cart>(
+		`/cart/remove/${cartItemId}?quantity=${quantity}`,
+	);
 };
 
 /**

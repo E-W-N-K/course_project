@@ -19,7 +19,9 @@ export const OrderHistory = () => {
 				const data = await orderApi.getUserOrders();
 				// Sort orders from newest to oldest
 				const sortedOrders = data.sort((a, b) => {
-					return new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+					return (
+						new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime()
+					);
 				});
 				setOrders(sortedOrders);
 			} catch (error) {

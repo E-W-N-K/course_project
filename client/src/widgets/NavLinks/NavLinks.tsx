@@ -15,9 +15,8 @@ export const NavLinks = ({ variant = "header" }: NavLinksProps) => {
 	const cartItemCount = getItemCount();
 	const isAdmin = user?.role === "ADMIN";
 
-	const containerClassName = variant === "bottom"
-		? styles["nav-links--bottom"]
-		: "";
+	const containerClassName =
+		variant === "bottom" ? styles["nav-links--bottom"] : "";
 
 	return (
 		<UIFlex gap="lg" align="center" className={containerClassName}>

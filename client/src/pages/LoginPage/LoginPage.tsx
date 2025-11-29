@@ -7,8 +7,8 @@ import styles from "./LoginPage.module.css";
 
 export const LoginPage = () => {
 	return (
-		<UIContainer>
-			<UISection>
+		<UISection>
+			<UIContainer>
 				<UIFlex direction="column" align="center" gap="lg">
 					<div className={styles["login-page__header"]}>
 						<h1 className={styles["login-page__title"]}>Welcome Back</h1>
@@ -28,7 +28,7 @@ export const LoginPage = () => {
 						</p>
 					</div>
 				</UIFlex>
-			</UISection>
-		</UIContainer>
+			</UIContainer>
+		</UISection>
 	);
 };

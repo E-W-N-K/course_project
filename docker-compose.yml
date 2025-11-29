@@ -37,6 +37,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_PORT: ${POSTGRES_PORT}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
     ports:
       - "${BACKEND_PORT}:8080"
     volumes:
@@ -46,20 +48,20 @@ services:
     restart: unless-stopped
 
   # React Frontend
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    container_name: react_frontend
-    depends_on:
-      - course_project
-    environment:
-      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
-    ports:
-      - "${FRONTEND_PORT}:3000"
-    networks:
-      - app-network
-    restart: unless-stopped
+#  client:
+#    build:
+#      context: ./client
+#      dockerfile: Dockerfile
+#    container_name: react_frontend
+#    depends_on:
+#      - course_project
+#    environment:
+#      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
+#    ports:
+#      - "${FRONTEND_PORT}:3000"
+#    networks:
+#      - app-network
+#    restart: unless-stopped
 
 volumes:
   postgres_data:

@@ -20,7 +20,8 @@
 	flex-shrink: 0;
 	width: 200px;
 	overflow: hidden;
-	margin: calc( -1 * var(--spacing-lg)) 0 calc( -1 * var(--spacing-lg)) calc( -1 * var(--spacing-lg));
+	margin: calc(-1 * var(--spacing-lg)) 0 calc(-1 * var(--spacing-lg))
+		calc(-1 * var(--spacing-lg));
 }
 
 .dish-card__image {
@@ -115,7 +116,7 @@
 	.dish-card__image-wrapper {
 		width: unset;
 		height: 180px;
-		margin: calc( -1 * var(--spacing-lg)) calc( -1 * var(--spacing-lg)) 0;
+		margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) 0;
 	}
 
 	.dish-card__header {
