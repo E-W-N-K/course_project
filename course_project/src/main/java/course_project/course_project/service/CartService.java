@@ -5,12 +5,15 @@ import course_project.course_project.repository.CartItemRepository;
 import course_project.course_project.repository.CartRepository;
 import course_project.course_project.repository.OrderItemRepository;
 import course_project.course_project.repository.OrderRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -27,10 +30,13 @@ public class CartService {
     @Autowired
     OrderItemRepository orderItemRepository;
 
-    //добавление блюда в корзину (или создание корзины)
+    @Autowired
+    private EntityManager entityManager;
+
+    // Добавление блюда в корзину (или создание корзины)
     @Transactional
     public void addDishToCart(Dish dish, int quantity, User user) {
-        //получаем или создаём корзину пользователя
+        // Получаем или создаём корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
         if (cart == null) {
@@ -39,15 +45,15 @@ public class CartService {
             cart = cartRepository.save(cart);
         }
 
-        //проверяем наличия блюда в корзине
+        // Проверяем наличие блюда в корзине
         CartItem existingCartItem = cartItemRepository.findByCartIdAndDishId(cart.getId(), dish.getId());
 
         if (existingCartItem != null) {
-            //увеличиваем количество если блюдо уже есть
+            // Увеличиваем количество если блюдо уже есть
             existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
             cartItemRepository.save(existingCartItem);
         } else {
-            //добавляем новый элемент если блюда нет
+            // Добавляем новый элемент если блюда нет
             CartItem newCartItem = new CartItem();
             newCartItem.setCart(cart);
             newCartItem.setDish(dish);
@@ -59,7 +65,7 @@ public class CartService {
         calculateTotal(cart);
     }
 
-    //удаление блюда из корзины
+    // Удаление блюда из корзины
     @Transactional
     public void removeCartItem(Long cartItemId, int quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
@@ -67,11 +73,11 @@ public class CartService {
 
         Long cartId = cartItem.getCart().getId();
 
-        //если количество меньше или равно запрошенному, удаляем весь элемент
+        // Если количество меньше или равно запрошенному, удаляем весь элемент
         if (cartItem.getQuantity() <= quantity) {
             cartItemRepository.deleteById(cartItemId);
         } else {
-            //уменьшаем количество
+            // Уменьшаем количество
             cartItem.setQuantity(cartItem.getQuantity() - quantity);
             cartItemRepository.save(cartItem);
         }
@@ -79,7 +85,7 @@ public class CartService {
         calculateTotalByCartId(cartId);
     }
 
-    //получение всей корзины пользователя
+    // Получение всей корзины пользователя
     public Cart getCartByUser(User user) {
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
@@ -96,69 +102,115 @@ public class CartService {
         return cart;
     }
 
-    //очистка корзины
+    // Очистка корзины
     @Transactional
     public void removeAllCartItemsByUser(User user) {
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
         if (cart != null) {
             cartItemRepository.deleteAllByCartId(cart.getId());
+            // После удаления, обновляем total
+            cart.setTotal(BigDecimal.ZERO);
+            cartRepository.save(cart);
         }
     }
 
-    //преобразование в заказ
+    // Преобразование в заказ
     @Transactional
     public Order checkoutCart(User user) {
-        //получаем корзину пользователя
+        // Получаем корзину пользователя
         Cart cart = cartRepository.findCartByUserId(user.getId());
 
         if (cart == null || cart.getCartItems().isEmpty()) {
             throw new IllegalArgumentException("Корзина пуста или не найдена");
         }
 
-        //создаём новый заказ
+        Long cartId = cart.getId();
+        BigDecimal orderTotal = cart.getTotal();
+
+        // ШАГ 1: КОПИРУЕМ данные из CartItems (только ID и значения)
+        List<OrderItemData> orderItemsData = new ArrayList<>();
+        for (CartItem cartItem : cart.getCartItems()) {
+            orderItemsData.add(new OrderItemData(
+                    cartItem.getDish().getId(),
+                    cartItem.getQuantity(),
+                    cartItem.getPrice()
+            ));
+        }
+
+        // ШАГ 2: Создаём новый Order
         Order order = new Order();
         order.setUser(user);
         order.setOrderTime(LocalDateTime.now());
-        order.setStatus(OrderStatus.valueOf("PENDING")); // статус "в обработке"
-        order.setTotal(cart.getTotal());
+        order.setStatus(OrderStatus.valueOf("PENDING"));
+        order.setTotal(orderTotal);
 
-        //сохраняем заказ в БД
+        // ШАГ 3: Сохраняем Order
         order = orderRepository.save(order);
 
-        //переносим элементы из корзины в заказ
-        for (CartItem cartItem : cart.getCartItems()) {
+        // ШАГ 4: Флаш для синхронизации
+        entityManager.flush();
+
+        // ШАГ 5: Создаём OrderItems
+        for (OrderItemData itemData : orderItemsData) {
+            Dish dishReloaded = entityManager.find(Dish.class, itemData.dishId);
+
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
-            orderItem.setDish(cartItem.getDish());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPriceAtOrder(cartItem.getPrice());
+            orderItem.setDish(dishReloaded);
+            orderItem.setQuantity(itemData.quantity);
+            orderItem.setPriceAtOrder(itemData.price);
 
             orderItemRepository.save(orderItem);
         }
 
-        //очищаем корзину
-        cartItemRepository.deleteAllByCartId(cart.getId());
+        // ШАГ 6: Флаш перед удалением
+        entityManager.flush();
+
+        // ШАГ 7: ОЧИЩАЕМ CART ПЕРЕД УДАЛЕНИЕМ CARTITEMS
+        cart.getCartItems().clear();
+        cart.setTotal(BigDecimal.ZERO);
+        cartRepository.save(cart);
+
+        // ШАГ 8: Флаш перед удалением CartItems
+        entityManager.flush();
+
+        // ШАГ 9: Теперь удаляем CartItems
+        cartItemRepository.deleteAllByCartId(cartId);
 
         return order;
     }
 
+    // Расчёт total по ID корзины
     private void calculateTotalByCartId(Long cartId) {
         BigDecimal total = cartItemRepository.calculateCartTotal(cartId);
         cartRepository.updateTotal(cartId, total);
     }
 
-    //расчёт общей стоимости
+    // Расчёт общей стоимости
     public void calculateTotal(Cart cart) {
-        if(cart.getCartItems() != null && !(cart.getCartItems()).isEmpty()) {
+        if (cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
             cart.setTotal(
                     cart.getCartItems().stream()
-                            .map(orderItem -> orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())))
+                            .map(cartItem -> cartItem.getPrice().multiply(new BigDecimal(cartItem.getQuantity())))
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
             );
         } else {
             cart.setTotal(BigDecimal.ZERO);
         }
         cartRepository.updateTotal(cart.getId(), cart.getTotal());
+    }
+
+    // Вспомогательный класс для хранения данных OrderItem
+    private static class OrderItemData {
+        Long dishId;
+        int quantity;
+        BigDecimal price;
+
+        OrderItemData(Long dishId, int quantity, BigDecimal price) {
+            this.dishId = dishId;
+            this.quantity = quantity;
+            this.price = price;
+        }
     }
 }
