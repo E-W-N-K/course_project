@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
@@ -7,6 +7,7 @@ import { dishApi } from "@/entities/Dish";
 import { useUserStore } from "@/entities/User";
 import { UIContainer, UISection } from "@/shared/ui";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
+import { UISearchInput } from "@/shared/ui/UISearchInput/UISearchInput";
 import { DishCard } from "@/widgets/DishCard";
 import {
 	EditRestaurantForm,
@@ -27,9 +28,24 @@ export const RestaurantPage = () => {
 	const [dishes, setDishes] = useState<Dish[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string>("");
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const editRestaurantFormRef = useRef<EditRestaurantFormRef>(null);
 	const addDishFormRef = useRef<EditDishFormRef>(null);
+
+	// Filter dishes based on search query
+	const filteredDishes = useMemo(() => {
+		if (!searchQuery.trim()) {
+			return dishes;
+		}
+
+		const query = searchQuery.toLowerCase();
+		return dishes.filter(
+			(dish) =>
+				dish.name.toLowerCase().includes(query) ||
+				dish.description?.toLowerCase().includes(query)
+		);
+	}, [dishes, searchQuery]);
 
 	const fetchData = useCallback(async () => {
 		if (!id) {
@@ -168,13 +184,28 @@ export const RestaurantPage = () => {
 							)}
 						</div>
 
+						{/* Search Bar */}
+						{dishes.length > 0 && (
+							<div className={styles["restaurant-page__search"]}>
+								<UISearchInput
+									value={searchQuery}
+									onChange={setSearchQuery}
+									placeholder="Search dishes by name or description..."
+								/>
+							</div>
+						)}
+
 						{dishes.length === 0 ? (
 							<p className={styles["restaurant-page__no-dishes"]}>
 								No menu items available at this time.
 							</p>
+						) : filteredDishes.length === 0 ? (
+							<p className={styles["restaurant-page__no-dishes"]}>
+								No dishes found matching "{searchQuery}".
+							</p>
 						) : (
 							<div className="grid grid--lg">
-								{dishes.map((dish) => (
+								{filteredDishes.map((dish) => (
 									<DishCard
 										key={dish.id}
 										dish={dish}
