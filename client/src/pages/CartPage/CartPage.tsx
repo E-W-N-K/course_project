@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
 import { getDeliveryInfo } from "@/entities/User/api/userApi";
@@ -8,18 +8,20 @@ import { EditProfileForm } from "@/features/Profile/EditProfileForm";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UICard } from "@/shared/ui/UICard";
 import { UIButton } from "@/shared/ui/UIButton";
-import { UISection } from "@/shared/ui";
+import { UISection, UIDialog, UIFlex } from "@/shared/ui";
+import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import styles from "./CartPage.module.css";
 
 export const CartPage = () => {
 	const navigate = useNavigate();
 	const { user } = useUserStore();
-	const { cart, isLoading, fetchCart, checkout } = useCartStore();
+	const { cart, isLoading, fetchCart, checkout, clearCart } = useCartStore();
 	const [isCheckingOut, setIsCheckingOut] = useState(false);
 	const [deliveryInfo, setDeliveryInfo] = useState<{
 		phone: string;
 		address: string;
 	} | null>(null);
+	const clearCartDialogRef = useRef<UIDialogRef>(null);
 
 	// Fetch cart and delivery info on mount
 	useEffect(() => {
@@ -53,6 +55,20 @@ export const CartPage = () => {
 		}
 	};
 
+	const handleClearCart = () => {
+		clearCartDialogRef.current?.open();
+	};
+
+	const confirmClearCart = async () => {
+		try {
+			await clearCart();
+			clearCartDialogRef.current?.close();
+		} catch (error) {
+			console.error("Failed to clear cart:", error);
+			alert("Failed to clear cart. Please try again.");
+		}
+	};
+
 	if (isLoading) {
 		return (
 			<UISection>
@@ -74,6 +90,16 @@ export const CartPage = () => {
 			<UIContainer className={styles["cart-page"]}>
 				<div className={styles["cart-page__header"]}>
 					<h1 className={styles["cart-page__title"]}>Shopping Cart</h1>
+					{!isEmpty && (
+						<UIButton
+							variant="outline"
+							colorType="danger"
+							onClick={handleClearCart}
+							disabled={isLoading}
+						>
+							Clear Cart
+						</UIButton>
+					)}
 				</div>
 
 				{isEmpty ? (
@@ -146,6 +172,32 @@ export const CartPage = () => {
 					</div>
 				)}
 			</UIContainer>
+
+			<UIDialog
+				ref={clearCartDialogRef}
+				title="Clear Cart"
+				size="sm"
+				footer={
+					<UIFlex gap={"md"}>
+						<UIButton
+							variant="outline"
+							colorType="secondary"
+							onClick={() => clearCartDialogRef.current?.close()}
+						>
+							Cancel
+						</UIButton>
+						<UIButton
+							variant="solid"
+							colorType="danger"
+							onClick={confirmClearCart}
+						>
+							Clear All Items
+						</UIButton>
+					</UIFlex>
+				}
+			>
+				<p className={"text"}>Are you sure you want to clear all items from your cart? This action cannot be undone.</p>
+			</UIDialog>
 		</UISection>
 	);
 };
