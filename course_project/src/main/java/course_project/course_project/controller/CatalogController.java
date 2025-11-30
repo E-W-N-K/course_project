@@ -70,6 +70,7 @@ public class CatalogController {
                         new DishDTO(
                                 dish.getId(),
                                 dish.getName(),
+                                dish.getDescription(),
                                 dish.getUrl(),
                                 dish.getPrice(),
                                 dish.getWeight()
@@ -89,6 +90,7 @@ public class CatalogController {
                         new DishDTO(
                                 dish.getId(),
                                 dish.getName(),
+                                dish.getDescription(),
                                 dish.getUrl(),
                                 dish.getPrice(),
                                 dish.getWeight()
@@ -106,6 +108,7 @@ public class CatalogController {
                         new DishDTO(
                                 dish.getId(),
                                 dish.getName(),
+                                dish.getDescription(),
                                 dish.getUrl(),
                                 dish.getPrice(),
                                 dish.getWeight(),
