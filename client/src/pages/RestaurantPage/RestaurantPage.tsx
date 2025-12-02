@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import type { Dish } from "@/entities/Dish";
 import { restaurantApi } from "@/entities/Restaurant";
@@ -9,10 +9,7 @@ import { UIContainer, UISection } from "@/shared/ui";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { UISearchInput } from "@/shared/ui/UISearchInput/UISearchInput";
 import { DishCard } from "@/widgets/DishCard";
-import {
-	EditRestaurantForm,
-	type EditRestaurantFormRef,
-} from "@/features/Admin/EditRestaurantForm";
+import { AdminRestaurantControls } from "@/features/Admin/AdminRestaurantControls";
 import {
 	EditDishForm,
 	type EditDishFormRef,
@@ -21,6 +18,7 @@ import styles from "./RestaurantPage.module.css";
 
 export const RestaurantPage = () => {
 	const { id } = useParams<{ id: string }>();
+	const navigate = useNavigate();
 	const user = useUserStore((state) => state.user);
 	const isAdmin = user?.role === "ADMIN";
 
@@ -30,7 +28,6 @@ export const RestaurantPage = () => {
 	const [error, setError] = useState<string>("");
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const editRestaurantFormRef = useRef<EditRestaurantFormRef>(null);
 	const addDishFormRef = useRef<EditDishFormRef>(null);
 
 	// Filter dishes based on search query
@@ -86,20 +83,16 @@ export const RestaurantPage = () => {
 		fetchData();
 	}, [fetchData]);
 
-	const handleEditRestaurant = () => {
-		editRestaurantFormRef.current?.open();
-	};
-
 	const handleAddDish = () => {
 		addDishFormRef.current?.open();
 	};
 
-	const handleRestaurantEditSuccess = () => {
+	const handleDishSuccess = () => {
 		fetchData();
 	};
 
-	const handleDishSuccess = () => {
-		fetchData();
+	const handleRestaurantDelete = () => {
+		navigate("/");
 	};
 
 	if (isLoading) {
@@ -148,13 +141,11 @@ export const RestaurantPage = () => {
 								{restaurant.name}
 							</h1>
 							{isAdmin && (
-								<UIButton
-									variant="outline"
-									colorType="primary"
-									onClick={handleEditRestaurant}
-								>
-									Edit Restaurant
-								</UIButton>
+								<AdminRestaurantControls
+									restaurant={restaurant}
+									onUpdate={fetchData}
+									onDelete={handleRestaurantDelete}
+								/>
 							)}
 						</div>
 						<p className={styles["restaurant-page__description"]}>
@@ -221,18 +212,11 @@ export const RestaurantPage = () => {
 
 			{/* Admin Dialogs */}
 			{isAdmin && restaurant && (
-				<>
-					<EditRestaurantForm
-						ref={editRestaurantFormRef}
-						restaurant={restaurant}
-						onSuccess={handleRestaurantEditSuccess}
-					/>
-					<EditDishForm
-						ref={addDishFormRef}
-						restaurantId={restaurant.id}
-						onSuccess={handleDishSuccess}
-					/>
-				</>
+				<EditDishForm
+					ref={addDishFormRef}
+					restaurantId={restaurant.id}
+					onSuccess={handleDishSuccess}
+				/>
 			)}
 		</div>
 	);
