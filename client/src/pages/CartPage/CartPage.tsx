@@ -125,7 +125,7 @@ export const CartPage = () => {
 						<div className={styles["cart-page__items"]}>
 							<EditProfileForm onSave={loadDeliveryInfo} />
 							{cart.cartItems.map((item) => (
-								<DishCard key={item.id} dish={item.dish} showSubtotal={true} />
+								<DishCard key={item.id} dish={item.dish} />
 							))}
 						</div>
 

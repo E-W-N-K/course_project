@@ -1,0 +1,6 @@
+.admin-dish-controls {
+	display: flex;
+	gap: var(--spacing-sm);
+	width: 100%;
+	justify-content: flex-end;
+}
