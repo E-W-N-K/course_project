@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useCartStore } from "@/entities/Cart";
 import styles from "./DishCardControls.module.css";
+import { UIButton } from "@/shared/ui";
 
 interface DishCardControlsProps {
 	dishId: number;
 	cartItemId: number;
 	currentQuantity: number;
-	itemTotal: number;
-	showSubtotal?: boolean;
 	onUpdate?: () => void;
 }
 
@@ -15,8 +14,6 @@ export const DishCardControls = ({
 	dishId,
 	cartItemId,
 	currentQuantity,
-	itemTotal,
-	showSubtotal = true,
 	onUpdate,
 }: DishCardControlsProps) => {
 	const { addToCart, removeItem } = useCartStore();
@@ -46,6 +43,18 @@ export const DishCardControls = ({
 		}
 	};
 
+	const handleRemove = async () => {
+		setIsUpdating(true);
+		try {
+			await removeItem(cartItemId, currentQuantity);
+			onUpdate?.();
+		} catch (error) {
+			console.error("Failed to remove item:", error);
+		} finally {
+			setIsUpdating(false);
+		}
+	};
+
 	return (
 		<div className={styles["dish-card-controls"]}>
 			<div className={styles["dish-card-controls__quantity"]}>
@@ -70,13 +79,14 @@ export const DishCardControls = ({
 				</button>
 			</div>
 
-			{showSubtotal && (
-				<div className={styles["dish-card-controls__actions"]}>
-					<span className={styles["dish-card-controls__subtotal"]}>
-						${itemTotal.toFixed(2)}
-					</span>
-				</div>
-			)}
+			<UIButton
+				onClick={handleRemove}
+				disabled={isUpdating}
+				colorType={"danger"}
+				variant={"outline"}
+			>
+				Remove
+			</UIButton>
 		</div>
 	);
 };
