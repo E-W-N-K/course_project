@@ -67,23 +67,25 @@ public class CartService {
 
     // Удаление блюда из корзины
     @Transactional
-    public void removeCartItem(Long cartItemId, int quantity) {
+    public void removeCartItem(User user, Long cartItemId, int quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("CartItem не найден"));
 
-        Long cartId = cartItem.getCart().getId();
+        Cart cart = cartItem.getCart();
 
-        // Если количество меньше или равно запрошенному, удаляем весь элемент
         if (cartItem.getQuantity() <= quantity) {
             cartItemRepository.deleteById(cartItemId);
+            cart.getCartItems().remove(cartItem);
         } else {
-            // Уменьшаем количество
             cartItem.setQuantity(cartItem.getQuantity() - quantity);
             cartItemRepository.save(cartItem);
         }
-
-        calculateTotalByCartId(cartId);
+        // Гарантируем, что изменения видны перед пересчётом
+        entityManager.flush();
+        // Пересчитываем с актуальными данными
+        calculateTotal(cart);
     }
+
 
     // Получение всей корзины пользователя
     public Cart getCartByUser(User user) {
@@ -181,12 +183,6 @@ public class CartService {
         return order;
     }
 
-    // Расчёт total по ID корзины
-    private void calculateTotalByCartId(Long cartId) {
-        BigDecimal total = cartItemRepository.calculateCartTotal(cartId);
-        cartRepository.updateTotal(cartId, total);
-    }
-
     // Расчёт общей стоимости
     public void calculateTotal(Cart cart) {
         if (cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
@@ -198,7 +194,7 @@ public class CartService {
         } else {
             cart.setTotal(BigDecimal.ZERO);
         }
-        cartRepository.updateTotal(cart.getId(), cart.getTotal());
+        cartRepository.save(cart);
     }
 
     // Вспомогательный класс для хранения данных OrderItem

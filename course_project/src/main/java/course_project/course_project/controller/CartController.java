@@ -89,7 +89,7 @@ public class CartController {
             }
 
             Long cartId = cartItem.getCart().getId();
-            cartService.removeCartItem(cartItemId, quantity);
+            cartService.removeCartItem(user, cartItemId, quantity);
 
             Cart cart = cartRepository.findById(cartId)
                     .orElseThrow(() -> new IllegalArgumentException("Cart не найден"));
