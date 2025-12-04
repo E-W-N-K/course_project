@@ -87,7 +87,7 @@ public class OrderController {
         return ResponseEntity.ok(convertToDTO(order));
     }
 
-    // Получить историю заказов (с пагинацией можно добавить позже)
+    // Получить историю заказов
     @GetMapping("/history")
     public ResponseEntity<List<OrderDTO>> getOrderHistory() {
         User user = getCurrentUser();
@@ -116,6 +116,7 @@ public class OrderController {
                 .map(orderItem -> new course_project.course_project.dto.OrderItemDTO(
                         orderItem.getId(),
                         orderItem.getDish().getId(),
+                        orderItem.getDish().getName(),
                         orderItem.getQuantity(),
                         orderItem.getPriceAtOrder(),
                         orderItem.getPriceAtOrder().multiply(new java.math.BigDecimal(orderItem.getQuantity()))

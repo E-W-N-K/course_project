@@ -88,7 +88,7 @@ public class AuthController {
             // Добавляем cookie в ответ
             response.addCookie(cookie);
 
-            return ResponseEntity.ok(new AuthResponseDTO("Login successful", user.getName(), user.getRole()));
+            return ResponseEntity.ok(new AuthResponseDTO("Login successful", user.getName(), user.getEmail()));
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");

@@ -170,6 +170,7 @@ public class CartController {
                 OrderItemDTO itemDTO = new OrderItemDTO(
                         orderItem.getId(),
                         orderItem.getDish().getId(),
+                        orderItem.getDish().getName(),
                         orderItem.getQuantity(),
                         orderItem.getPriceAtOrder(),
                         orderItem.getPriceAtOrder().multiply(new BigDecimal(orderItem.getQuantity()))

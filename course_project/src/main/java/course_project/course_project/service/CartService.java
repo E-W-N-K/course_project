@@ -135,6 +135,7 @@ public class CartService {
         for (CartItem cartItem : cart.getCartItems()) {
             orderItemsData.add(new OrderItemData(
                     cartItem.getDish().getId(),
+                    cartItem.getDish().getName(),
                     cartItem.getQuantity(),
                     cartItem.getPrice()
             ));
@@ -200,11 +201,13 @@ public class CartService {
     // Вспомогательный класс для хранения данных OrderItem
     private static class OrderItemData {
         Long dishId;
+        String dishName;
         int quantity;
         BigDecimal price;
 
-        OrderItemData(Long dishId, int quantity, BigDecimal price) {
+        OrderItemData(Long dishId, String dishName, int quantity, BigDecimal price) {
             this.dishId = dishId;
+            this.dishName = dishName;
             this.quantity = quantity;
             this.price = price;
         }

@@ -30,28 +30,8 @@ public class DishDTO {
         this.weight = weight;
     }
 
-    //конструктор для маленького окна
-    public DishDTO(Long id, String name, String url, BigDecimal price, int weight) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.price = price;
-        this.weight = weight;
-    }
-
     //для поиска по названию блюда
     private Long restaurantId;
     private String restaurantName;
-
-    //конструктор для поиска на главной странице
-    public DishDTO(Long id, String name,String url, BigDecimal price, int weight, Long restaurantId, String restaurantName) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.price = price;
-        this.weight = weight;
-        this.restaurantId = restaurantId;
-        this.restaurantName = restaurantName;
-    }
 
 }

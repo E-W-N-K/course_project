@@ -329,6 +329,7 @@ public class AdminController {
                 .map(orderItem -> new course_project.course_project.dto.OrderItemDTO(
                         orderItem.getId(),
                         orderItem.getDish().getId(),
+                        orderItem.getDish().getName(),
                         orderItem.getQuantity(),
                         orderItem.getPriceAtOrder(),
                         orderItem.getPriceAtOrder().multiply(new BigDecimal(orderItem.getQuantity()))
