@@ -48,14 +48,6 @@ export const LoginForm = () => {
 							{isLoading ? "Logging in..." : "Login"}
 						</UIButton>
 
-						<div className={styles["login-form__hint"]}>
-							<p className={styles["login-form__hint-title"]}>Test accounts:</p>
-							<p className={styles["login-form__hint-text"]}>Admin: admin</p>
-							<p className={styles["login-form__hint-text"]}>
-								Users: john_user, jane_user
-							</p>
-							<p className={styles["login-form__hint-text"]}>Password: admin</p>
-						</div>
 					</div>
 				)}
 			>
