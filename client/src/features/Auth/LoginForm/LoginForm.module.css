@@ -22,31 +22,3 @@
 	border-radius: var(--radius-sm);
 	font-size: var(--text-sm);
 }
-
-.login-form__hint {
-	margin-top: var(--spacing-lg);
-	padding: var(--spacing-md);
-	background-color: var(--color-secondary-light);
-	border-radius: var(--radius-sm);
-}
-
-.login-form__hint-title {
-	font-size: var(--text-sm);
-	font-weight: var(--font-semibold);
-	color: var(--color-secondary);
-	margin-bottom: var(--spacing-xs);
-}
-
-.login-form__hint-text {
-	font-size: var(--text-xs);
-	color: var(--color-secondary);
-	margin: 0;
-	line-height: 1.5;
-}
-
-/* Mobile Responsive */
-@media (max-width: 640px) {
-	.login-form__hint {
-		padding: var(--spacing-sm);
-	}
-}
