@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useUserStore } from "@/entities/User";
 import { orderApi, type Order } from "@/entities/Order";
 import { UICard } from "@/shared/ui/UICard";
 import { UIBadge } from "@/shared/ui/UIBadge";
+import { UIButton } from "@/shared/ui/UIButton";
+import { UIDialog, type UIDialogRef } from "@/shared/ui/UIDialog";
 import styles from "./OrderHistory.module.css";
 
 export const OrderHistory = () => {
 	const user = useUserStore((state) => state.user);
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isCancelling, setIsCancelling] = useState(false);
+	const [orderToCancel, setOrderToCancel] = useState<Order | null>(null);
+	const cancelDialogRef = useRef<UIDialogRef>(null);
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -57,6 +62,42 @@ export const OrderHistory = () => {
 				return "danger";
 			default:
 				return "secondary";
+		}
+	};
+
+	const handleCancelClick = (order: Order) => {
+		setOrderToCancel(order);
+		cancelDialogRef.current?.open();
+	};
+
+	const handleCancelConfirm = async () => {
+		if (!orderToCancel) return;
+
+		try {
+			setIsCancelling(true);
+			await orderApi.cancelOrder(orderToCancel.orderId);
+
+			// Update the order in the local state
+			setOrders((prevOrders) =>
+				prevOrders.map((order) =>
+					order.orderId === orderToCancel.orderId
+						? { ...order, status: "CANCELLED" as const }
+						: order,
+				),
+			);
+
+			cancelDialogRef.current?.close();
+			setOrderToCancel(null);
+		} catch (error) {
+			console.error("Failed to cancel order:", error);
+		} finally {
+			setIsCancelling(false);
+		}
+	};
+
+	const handleCancelDialogClose = () => {
+		if (!isCancelling) {
+			setOrderToCancel(null);
 		}
 	};
 
@@ -123,18 +164,65 @@ export const OrderHistory = () => {
 								</div>
 
 								<div className={styles["order-card__footer"]}>
-									<span className={styles["order-card__total-label"]}>
-										Total:
-									</span>
-									<span className={styles["order-card__total-amount"]}>
-										${order.total.toFixed(2)}
-									</span>
+									<div className={styles["order-card__total"]}>
+										<span className={styles["order-card__total-label"]}>
+											Total:
+										</span>
+										<span className={styles["order-card__total-amount"]}>
+											${order.total.toFixed(2)}
+										</span>
+									</div>
+									{order.status === "PENDING" && (
+										<div className={styles["order-card__actions"]}>
+											<UIButton
+												variant="outline"
+												colorType="danger"
+												onClick={() => handleCancelClick(order)}
+											>
+												Cancel Order
+											</UIButton>
+										</div>
+									)}
 								</div>
 							</div>
 						</UICard>
 					))}
 				</div>
 			)}
+
+			<UIDialog
+				ref={cancelDialogRef}
+				title="Cancel Order"
+				size="sm"
+				onClose={handleCancelDialogClose}
+				footer={
+					<div className={styles["dialog-footer"]}>
+						<UIButton
+							variant="outline"
+							colorType="secondary"
+							onClick={() => cancelDialogRef.current?.close()}
+							disabled={isCancelling}
+							fullWidth
+						>
+							Keep Order
+						</UIButton>
+						<UIButton
+							variant="solid"
+							colorType="danger"
+							onClick={handleCancelConfirm}
+							disabled={isCancelling}
+							fullWidth
+						>
+							{isCancelling ? "Cancelling..." : "Cancel Order"}
+						</UIButton>
+					</div>
+				}
+			>
+				<p className={styles["dialog-message"]}>
+					Are you sure you want to cancel order #
+					{orderToCancel?.orderId}? This action cannot be undone.
+				</p>
+			</UIDialog>
 		</div>
 	);
 };
