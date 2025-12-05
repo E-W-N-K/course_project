@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User";
 import { getDeliveryInfo } from "@/entities/User/api/userApi";
 import { useCartStore } from "@/entities/Cart";
+import { useNotificationStore } from "@/shared/model";
 import { DishCard } from "@/widgets/DishCard";
 import { EditProfileForm } from "@/features/Profile/EditProfileForm";
 import { UIContainer } from "@/shared/ui/UIContainer";
@@ -16,6 +17,9 @@ export const CartPage = () => {
 	const navigate = useNavigate();
 	const { user } = useUserStore();
 	const { cart, isLoading, fetchCart, checkout, clearCart } = useCartStore();
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 	const [isCheckingOut, setIsCheckingOut] = useState(false);
 	const [deliveryInfo, setDeliveryInfo] = useState<{
 		phone: string;
@@ -45,11 +49,12 @@ export const CartPage = () => {
 		setIsCheckingOut(true);
 		try {
 			await checkout();
+			showNotification("success", "Order placed successfully!");
 			// Navigate to profile page after successful checkout
 			navigate("/profile");
 		} catch (error) {
 			console.error("Failed to checkout:", error);
-			alert("Checkout failed. Please try again.");
+			showNotification("error", "Checkout failed. Please try again.");
 		} finally {
 			setIsCheckingOut(false);
 		}
@@ -65,7 +70,7 @@ export const CartPage = () => {
 			clearCartDialogRef.current?.close();
 		} catch (error) {
 			console.error("Failed to clear cart:", error);
-			alert("Failed to clear cart. Please try again.");
+			showNotification("error", "Failed to clear cart. Please try again.");
 		}
 	};
 

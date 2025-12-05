@@ -12,6 +12,7 @@ import { AdminUsersPage } from "../pages/AdminUsersPage";
 import { Header } from "../widgets/Header";
 import { BottomNav } from "../widgets/BottomNav";
 import { ProtectedRoute } from "../shared/ui/ProtectedRoute";
+import { NotificationContainer } from "../shared/ui";
 import { useUserStore } from "../entities/User";
 import "./App.css";
 import styles from "./App.module.css";
@@ -98,6 +99,7 @@ function App() {
 			</main>
 
 			<BottomNav />
+			<NotificationContainer />
 		</BrowserRouter>
 	);
 }
