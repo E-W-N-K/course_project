@@ -11,3 +11,5 @@ export { UILink } from "./UILink";
 export { UIMain } from "./UIMain";
 export { UISearchInput } from "./UISearchInput";
 export { UISection } from "./UISection";
+export { UISnackbar } from "./UISnackbar";
+export { NotificationContainer } from "./NotificationContainer";

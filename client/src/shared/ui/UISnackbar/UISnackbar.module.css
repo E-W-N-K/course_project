@@ -1,0 +1,106 @@
+.snackbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--spacing-md);
+	padding: var(--spacing-lg) var(--spacing-xl);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-lg);
+	min-width: 320px;
+	max-width: 500px;
+	font-size: var(--text-md);
+	font-weight: var(--font-medium);
+	transition: all var(--transition-base);
+	animation: snackbar-slide-in var(--transition-base) ease-out;
+}
+
+/* Success variant */
+.snackbar--success {
+	background-color: var(--color-primary-light);
+	color: var(--color-primary);
+	border: 1px solid var(--color-primary);
+}
+
+/* Error variant */
+.snackbar--error {
+	background-color: var(--color-danger-light);
+	color: var(--color-danger);
+	border: 1px solid var(--color-danger);
+}
+
+/* Content container */
+.snackbar__content {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+	flex: 1;
+}
+
+/* Icon */
+.snackbar__icon {
+	font-size: var(--text-xl);
+	font-weight: var(--font-bold);
+	line-height: 1;
+	flex-shrink: 0;
+}
+
+/* Message text */
+.snackbar__message {
+	line-height: var(--leading-normal);
+	word-break: break-word;
+}
+
+/* Close button */
+.snackbar__close {
+	background: none;
+	border: none;
+	font-size: var(--text-2xl);
+	line-height: 1;
+	cursor: pointer;
+	padding: var(--spacing-xs);
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-sm);
+	transition: background-color var(--transition-fast);
+	color: inherit;
+	opacity: 0.7;
+	flex-shrink: 0;
+}
+
+.snackbar__close:hover {
+	opacity: 1;
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.snackbar__close:active {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Animation */
+@keyframes snackbar-slide-in {
+	from {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+	.snackbar {
+		min-width: unset;
+		max-width: calc(100vw - var(--spacing-2xl));
+		padding: var(--spacing-md) var(--spacing-lg);
+		font-size: var(--text-sm);
+	}
+
+	.snackbar__icon {
+		font-size: var(--text-lg);
+	}
+}
