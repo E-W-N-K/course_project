@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { adminApi } from "@/entities/Admin";
 import type { Order, OrderStatus } from "@/entities/Order";
+import { useNotificationStore } from "@/shared/model";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UITable } from "@/shared/ui/UITable";
 import type { UITableColumn } from "@/shared/ui/UITable";
@@ -23,10 +24,9 @@ export const AdminOrdersPage = () => {
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [filter, setFilter] = useState<FilterStatus>("ALL");
-	const [message, setMessage] = useState<{
-		type: "success" | "error";
-		text: string;
-	} | null>(null);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 
 	const [statusChanges, setStatusChanges] = useState<
 		Record<number, OrderStatus>
@@ -47,11 +47,11 @@ export const AdminOrdersPage = () => {
 			setOrders(sortedOrders);
 		} catch (error) {
 			console.error("Failed to fetch orders:", error);
-			showMessage("error", "Failed to load orders");
+			showNotification("error", "Failed to load orders");
 		} finally {
 			setIsLoading(false);
 		}
-	}, [filter]);
+	}, [filter, showNotification]);
 
 	useEffect(() => {
 		fetchOrders();
@@ -70,7 +70,10 @@ export const AdminOrdersPage = () => {
 
 		try {
 			await adminApi.updateOrderStatus(order.orderId, newStatus);
-			showMessage("success", `Order #${order.orderId} updated to ${newStatus}`);
+			showNotification(
+				"success",
+				`Order #${order.orderId} updated to ${newStatus}`,
+			);
 			// Remove from status changes and refresh
 			setStatusChanges((prev) => {
 				const updated = { ...prev };
@@ -80,13 +83,8 @@ export const AdminOrdersPage = () => {
 			await fetchOrders();
 		} catch (error) {
 			console.error("Failed to update order status:", error);
-			showMessage("error", "Failed to update order status");
+			showNotification("error", "Failed to update order status");
 		}
-	};
-
-	const showMessage = (type: "success" | "error", text: string) => {
-		setMessage({ type, text });
-		setTimeout(() => setMessage(null), 3000);
 	};
 
 	const formatDate = (dateString: string): string => {
@@ -182,14 +180,6 @@ export const AdminOrdersPage = () => {
 						View and update order statuses
 					</p>
 				</div>
-
-				{message && (
-					<div
-						className={`${styles["admin-orders-page__message"]} ${styles[`admin-orders-page__message--${message.type}`]}`}
-					>
-						{message.text}
-					</div>
-				)}
 
 				<div className={styles["admin-orders-page__filters"]}>
 					<UIFlex gap="md">

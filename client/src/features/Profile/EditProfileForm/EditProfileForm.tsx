@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "@/entities/User";
+import { useNotificationStore } from "@/shared/model";
 import {
 	getDeliveryInfo,
 	updateDeliveryInfo,
@@ -16,12 +17,14 @@ interface EditProfileFormProps {
 
 export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 	const user = useUserStore((state) => state.user);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
 	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
 	const [isFetchingDeliveryInfo, setIsFetchingDeliveryInfo] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -51,14 +54,12 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError("");
-		setSuccess("");
 		setIsLoading(true);
 
 		try {
 			await updateDeliveryInfo({ phone, address });
-			setSuccess("Profile updated successfully!");
+			showNotification("success", "Profile updated successfully!");
 			setIsEditing(false);
-			setTimeout(() => setSuccess(""), 3000);
 			// Call onSave callback if provided
 			onSave?.();
 		} catch (err) {
@@ -79,13 +80,11 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 		}
 		setIsEditing(false);
 		setError("");
-		setSuccess("");
 	};
 
 	const handleEdit = () => {
 		setIsEditing(true);
 		setError("");
-		setSuccess("");
 	};
 
 	if (isFetchingDeliveryInfo) {
@@ -116,9 +115,6 @@ export const EditProfileForm = ({ onSave }: EditProfileFormProps = {}) => {
 
 			{error && (
 				<div className={styles["edit-profile-form__error"]}>{error}</div>
-			)}
-			{success && (
-				<div className={styles["edit-profile-form__success"]}>{success}</div>
 			)}
 
 			<UIForm

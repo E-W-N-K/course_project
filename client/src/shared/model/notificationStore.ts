@@ -32,7 +32,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
 		// Auto-hide after 5 seconds
 		setTimeout(() => {
 			get().hideNotification(notification.id);
-		}, 5000);
+		}, 5_000);
 	},
 
 	hideNotification: (id) => {

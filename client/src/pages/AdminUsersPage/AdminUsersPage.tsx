@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { adminApi } from "@/entities/Admin";
 import { useUserStore } from "@/entities/User";
 import type { User } from "@/entities/User";
+import { useNotificationStore } from "@/shared/model";
 import { UIContainer } from "@/shared/ui/UIContainer";
 import { UITable } from "@/shared/ui/UITable";
 import type { UITableColumn } from "@/shared/ui/UITable";
@@ -13,13 +14,12 @@ import styles from "./AdminUsersPage.module.css";
 
 export const AdminUsersPage = () => {
 	const currentUser = useUserStore((state) => state.user);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 	const [users, setUsers] = useState<User[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [userToDelete, setUserToDelete] = useState<User | null>(null);
-	const [message, setMessage] = useState<{
-		type: "success" | "error";
-		text: string;
-	} | null>(null);
 	const deleteDialogRef = useRef<UIDialogRef>(null);
 
 	const fetchUsers = useCallback(async () => {
@@ -29,11 +29,11 @@ export const AdminUsersPage = () => {
 			setUsers(data);
 		} catch (error) {
 			console.error("Failed to fetch users:", error);
-			showMessage("error", "Failed to load users");
+			showNotification("error", "Failed to load users");
 		} finally {
 			setIsLoading(false);
 		}
-	}, []);
+	}, [showNotification]);
 
 	useEffect(() => {
 		fetchUsers();
@@ -54,7 +54,7 @@ export const AdminUsersPage = () => {
 
 		try {
 			await adminApi.deleteUser(userToDelete.id);
-			showMessage(
+			showNotification(
 				"success",
 				`User "${userToDelete.name}" deleted successfully`,
 			);
@@ -63,15 +63,10 @@ export const AdminUsersPage = () => {
 			await fetchUsers();
 		} catch (error) {
 			console.error("Failed to delete user:", error);
-			showMessage("error", "Failed to delete user");
+			showNotification("error", "Failed to delete user");
 			deleteDialogRef.current?.close();
 			setUserToDelete(null);
 		}
-	};
-
-	const showMessage = (type: "success" | "error", text: string) => {
-		setMessage({ type, text });
-		setTimeout(() => setMessage(null), 3000);
 	};
 
 	const columns: UITableColumn<User>[] = [
@@ -129,14 +124,6 @@ export const AdminUsersPage = () => {
 						View and delete user accounts
 					</p>
 				</div>
-
-				{message && (
-					<div
-						className={`${styles["admin-users-page__message"]} ${styles[`admin-users-page__message--${message.type}`]}`}
-					>
-						{message.text}
-					</div>
-				)}
 
 				{isLoading ? (
 					<p className={styles["admin-users-page__loading"]}>

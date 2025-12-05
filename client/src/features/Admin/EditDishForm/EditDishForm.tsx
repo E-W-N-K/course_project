@@ -1,6 +1,7 @@
 import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import type { Dish } from "@/entities/Dish";
 import { createDish, updateDish } from "@/entities/Dish/api/dishApi";
+import { useNotificationStore } from "@/shared/model";
 import { UIDialog } from "@/shared/ui/UIDialog";
 import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import { UIForm } from "@/shared/ui/UIForm/UIForm";
@@ -23,6 +24,9 @@ export interface EditDishFormProps {
 export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 	({ restaurantId, dish, onSuccess }, ref) => {
 		const dialogRef = useRef<UIDialogRef>(null);
+		const showNotification = useNotificationStore(
+			(state) => state.showNotification,
+		);
 		const isEditMode = !!dish;
 
 		const [name, setName] = useState(dish?.name || "");
@@ -34,7 +38,6 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 
 		const [isLoading, setIsLoading] = useState(false);
 		const [error, setError] = useState("");
-		const [success, setSuccess] = useState("");
 
 		useImperativeHandle(ref, () => ({
 			open: () => {
@@ -46,7 +49,6 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 				setWeight(dish?.weight?.toString() || "");
 				setImageFile(null);
 				setError("");
-				setSuccess("");
 				dialogRef.current?.open();
 			},
 			close: () => {
@@ -57,7 +59,6 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 		const handleSubmit = async (e: React.FormEvent) => {
 			e.preventDefault();
 			setError("");
-			setSuccess("");
 			setIsLoading(true);
 
 			try {
@@ -71,16 +72,14 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 
 				if (isEditMode && dish) {
 					await updateDish(restaurantId, dish.id, data, imageFile);
-					setSuccess("Dish updated successfully!");
+					showNotification("success", "Dish updated successfully!");
 				} else {
 					await createDish(restaurantId, data, imageFile);
-					setSuccess("Dish created successfully!");
+					showNotification("success", "Dish created successfully!");
 				}
 
-				setTimeout(() => {
-					dialogRef.current?.close();
-					onSuccess?.();
-				}, 1000);
+				dialogRef.current?.close();
+				onSuccess?.();
 			} catch (err) {
 				setError(err instanceof Error ? err.message : "Failed to save dish");
 			} finally {
@@ -108,9 +107,6 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 			>
 				{error && (
 					<div className={styles["edit-dish-form__error"]}>{error}</div>
-				)}
-				{success && (
-					<div className={styles["edit-dish-form__success"]}>{success}</div>
 				)}
 
 				<UIForm
