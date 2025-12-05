@@ -4,6 +4,7 @@ import {
 	createRestaurant,
 	updateRestaurant,
 } from "@/entities/Restaurant/api/restaurantApi";
+import { useNotificationStore } from "@/shared/model";
 import { UIDialog } from "@/shared/ui/UIDialog";
 import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import { UIForm } from "@/shared/ui/UIForm/UIForm";
@@ -27,6 +28,9 @@ export const EditRestaurantForm = forwardRef<
 	EditRestaurantFormProps
 >(({ restaurant, onSuccess }, ref) => {
 	const dialogRef = useRef<UIDialogRef>(null);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 	const isEditMode = !!restaurant;
 
 	const [name, setName] = useState(restaurant?.name || "");
@@ -38,7 +42,6 @@ export const EditRestaurantForm = forwardRef<
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
 
 	useImperativeHandle(ref, () => ({
 		open: () => {
@@ -50,7 +53,6 @@ export const EditRestaurantForm = forwardRef<
 			setUrl(restaurant?.url || "");
 			setImageFile(null);
 			setError("");
-			setSuccess("");
 			dialogRef.current?.open();
 		},
 		close: () => {
@@ -61,7 +63,6 @@ export const EditRestaurantForm = forwardRef<
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError("");
-		setSuccess("");
 		setIsLoading(true);
 
 		try {
@@ -69,16 +70,14 @@ export const EditRestaurantForm = forwardRef<
 
 			if (isEditMode) {
 				await updateRestaurant(restaurant.id, data, imageFile);
-				setSuccess("Restaurant updated successfully!");
+				showNotification("success", "Restaurant updated successfully!");
 			} else {
 				await createRestaurant(data, imageFile);
-				setSuccess("Restaurant created successfully!");
+				showNotification("success", "Restaurant created successfully!");
 			}
 
-			setTimeout(() => {
-				dialogRef.current?.close();
-				onSuccess?.();
-			}, 1000);
+			dialogRef.current?.close();
+			onSuccess?.();
 		} catch (err) {
 			setError(
 				err instanceof Error ? err.message : "Failed to save restaurant",
@@ -108,9 +107,6 @@ export const EditRestaurantForm = forwardRef<
 		>
 			{error && (
 				<div className={styles["edit-restaurant-form__error"]}>{error}</div>
-			)}
-			{success && (
-				<div className={styles["edit-restaurant-form__success"]}>{success}</div>
 			)}
 
 			<UIForm

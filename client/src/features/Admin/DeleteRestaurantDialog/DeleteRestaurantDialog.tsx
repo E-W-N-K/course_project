@@ -1,6 +1,7 @@
 import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import type { Restaurant } from "@/entities/Restaurant";
 import { deleteRestaurant } from "@/entities/Restaurant/api/restaurantApi";
+import { useNotificationStore } from "@/shared/model";
 import { UIDialog } from "@/shared/ui/UIDialog";
 import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
@@ -22,6 +23,9 @@ export const DeleteRestaurantDialog = forwardRef<
 	DeleteRestaurantDialogProps
 >(({ restaurant, onSuccess }, ref) => {
 	const dialogRef = useRef<UIDialogRef>(null);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 
@@ -43,12 +47,13 @@ export const DeleteRestaurantDialog = forwardRef<
 
 		try {
 			await deleteRestaurant(restaurant.id);
+			showNotification("success", `Restaurant "${restaurant.name}" deleted successfully!`);
 			dialogRef.current?.close();
 			onSuccess?.();
 		} catch (err) {
-			setError(
-				err instanceof Error ? err.message : "Failed to delete restaurant",
-			);
+			const errorMessage = err instanceof Error ? err.message : "Failed to delete restaurant";
+			setError(errorMessage);
+			showNotification("error", errorMessage);
 		} finally {
 			setIsLoading(false);
 		}

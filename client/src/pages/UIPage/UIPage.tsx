@@ -9,8 +9,13 @@ import {
 	UICard,
 	UIGrid,
 } from "../../shared/ui";
+import { useNotificationStore } from "@/shared/model";
 
 export const UIPage = () => {
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
+
 	return (
 		<UIMain>
 			<UISection variant="secondary">
@@ -173,7 +178,8 @@ export const UIPage = () => {
 						<UIForm
 							onSubmit={() => {
 								console.log("Form submitted");
-								alert(
+								showNotification(
+									"success",
 									"Form submitted successfully! Check console for details.",
 								);
 							}}

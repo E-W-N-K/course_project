@@ -1,6 +1,7 @@
 import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 import type { Dish } from "@/entities/Dish";
 import { deleteDish } from "@/entities/Dish/api/dishApi";
+import { useNotificationStore } from "@/shared/model";
 import { UIDialog } from "@/shared/ui/UIDialog";
 import type { UIDialogRef } from "@/shared/ui/UIDialog";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
@@ -23,6 +24,9 @@ export const DeleteDishDialog = forwardRef<
 	DeleteDishDialogProps
 >(({ restaurantId, dish, onSuccess }, ref) => {
 	const dialogRef = useRef<UIDialogRef>(null);
+	const showNotification = useNotificationStore(
+		(state) => state.showNotification,
+	);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 
@@ -44,10 +48,13 @@ export const DeleteDishDialog = forwardRef<
 
 		try {
 			await deleteDish(restaurantId, dish.id);
+			showNotification("success", `Dish "${dish.name}" deleted successfully!`);
 			dialogRef.current?.close();
 			onSuccess?.();
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Failed to delete dish");
+			const errorMessage = err instanceof Error ? err.message : "Failed to delete dish";
+			setError(errorMessage);
+			showNotification("error", errorMessage);
 		} finally {
 			setIsLoading(false);
 		}
