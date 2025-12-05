@@ -49,9 +49,6 @@ export const NavLinks = ({ variant = "header" }: NavLinksProps) => {
 					<UILink to="/admin/users" variant="secondary">
 						Users
 					</UILink>
-					<UILink to="/ui" variant="secondary">
-						UI
-					</UILink>
 				</>
 			)}
 		</UIFlex>
