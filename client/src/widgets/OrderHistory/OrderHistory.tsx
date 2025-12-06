@@ -150,7 +150,7 @@ export const OrderHistory = () => {
 										{order.orderItems.map((item) => (
 											<li key={item.id} className={styles["order-card__item"]}>
 												<span className={styles["order-card__item-name"]}>
-													Dish #{item.dishId}
+													{item.dishName}
 												</span>
 												<span className={styles["order-card__item-quantity"]}>
 													x{item.quantity}
