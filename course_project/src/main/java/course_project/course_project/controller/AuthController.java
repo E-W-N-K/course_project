@@ -57,7 +57,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return ResponseEntity.ok(new AuthResponseDTO("User registered successfully", user.getName(), user.getEmail()));
+        return ResponseEntity.ok(new AuthResponseDTO("User registered successfully", user.getName(), user.getRole()));
 
     }
 
@@ -88,7 +88,7 @@ public class AuthController {
             // Добавляем cookie в ответ
             response.addCookie(cookie);
 
-            return ResponseEntity.ok(new AuthResponseDTO("Login successful", user.getName(), user.getEmail()));
+            return ResponseEntity.ok(new AuthResponseDTO("Login successful", user.getName(), user.getRole()));
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
@@ -122,6 +122,6 @@ public class AuthController {
         User user = userRepository.findByName(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return ResponseEntity.ok(new AuthResponseDTO("Authenticated", user.getName(), user.getEmail()));
+        return ResponseEntity.ok(new AuthResponseDTO("Authenticated", user.getName(), user.getRole()));
     }
 }
