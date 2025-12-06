@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Restaurant } from "@/entities/Restaurant";
 import { UICard } from "@/shared/ui";
+import { buildImageUrl } from "@/shared/lib";
 import styles from "./RestaurantCard.module.css";
 
 interface RestaurantCardProps {
@@ -15,7 +16,7 @@ export const RestaurantCard = ({ restaurant }: RestaurantCardProps) => {
 		>
 			<UICard className={styles["restaurant-card"]}>
 				<img
-					src={restaurant.url}
+					src={buildImageUrl(restaurant.url)}
 					alt={restaurant.name}
 					className={styles["restaurant-card__image"]}
 				/>

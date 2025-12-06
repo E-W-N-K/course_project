@@ -3,6 +3,7 @@ import type { Dish } from "@/entities/Dish";
 import { useCartStore } from "@/entities/Cart";
 import { useUserStore } from "@/entities/User";
 import { UICard } from "@/shared/ui";
+import { buildImageUrl } from "@/shared/lib";
 import { AddToCart, DishCardControls } from "@/features/Cart";
 import { AdminDishControls } from "@/features/Admin/AdminDishControls";
 import styles from "./DishCard.module.css";
@@ -36,7 +37,7 @@ export const DishCard = ({
 			<div className={styles["dish-card__wrapper"]}>
 				<div className={styles["dish-card__image-wrapper"]}>
 					<img
-						src={dish.url}
+						src={buildImageUrl(dish.url)}
 						alt={dish.name}
 						className={styles["dish-card__image"]}
 					/>

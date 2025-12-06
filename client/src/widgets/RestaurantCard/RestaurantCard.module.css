@@ -23,12 +23,11 @@
 .restaurant-card__image {
 	max-width: unset;
 	width: calc(100% + 2 * var(--spacing-lg));
-	min-height: 200px;
+	height: 200px;
 	margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg))
 		var(--spacing-md) calc(-1 * var(--spacing-lg));
 	object-fit: cover;
 	background-color: var(--color-bg-tetriary);
-	padding: 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -60,7 +59,7 @@
 /* Container queries for responsive card sizing */
 @container restaurant-card (max-width: 400px) {
 	.restaurant-card__image {
-		min-height: 150px;
+		height: 150px;
 	}
 
 	.restaurant-card__name {
