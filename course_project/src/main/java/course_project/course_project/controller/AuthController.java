@@ -122,6 +122,6 @@ public class AuthController {
         User user = userRepository.findByName(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return ResponseEntity.ok(new AuthResponseDTO("Authenticated", user.getName(), user.getRole()));
+        return ResponseEntity.ok(new AuthResponseDTO("Authenticated", user.getName(), user.getEmail()));
     }
 }
