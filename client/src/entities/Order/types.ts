@@ -8,6 +8,7 @@ export type OrderStatus = "PENDING" | "COMPLETED" | "CANCELLED";
 export interface OrderItem {
 	id: number;
 	dishId: number;
+	dishName: string;
 	quantity: number;
 	priceAtOrder: number;
 	itemTotal: number;
