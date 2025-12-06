@@ -48,20 +48,20 @@ services:
     restart: unless-stopped
 
   # React Frontend
-#  client:
-#    build:
-#      context: ./client
-#      dockerfile: Dockerfile
-#    container_name: react_frontend
-#    depends_on:
-#      - course_project
-#    environment:
-#      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
-#    ports:
-#      - "${FRONTEND_PORT}:3000"
-#    networks:
-#      - app-network
-#    restart: unless-stopped
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    depends_on:
+      - course_project
+    environment:
+      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    networks:
+      - app-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
