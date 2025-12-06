@@ -67,7 +67,7 @@ export const EditDishForm = forwardRef<EditDishFormRef, EditDishFormProps>(
 					description,
 					url,
 					price: parseFloat(price),
-					weight: parseFloat(weight),
+					weight: parseInt(weight, 10),
 				};
 
 				if (isEditMode && dish) {

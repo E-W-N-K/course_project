@@ -28,7 +28,6 @@
 	width: 100%;
 	min-height: 200px;
 	background-color: var(--color-bg-tetriary);
-	padding: 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -108,7 +107,7 @@
 
 	.dish-card__image-wrapper {
 		width: unset;
-		height: 180px;
+		height: 150px;
 		margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) 0;
 	}
 
