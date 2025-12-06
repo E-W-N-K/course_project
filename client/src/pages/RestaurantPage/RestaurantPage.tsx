@@ -8,6 +8,7 @@ import { useUserStore } from "@/entities/User";
 import { UIContainer, UISection } from "@/shared/ui";
 import { UIButton } from "@/shared/ui/UIButton/UIButton";
 import { UISearchInput } from "@/shared/ui/UISearchInput/UISearchInput";
+import { buildImageUrl } from "@/shared/lib";
 import { DishCard } from "@/widgets/DishCard";
 import { AdminRestaurantControls } from "@/features/Admin/AdminRestaurantControls";
 import {
@@ -126,7 +127,7 @@ export const RestaurantPage = () => {
 			<div className={styles["restaurant-page__hero"]}>
 				<div
 					className={styles["restaurant-page__hero-image"]}
-					style={{ backgroundImage: `url(${restaurant.url})` }}
+					style={{ backgroundImage: `url(${buildImageUrl(restaurant.url)})` }}
 					role="img"
 					aria-label={`${restaurant.name} banner`}
 				/>
